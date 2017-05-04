@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.drawable.DrawerArrowDrawable;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.livroandroid.carros.R;
+import br.com.livroandroid.carros.fragments.CarrosFragment;
+import br.com.livroandroid.carros.fragments.SiteLivroFragment;
 
 /**
  * Created by ovs on 03/05/2017.
@@ -76,24 +79,29 @@ public class BaseActivity extends AppCompatActivity {
     private void onNavDrawerItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()){
             case R.id.nav_item_carros_todos:
-                toast("Clicou em carros");
+                replaceFragment(CarrosFragment.newInstance(R.string.carros));
                 break;
             case R.id.nav_item_carros_classicos:
-                toast("Clicou em classicos");
+                replaceFragment(CarrosFragment.newInstance(R.string.classicos));
                 break;
             case R.id.nav_item_carros_esportivos:
-                toast("Clicou em esportivos");
+                replaceFragment(CarrosFragment.newInstance(R.string.esportivos));
                 break;
             case R.id.nav_item_carros_luxo:
-                toast("Clicou em luxo");
+                replaceFragment(CarrosFragment.newInstance(R.string.luxo));
                 break;
             case R.id.nav_item_site_livro:
-                toast("Clicou em site");
+                replaceFragment(new SiteLivroFragment());
                 break;
             case R.id.nav_item_settings:
                 toast("Clicou em settings");
                 break;
         }
+    }
+
+    //adiciona o Fragment ao centro da tela
+    protected void replaceFragment(Fragment frag){
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, frag, "TAG").commit();
     }
 
     @Override
