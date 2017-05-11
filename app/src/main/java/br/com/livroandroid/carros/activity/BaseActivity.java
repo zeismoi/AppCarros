@@ -1,5 +1,6 @@
 package br.com.livroandroid.carros.activity;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,13 +18,14 @@ import android.widget.Toast;
 
 import br.com.livroandroid.carros.R;
 import br.com.livroandroid.carros.fragments.CarrosFragment;
+import br.com.livroandroid.carros.fragments.CarrosTabFragment;
 import br.com.livroandroid.carros.fragments.SiteLivroFragment;
 
 /**
  * Created by ovs on 03/05/2017.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends livroandroid.lib.activity.BaseActivity {
     protected DrawerLayout drawerLayout;
 
     //configura a ToolBar
@@ -79,16 +81,29 @@ public class BaseActivity extends AppCompatActivity {
     private void onNavDrawerItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()){
             case R.id.nav_item_carros_todos:
-                replaceFragment(CarrosFragment.newInstance(R.string.carros));
+                //Mostrar as 3 tabs(Clássicos, esportivos, luxo)
+                //replaceFragment(new CarrosTabFragment());
+                //nada aqui, pois somente a MainActivity tem menu lateral
                 break;
             case R.id.nav_item_carros_classicos:
-                replaceFragment(CarrosFragment.newInstance(R.string.classicos));
+                //replaceFragment(CarrosFragment.newInstance(R.string.classicos));
+                Intent intent = new Intent(getContext(), CarrosActivity.class);
+                intent.putExtra("tipo", R.string.classicos);
+                startActivity(intent);
                 break;
             case R.id.nav_item_carros_esportivos:
-                replaceFragment(CarrosFragment.newInstance(R.string.esportivos));
+                //replaceFragment(CarrosFragment.newInstance(R.string.esportivos));
+                intent = new Intent(getContext(), CarrosActivity.class);
+                intent.putExtra("tipo", R.string.esportivos);
+                startActivity(intent);
+
                 break;
             case R.id.nav_item_carros_luxo:
-                replaceFragment(CarrosFragment.newInstance(R.string.luxo));
+                //replaceFragment(CarrosFragment.newInstance(R.string.luxo));
+                intent = new Intent(getContext(), CarrosActivity.class);
+                intent.putExtra("tipo", R.string.luxo);
+                startActivity(intent);
+
                 break;
             case R.id.nav_item_site_livro:
                 replaceFragment(new SiteLivroFragment());
@@ -101,7 +116,7 @@ public class BaseActivity extends AppCompatActivity {
 
     //adiciona o Fragment ao centro da tela
     protected void replaceFragment(Fragment frag){
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, frag, "TAG").commit();
+       // getSupportFragmentManager().beginTransaction().replace(R.id.container, frag, "TAG").commit();
     }
 
     @Override
