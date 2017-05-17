@@ -28,6 +28,7 @@ Versao %s<br><br>
     <string name="esportivos">Esportivos</string>
     <string name="editar">Editar</string>
     <string name="excluir">Excluir</string>
+    <string name="error_conexao_indisponivel">Conexão Indisponível. Verifique seu Wi-Fi ou 3G.</string>
 
     <!-- L -->
     <string name="luxo">Luxo</string>

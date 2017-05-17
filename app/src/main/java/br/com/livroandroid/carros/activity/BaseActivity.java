@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.livroandroid.carros.R;
+import br.com.livroandroid.carros.activity.Prefs.ConfiguracoesActivity;
 import br.com.livroandroid.carros.fragments.CarrosFragment;
 import br.com.livroandroid.carros.fragments.CarrosTabFragment;
 import br.com.livroandroid.carros.fragments.SiteLivroFragment;
@@ -109,7 +110,8 @@ public class BaseActivity extends livroandroid.lib.activity.BaseActivity {
                 replaceFragment(new SiteLivroFragment());
                 break;
             case R.id.nav_item_settings:
-                toast("Clicou em settings");
+                intent = new Intent(this, ConfiguracoesActivity.class);
+                startActivity(intent);
                 break;
         }
     }

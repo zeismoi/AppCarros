@@ -16,6 +16,7 @@ import br.com.livroandroid.carros.adapter.TabsAdapter;
 import br.com.livroandroid.carros.fragments.CarrosFragment;
 import br.com.livroandroid.carros.fragments.CarrosTabFragment;
 import br.com.livroandroid.carros.fragments.dialog.AboutDialog;
+import livroandroid.lib.utils.Prefs;
 
 import static br.com.livroandroid.carros.R.id.info;
 import static br.com.livroandroid.carros.R.id.recyclerView;
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity {
     //configura as tabs + viewPager
     private void setupViewPagerTabs(){
         //ViewPager
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(new TabsAdapter(getContext(), getSupportFragmentManager()));
         //Tabs
@@ -55,6 +56,26 @@ public class MainActivity extends BaseActivity {
         int cor = ContextCompat.getColor(getContext(), R.color.white);
         //cor branca no texto (o fundo azul foi definido no layoult)
         tabLayout.setTabTextColors(cor,cor);
+        //Lê o índice da última tab utilizada no aplicativo
+        int tabIdx = Prefs.getInteger(getContext(), "tabIdx");
+        viewPager.setCurrentItem(tabIdx);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //salva o índice da p[agina/tab selecionada
+                Prefs.setInteger(getContext(), "tabIdx", viewPager.getCurrentItem());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override

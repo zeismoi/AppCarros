@@ -3,6 +3,7 @@
     package="br.com.livroandroid.carros">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".CarrosApplication"
@@ -26,11 +27,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
-
-        <activity android:name=".activity.CarrosActivity"
+        <activity
+            android:name=".activity.CarrosActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+        <activity android:name=".activity.Prefs.ConfiguracoesActivity"
+            android:label="Configurações"
             android:parentActivityName=".activity.MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity"/>
+
         </activity>
     </application>
 
