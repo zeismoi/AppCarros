@@ -29,15 +29,69 @@ public class CarroService {
     private static final String TAG = "CarroService";
     private static final String URL = "http://www.livroandroid.com.br/livro/carros/carros_{tipo}.json";
 
-    public static List<Carro> getCarros(Context context, int tipo) throws IOException {
-        String tipoString = getTipo(tipo);
+    public static List<Carro> getCarros(Context context, int tipo, boolean refresh) throws IOException {
+        //busca os carros no banco de dados (somente se refresh = false)
+        List<Carro> carros = !refresh ? getCarrosFromBanco(context, tipo) : null;
+        if(carros != null && carros.size()>0){
+            //retorna os carros encontrados do banco
+            return carros;
+        }
+        //se não encontrar, busca no WebService
+        carros = getCarrosFromWebService(context, tipo);
+        return carros;
+
+        /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
         //Faz a requisição HTTP no servidor e retorna a String com o conteúdo
         HttpHelper http = new HttpHelper();
         String json = http.doGet(url);
         List<Carro> carros = parserJSON(context, json);
-        salvarArquivoNaMemoriaInterna(context, url, json);
+        salvarArquivoNaMemoriaInterna(context, url, json);*/
+
+    }
+
+    private static List<Carro> getCarrosFromWebService(Context context, int tipo) throws IOException {
+        String tipoString = getTipo(tipo);
+        String url = URL.replace("{tipo}", tipoString);
+        Log.d(TAG, "URL: " + url);
+        //Faz a requisição HTTP no servidor e retorna a String com o conteúdo
+        HttpHelper http = new HttpHelper();
+        String json = http.doGet(url);
+        List<Carro> carros = parserJSON(context, json);
+        //Depois de buscar, salva os carros
+        salvarCarros(context, tipo, carros);
         return carros;
+    }
+
+    //salva os carros no banco de dados
+    private static void salvarCarros(Context context, int tipo, List<Carro> carros) {
+        CarroDB db = new CarroDB(context);
+        try{
+            //Deleta os carros pelo tipo para limpar o banco
+            String tipoString = getTipo(tipo);
+            db.deleteCarrosByTipo(tipoString);
+            //salva todos os carros
+            for (Carro c : carros){
+                c.tipo = tipoString;
+                Log.d(TAG, "Salvando o carro: " + c.nome);
+                db.save(c);
+            }
+        }finally {
+            db.close();
+        }
+
+    }
+
+    private static List<Carro> getCarrosFromBanco(Context context, int tipo) throws IOException {
+        CarroDB db = new CarroDB(context);
+        try {
+            String tipoString = getTipo(tipo);
+            List<Carro> carros = db.findAllByTipo(tipoString);
+            Log.d(TAG, "Retornando " + carros.size() + " carros [" + tipoString + "] do banco");
+            return carros;
+        }finally {
+            db.close();
+        }
     }
 
     private static void salvarArquivoNaMemoriaInterna(Context context, String url, String json) {
