@@ -1,5 +1,6 @@
 package br.com.livroandroid.carros.activity;
 
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -35,5 +36,11 @@ public class CarroActivity extends BaseActivity {
             //adiciona o fragment ao Layoult
             getSupportFragmentManager().beginTransaction().add(R.id.carroFragment,frag).commit();
         }
+    }
+
+    public void setTitle(String s){
+        //o título deve ser setado na CollapsingToolbarLayou
+        CollapsingToolbarLayout c = (CollapsingToolbarLayout) findViewById(R.id.collaping_tollbar);
+        c.setTitle(s);
     }
 }

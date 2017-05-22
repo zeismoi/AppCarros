@@ -3,6 +3,8 @@ package br.com.livroandroid.carros;
 import android.app.Application;
 import android.util.Log;
 
+import com.squareup.otto.Bus;
+
 /**
  * Created by ovs on 03/05/2017.
  */
@@ -10,6 +12,7 @@ import android.util.Log;
 public class CarrosApplication extends Application {
     private static final String TAG = "CarrosApplication";
     private static CarrosApplication instance = null;
+    private Bus bus = new Bus();
     public static CarrosApplication getInstance(){
         return instance; //Singleton
     }
@@ -26,5 +29,9 @@ public class CarrosApplication extends Application {
     public void onTerminate(){
         super.onTerminate();
         Log.d(TAG, "CarrosApplication.onTerminate()");
+    }
+
+    public Bus getBus(){
+        return bus;
     }
 }

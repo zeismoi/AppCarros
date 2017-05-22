@@ -15,11 +15,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.otto.Subscribe;
+
 import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.List;
 
+import br.com.livroandroid.carros.CarrosApplication;
 import br.com.livroandroid.carros.R;
 import br.com.livroandroid.carros.activity.CarroActivity;
 import br.com.livroandroid.carros.adapter.CarroAdapter;
@@ -49,6 +52,8 @@ public class CarrosFragment extends BaseFragment {
             //Lê os tipos dos argumentos
             this.tipo = getArguments().getInt("tipo");
         }
+        //Registra a classe para receber eventos
+        CarrosApplication.getInstance().getBus().register(this);
     }
 
     @Override
@@ -74,6 +79,19 @@ public class CarrosFragment extends BaseFragment {
         });*/
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //Cancela o recebimento de enventos
+        CarrosApplication.getInstance().getBus().unregister(this);
+    }
+
+    @Subscribe
+    public void onBusAtualizarListaCarros(String refresh){
+        //Recebeu o evento, atualiza a lista
+        taskCarros(false);
     }
 
     private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {
