@@ -3,6 +3,7 @@ package br.com.livroandroid.carros.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,6 +24,7 @@ import br.com.livroandroid.carros.domain.Carro;
 import br.com.livroandroid.carros.domain.CarroDB;
 import br.com.livroandroid.carros.fragments.dialog.DeletarCarroDialog;
 import br.com.livroandroid.carros.fragments.dialog.EditarCarroDialog;
+import livroandroid.lib.utils.IntentUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,11 +104,43 @@ public class CarroFragment extends BaseFragment {
         }else if (item.getItemId() == R.id.action_maps) {
             toast("Mapas");
         }else if (item.getItemId() == R.id.action_video) {
-            toast("Vídeo");
+            //URL do vídeo
+            final String url = carro.urlVideo;
+            //Lê a view que é a âncora do popup (é a view do botão da action bar)
+            View menuItemView = getActivity().findViewById(item.getItemId());
+            if (menuItemView != null && url != null){
+                //Mostra o alerta com as opções do vídeo
+                showVideo(url, menuItemView);
+            }
         }
 
         return super.onOptionsItemSelected(item);
 
+    }
+
+    //Cria o popupMenu posicionado na âncora
+    private void showVideo(final String url, View ancoraView) {
+        if (url != null && ancoraView != null){
+            //cria o popupMenu posicionado na âncora
+            PopupMenu popupMenu = new PopupMenu(getActionBar().getThemedContext(), ancoraView);
+            popupMenu.inflate(R.menu.menu_popup_video);
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    if (item.getItemId() == R.id.action_video_browser){
+                        //abre o vídeo no Browser
+                        IntentUtils.openBrowser(getContext(), url);
+                    }else if (item.getItemId() == R.id.action_video_player){
+                        //abre o vídeo no player de vídeo nativo
+                        IntentUtils.showVideo(getContext(), url);
+                    }else if (item.getItemId() == R.id.action_video_view){
+                        //abre outra activity com VideoView
+                    }
+                    return true;
+                }
+            });
+            popupMenu.show();
+        }
     }
 
 }

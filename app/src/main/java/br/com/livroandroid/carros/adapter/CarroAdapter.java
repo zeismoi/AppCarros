@@ -64,7 +64,15 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroAdapter.CarrosViewHo
             }
         });
 
-        //click
+        //pinta o fundo de azul se a linha estiver selecionada
+        int corFundo = context.getResources().getColor(c.selected ? R.color.primary : R.color.white);
+        holder.cardView.setCardBackgroundColor(corFundo);
+
+        //a cor do texto é branca ou azul, depende da cor do fundo
+        int corFonte = context.getResources().getColor((c.selected ? R.color.white : R.color.primary));
+        holder.tNome.setTextColor(corFonte);
+
+        //click normal
         if (carroOnClickListener != null){
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -74,11 +82,21 @@ public class CarroAdapter extends RecyclerView.Adapter<CarroAdapter.CarrosViewHo
                 }
             });
         }
+
+        //click longo
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v) {
+                carroOnClickListener.onLongClickCarro(holder.itemView, position);
+                return false;
+            }
+        });
     }
 
 
     public interface CarroOnClickListener {
         public void onClickCarro(View view, int idx);
+        public void onLongClickCarro(View view, int idx);
     }
 
     //viewHolder com as views

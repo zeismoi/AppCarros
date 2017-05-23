@@ -3,6 +3,7 @@ package br.com.livroandroid.carros.backup;
 import android.app.backup.BackupAgentHelper;
 import android.app.backup.BackupDataInput;
 import android.app.backup.BackupDataOutput;
+import android.app.backup.FileBackupHelper;
 import android.app.backup.SharedPreferencesBackupHelper;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
@@ -23,6 +24,9 @@ public class ExemploBackupAgent extends BackupAgentHelper {
         SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(this, Prefs.PREF_ID);
         //Adiciona o helper ao agente de backups
         addHelper("livroandroid", helper);
+
+        //Faz backup de um arquivo
+        FileBackupHelper file = new FileBackupHelper(this, "carros_classicos.jsos");
     }
 
     @Override
