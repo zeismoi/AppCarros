@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Localização da fábrica do carro-->
+    <item
+        android:id="@+id/action_location_carro"
+        android:title="@string/mapa_location_carro"
+        android:icon="@drawable/ic_action_place"
+        app:showAsAction="ifRoom"/>
+
+    <!-- Traçar rota-->
+    <item
+        android:id="@+id/action_location_directions"
+        android:title="@string/mapa_location_directions"
+        android:icon="@drawable/ic_action_directions"
+        app:showAsAction="ifRoom"/>
+
+    <!-- Modo Normal-->
+    <item
+        android:id="@+id/action_mapa_normal"
+        android:title="@string/mapa_normal"
+        app:showAsAction="never"/>
+
+    <!-- Modo Satélite-->
+    <item
+        android:id="@+id/action_mapa_satelite"
+        android:title="@string/mapa_satelite"
+        app:showAsAction="never"/>
+
+    <!-- Modo Terreno-->
+    <item
+        android:id="@+id/action_mapa_terreno"
+        android:title="@string/mapa_terreno"
+        app:showAsAction="never"/>
+
+    <!-- Modo Híbrido-->
+    <item
+        android:id="@+id/action_mapa_hibrido"
+        android:title="@string/mapa_hibrido"
+        app:showAsAction="never"/>
+
+    <!-- Zoom in (+)-->
+    <item
+        android:id="@+id/action_zoom_in"
+        android:title="@string/mapa_zoom_in"
+        app:showAsAction="never"/>
+
+    <!-- Zoom out (-)-->
+    <item
+        android:id="@+id/action_zoom_out"
+        android:title="@string/mapa_zoom_out"
+        app:showAsAction="never"/>
+
+</menu>

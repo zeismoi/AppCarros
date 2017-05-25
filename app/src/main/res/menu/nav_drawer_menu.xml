@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <!-- Lista com todos os carros -->
+        <!-- Lista com todos os produtos -->
         <item
-            android:id="@+id/nav_item_carros_todos"
+            android:id="@+id/nav_item_produtos_todos"
             android:checked="true"
             android:icon="@drawable/ic_drawer_carro"
-            android:title="@string/carros" />
+            android:title="@string/produtos" />
+
+
         <!-- Lista com os carros clássicos -->
         <item
             android:id="@+id/nav_item_carros_classicos"

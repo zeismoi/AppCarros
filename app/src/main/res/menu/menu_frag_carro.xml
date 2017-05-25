@@ -10,7 +10,7 @@
     />
 
     <item
-        android:id="@+id/action_maps"
+        android:id="@+id/action_mapa"
         android:icon="@drawable/ic_action_map"
         android:title="@string/mapa"
         app:showAsAction="always"

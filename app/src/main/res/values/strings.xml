@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Carros</string>
+    <string name="app_name">LegaSist-Vendas</string>
 
     <!-- A -->
     <string name="action_about">Sobre</string>
@@ -13,7 +13,7 @@ Versao %s<br><br>
 <a href="https://plus.google.com/+RicardoLecheta">https://plus.google.com/+RicardoLecheta</a>
 	]]>
 	</string>
-    <string name="about_dialog_title">Livro Android</string>
+    <string name="about_dialog_title">LegaSist-Vendas</string>
     <string name="Atualizar">Atualizar</string>
     <string name="action_video_browser">Browser</string>
     <string name="action_video_player">Vídeo Player</string>
@@ -61,6 +61,24 @@ Versao %s<br><br>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- menu_frag_mapa.xml -->
+    <string name="mapa_normal">Modo Normal</string>
+    <string name="mapa_satelite">Modo Satélite</string>
+    <string name="mapa_terreno">Modo terreno</string>
+    <string name="mapa_hibrido">Modo Híbrido</string>
+    <string name="mapa_location_directions">Direções</string>
+    <string name="mapa_location_carro">Localização do carro</string>
+    <string name="mapa_zoom_in">Zoom (+)</string>
+    <string name="mapa_zoom_out">Zoom (-)</string>
+
+
+    <string name="clientes">Clientes</string>
+    <string name="vendas">Vendas</string>
+    <string name="areceber">A Receber</string>
+    <string name="fornecedores">Fornecedores</string>
+    <string name="produtos">Produtos</string>
 
 
 </resources>
