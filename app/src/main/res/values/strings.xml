@@ -80,5 +80,7 @@ Versao %s<br><br>
     <string name="fornecedores">Fornecedores</string>
     <string name="produtos">Produtos</string>
 
+    <string name="mapa_location_cliente">Localização do cliente</string>
+
 
 </resources>
