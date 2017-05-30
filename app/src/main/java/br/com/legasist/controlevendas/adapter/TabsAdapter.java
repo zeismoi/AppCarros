@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.fragments.CarrosFragment;
+import br.com.legasist.controlevendas.fragments.ClientesFragment;
 import br.com.legasist.controlevendas.fragments.ProdutosFragment;
 
 /**
@@ -40,7 +41,7 @@ public class TabsAdapter extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         Fragment f = null;
         if(position == 0){
-            f = ProdutosFragment.newInstance();
+            f = ClientesFragment.newInstance();
         }else if(position == 1){
             f = CarrosFragment.newInstance(br.com.legasist.controlevendas.R.string.esportivos);
         }else{

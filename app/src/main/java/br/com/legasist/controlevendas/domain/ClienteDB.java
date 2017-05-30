@@ -114,7 +114,7 @@ public class ClienteDB extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         try {
             //select * from cliente
-            Cursor c = db.query("cliente", null, null, null, null, null, null, null);
+            Cursor c = db.query("cliente", null, null, null, null, null, "nome", null);
             return toList(c);
         }finally {
             db.close();
@@ -147,7 +147,7 @@ public class ClienteDB extends SQLiteOpenHelper {
                 cliente.nome = c.getString(c.getColumnIndex("nome"));
                 cliente.endereco = c.getString(c.getColumnIndex("endereco"));
                 cliente.cidade = c.getString(c.getColumnIndex("cidade"));
-                cliente.uf = c.getString(c.getColumnIndex("url_foto"));
+                cliente.uf = c.getString(c.getColumnIndex("uf"));
                 cliente.celular = c.getString(c.getColumnIndex("celular"));
                 cliente.email = c.getString(c.getColumnIndex("email"));
                 cliente.latitude = c.getString(c.getColumnIndex("latitude"));

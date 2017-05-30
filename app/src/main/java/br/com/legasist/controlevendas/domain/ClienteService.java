@@ -6,8 +6,6 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import java.util.List;
 import livroandroid.lib.utils.FileUtils;
 import livroandroid.lib.utils.HttpHelper;
 import livroandroid.lib.utils.IOUtils;
-import livroandroid.lib.utils.XMLUtils;
 
 /**
  * Created by ovs on 29/05/2017.

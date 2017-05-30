@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,25 +19,17 @@ import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.CarroActivity;
 import br.com.legasist.controlevendas.activity.ClienteActivity;
-import br.com.legasist.controlevendas.adapter.CarroAdapter;
 import br.com.legasist.controlevendas.adapter.ClienteAdapter;
-import br.com.legasist.controlevendas.domain.Carro;
-import br.com.legasist.controlevendas.domain.CarroDB;
-import br.com.legasist.controlevendas.domain.CarroService;
 import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.ClienteDB;
 import br.com.legasist.controlevendas.domain.ClienteService;
 import livroandroid.lib.utils.AndroidUtils;
-import livroandroid.lib.utils.IOUtils;
-import livroandroid.lib.utils.SDCardUtils;
 
 public class ClientesFragment extends BaseFragment {
     private int tipo;
@@ -78,9 +69,9 @@ public class ClientesFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
 
         //Swipe to Refresh
-        swipeLayout = (SwipeRefreshLayout) view.findViewById(br.com.legasist.controlevendas.R.id.swipeToRefresh);
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefresh);
         swipeLayout.setOnRefreshListener(OnRefreshListener());
-        swipeLayout.setColorSchemeResources(br.com.legasist.controlevendas.R.color.refresh_progress_1, br.com.legasist.controlevendas.R.color.refresh_progress_2, br.com.legasist.controlevendas.R.color.refresh_progress_3);
+        swipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
 
         //FAB
         /*view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
@@ -89,6 +80,19 @@ public class ClientesFragment extends BaseFragment {
                 snack(recyclerView, "Exemplo de FAB button");
             }
         });*/
+
+        //FAB
+        view.findViewById(R.id.fabcli).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                snack(v, "Exemplo de FAB button - Clientes");
+                //abre a tela para cadastro d eum novo cliente
+                Cliente c = new Cliente();
+                Intent intent = new Intent(getContext(), ClienteActivity.class);
+                intent.putExtra("cliente", Parcels.wrap(c));//converte o objeto para Parcelable
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -101,7 +105,7 @@ public class ClientesFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onBusAtualizarListaCarros(String refresh){
+    public void onBusAtualizarListaClientes(String refresh){
         //Recebeu o evento, atualiza a lista
         taskClientes(false);
     }
@@ -139,7 +143,7 @@ public class ClientesFragment extends BaseFragment {
         }*/
         //Busca os carros: Dispara a Task
         //new GetCarrosTask().execute();
-        startTask("clientes", new GetClientesTask(pullToRefresh), pullToRefresh? br.com.legasist.controlevendas.R.id.swipeToRefresh : br.com.legasist.controlevendas.R.id.progress);
+        startTask("clientes", new GetClientesTask(pullToRefresh), pullToRefresh? R.id.swipeToRefresh : R.id.progress);
     }
 
 
@@ -185,8 +189,8 @@ public class ClientesFragment extends BaseFragment {
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 //infla o menu específico da action bar de contexto CAB
-            //    MenuInflater inflater = getActivity().getMenuInflater();
-            //    inflater.inflate(br.com.legasist.controlevendas.R.menu.menu_frag_carros_context, menu);
+                //    MenuInflater inflater = getActivity().getMenuInflater();
+                //    inflater.inflate(br.com.legasist.controlevendas.R.menu.menu_frag_carros_context, menu);
                 /*MenuItem shareItem = menu.findItem(R.id.action_share);
                 ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
                 shareIntent = new Intent(Intent.ACTION_SEND);
@@ -369,7 +373,6 @@ public class ClientesFragment extends BaseFragment {
                 return null;
             }
         }
-
         //Atualiza a interface
         @Override
         protected void onPostExecute(List<Carro> carros) {

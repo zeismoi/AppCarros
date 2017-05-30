@@ -71,11 +71,40 @@
                 android:value="br.com.legasist.controlevendas.activity.CarroActivity" />
         </activity>
 
+
+
         <activity android:name=".activity.ProdutosActivity"
             android:parentActivityName=".activity.MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity"/>
         </activity>
+
+        <activity
+            android:name=".activity.ClienteActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.ClientesActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".activity.MapaClienteActivity"
+            android:parentActivityName=".activity.ClienteActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.ClienteActivity" />
+        </activity>
+
+
 
         <meta-data
             android:name="com.google.android.backup.api_key"

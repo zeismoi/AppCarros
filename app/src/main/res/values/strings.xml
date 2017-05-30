@@ -75,6 +75,16 @@ Versao %s<br><br>
 
 
     <string name="clientes">Clientes</string>
+    <string name="nomecli">Nome</string>
+    <string name="endereco">Endereço</string>
+    <string name="cidade">Cidade</string>
+    <string name="uf">Estado</string>
+    <string name="celular">Celular</string>
+    <string name="email">E-mail</string>
+
+
+
+
     <string name="vendas">Vendas</string>
     <string name="areceber">A Receber</string>
     <string name="fornecedores">Fornecedores</string>

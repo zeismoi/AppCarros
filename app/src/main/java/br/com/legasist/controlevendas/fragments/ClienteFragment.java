@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -37,6 +39,9 @@ import livroandroid.lib.utils.IntentUtils;
 public class ClienteFragment extends BaseFragment {
     private Cliente cliente;
 
+    EditText edtNome, edtEndereco, edtCidade, edtUf, edtCelular, edtEmail;
+    ImageButton btnSalvar;
+
 
     public ClienteFragment() {
         // Required empty public constructor
@@ -50,6 +55,62 @@ public class ClienteFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_cliente, container, false);
         cliente = Parcels.unwrap(getArguments().getParcelable("cliente"));
         setHasOptionsMenu(true); // precisamos informar ao Android q este fragment tem menu
+
+        edtNome = (EditText) view.findViewById(R.id.textNomeCli);
+        edtEndereco = (EditText) view.findViewById(R.id.textEnderecoCli);
+        edtCidade = (EditText) view.findViewById(R.id.textCidadeCli);
+        edtUf = (EditText) view.findViewById(R.id.textUfCli);
+        edtCelular = (EditText) view.findViewById(R.id.textCelularCli);
+        edtEmail = (EditText) view.findViewById(R.id.textEmailCli);
+
+        if(cliente != null && cliente.id != 0){
+            edtNome.setText(cliente.nome);
+            edtEndereco.setText(cliente.endereco);
+            edtCidade.setText(cliente.cidade);
+            edtUf.setText(cliente.uf);
+            edtCelular.setText(cliente.celular);
+            edtEmail.setText(cliente.email);
+        }
+
+        btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarCli);
+        btnSalvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClienteDB db = new ClienteDB(getContext());
+                if(cliente == null || cliente.id == 0){
+                    Cliente c = new Cliente();
+                    try{
+                        c.nome = String.valueOf(edtNome.getText());
+                        c.endereco = String.valueOf(edtEndereco.getText());
+                        c.cidade = String.valueOf(edtCidade.getText());
+                        c.uf = String.valueOf(edtUf.getText());
+                        c.celular = String.valueOf(edtCelular.getText());
+                        c.email = String.valueOf(edtEmail.getText());
+                        db.save(c);
+                    }finally {
+                        db.close();
+                    }
+                }else{
+                    try{
+                        cliente.nome = String.valueOf(edtNome.getText());
+                        cliente.endereco = String.valueOf(edtEndereco.getText());
+                        cliente.cidade = String.valueOf(edtCidade.getText());
+                        cliente.uf = String.valueOf(edtUf.getText());
+                        cliente.celular = String.valueOf(edtCelular.getText());
+                        cliente.email = String.valueOf(edtEmail.getText());
+                        db.save(cliente);
+                    }finally {
+                        db.close();
+                    }
+
+                }
+                getActivity().finish();
+                //Envia o evento para o Bus
+                ControleVendasApplication.getInstance().getBus().post("refresh");
+            }
+        });
+
+
         return view;
     }
 
@@ -70,6 +131,8 @@ public class ClienteFragment extends BaseFragment {
         mapaFragment.setArguments(getArguments());
         getChildFragmentManager().beginTransaction().replace(R.id.mapFragment, mapaFragment).commit();
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

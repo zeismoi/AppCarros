@@ -51,7 +51,9 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.Clientes
         //Atualiza a view
         Cliente c = clientes.get(position);
         holder.tNome.setText(c.nome);
-        holder.progress.setVisibility(View.VISIBLE);
+
+        //holder.progress.setVisibility(View.VISIBLE);
+        //controlevendas
         //faz o download da foto e mostra o progressBar
         /*Picasso.with(context).load(c.urlFoto).fit().into(holder.img, new com.squareup.picasso.Callback(){
             @Override
@@ -66,11 +68,11 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.Clientes
         });*/
 
         //pinta o fundo de azul se a linha estiver selecionada
-        int corFundo = context.getResources().getColor(c.selected ? br.com.legasist.controlevendas.R.color.primary : br.com.legasist.controlevendas.R.color.white);
+        int corFundo = context.getResources().getColor(c.selected ? R.color.primary : R.color.white);
         holder.cardView.setCardBackgroundColor(corFundo);
 
         //a cor do texto é branca ou azul, depende da cor do fundo
-        int corFonte = context.getResources().getColor((c.selected ? br.com.legasist.controlevendas.R.color.white : br.com.legasist.controlevendas.R.color.primary));
+        int corFonte = context.getResources().getColor((c.selected ? R.color.white : R.color.primary));
         holder.tNome.setTextColor(corFonte);
 
         //click normal
