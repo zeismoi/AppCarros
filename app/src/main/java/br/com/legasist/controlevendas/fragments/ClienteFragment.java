@@ -2,6 +2,8 @@ package br.com.legasist.controlevendas.fragments;
 
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
@@ -14,10 +16,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
@@ -40,7 +47,7 @@ public class ClienteFragment extends BaseFragment {
     private Cliente cliente;
 
     EditText edtNome, edtEndereco, edtCidade, edtUf, edtCelular, edtEmail;
-    ImageButton btnSalvar;
+    ImageButton btnSalvar, btnLocalizar;
 
 
     public ClienteFragment() {
@@ -110,6 +117,37 @@ public class ClienteFragment extends BaseFragment {
             }
         });
 
+        btnLocalizar = (ImageButton) view.findViewById(R.id.btnLocalizacaoCli);
+        btnLocalizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //para descobrir a latitude e a longitude do endereço
+                String endereco = edtEndereco.getText() + " " + edtCidade.getText() + " " + edtUf.getText();
+                Geocoder gc = new Geocoder(getContext(), new Locale("pt", "BR"));
+                List<Address> list = null;
+                try {
+                    list = gc.getFromLocationName(endereco, 10);
+                    double lat = list.get(0).getLatitude();
+                    double lng = list.get(0).getLongitude();
+
+                    cliente.latitude = lat;
+                    cliente.longitude = lng;
+
+                    //configura a Lat/Lng
+                    setTextString(R.id.tLatLng, String.format("Lat/Lng: %s/%s", cliente.latitude, cliente.longitude));
+                    //Adiciona o Fragment do mapa
+
+                    MapaClienteFragment mapaFragment = new MapaClienteFragment();
+                    mapaFragment.setArguments(getArguments());
+                    getChildFragmentManager().beginTransaction().replace(R.id.mapCliFragment, mapaFragment).commit();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getContext(), "Retorno: " + list.get(0).getLatitude() + " - " + list.get(0).getLongitude() , Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         return view;
     }
@@ -124,12 +162,14 @@ public class ClienteFragment extends BaseFragment {
         /*final ImageView imgView = (ImageView) view.findViewById(R.id.img);
         Picasso.with(getContext()).load(carro.urlFoto).fit().into(imgView);*/
 
-        //configura a Lat/Lng
-        setTextString(R.id.tLatLng, String.format("Lat/Lng: %s/%s", cliente.latitude, cliente.longitude));
-        //Adiciona o Fragment do mapa
-        MapaFragment mapaFragment = new MapaFragment();
-        mapaFragment.setArguments(getArguments());
-        getChildFragmentManager().beginTransaction().replace(R.id.mapFragment, mapaFragment).commit();
+        if(cliente.latitude != 0 && cliente.longitude != 0) {
+            //configura a Lat/Lng
+            setTextString(R.id.tLatLng, String.format("Lat/Lng: %s/%s", cliente.latitude, cliente.longitude));
+            //Adiciona o Fragment do mapa
+            MapaClienteFragment mapaCliFragment = new MapaClienteFragment();
+            mapaCliFragment.setArguments(getArguments());
+            getChildFragmentManager().beginTransaction().replace(R.id.mapCliFragment, mapaCliFragment).commit();
+        }
     }
 
 

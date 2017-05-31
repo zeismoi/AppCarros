@@ -41,7 +41,7 @@ public class MapaClienteFragment extends BaseFragment implements OnMapReadyCallb
         setHasOptionsMenu(true);
         //Recupera o fragment q está no layout
         //utiliza o getChildFragmentManager pois é im fragment dentro do outro
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(br.com.legasist.controlevendas.R.id.mapFragment);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapCliFragment);
         //inicia o Google Maps dentro do fragment
         mapFragment.getMapAsync(this);
         this.cliente = Parcels.unwrap(getArguments().getParcelable("cliente"));
@@ -66,9 +66,9 @@ public class MapaClienteFragment extends BaseFragment implements OnMapReadyCallb
             }
             map.setMyLocationEnabled(true);
             //cria o objeto LatLng com a coordenada da fábrica
-            LatLng location = new LatLng(Double.parseDouble(cliente.latitude), Double.parseDouble(cliente.longitude));
+            LatLng location = new LatLng(cliente.latitude, cliente.longitude);
             //posiciona o mapa na coordenada da fábrica (zoom = 13)
-            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 13);
+            CameraUpdate update = CameraUpdateFactory.newLatLngZoom(location, 15);
             map.moveCamera(update);
             //marcador no local da fábrica
             map.addMarker(new MarkerOptions()
@@ -113,7 +113,7 @@ public class MapaClienteFragment extends BaseFragment implements OnMapReadyCallb
         if (map != null && cliente != null){
             if (item.getItemId() == R.id.action_location_cliente){
                 //posiciona mapa na localização da fábrica
-                LatLng location = new LatLng(Double.parseDouble(cliente.latitude), Double.parseDouble(cliente.longitude));
+                LatLng location = new LatLng(cliente.latitude, cliente.longitude);
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(location,13));
             }else if (item.getItemId() == br.com.legasist.controlevendas.R.id.action_location_directions){
                 //posiciona mapa no usuário

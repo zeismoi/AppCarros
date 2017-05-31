@@ -51,6 +51,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.Clientes
         //Atualiza a view
         Cliente c = clientes.get(position);
         holder.tNome.setText(c.nome);
+        holder.tEndereco.setText(c.endereco);
 
         //holder.progress.setVisibility(View.VISIBLE);
         //controlevendas
@@ -105,6 +106,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.Clientes
     //viewHolder com as views
     public static class ClientesViewHolder extends RecyclerView.ViewHolder{
         public TextView tNome;
+        public TextView tEndereco;
         ImageView img;
         ProgressBar progress;
         CardView cardView;
@@ -112,10 +114,11 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.Clientes
         public ClientesViewHolder (View view){
             super(view);
             //Cria as views para salvar no viewHolder
-            tNome = (TextView) view.findViewById(br.com.legasist.controlevendas.R.id.texto);
-            img = (ImageView) view.findViewById(br.com.legasist.controlevendas.R.id.img);
-            progress = (ProgressBar) view.findViewById(br.com.legasist.controlevendas.R.id.progressImg);
-            cardView = (CardView) view.findViewById(br.com.legasist.controlevendas.R.id.card_view);
+            tNome = (TextView) view.findViewById(R.id.textCliente);
+            tEndereco = (TextView) view.findViewById(R.id.textEnderecoCli);
+            img = (ImageView) view.findViewById(R.id.img);
+            progress = (ProgressBar) view.findViewById(R.id.progressImg);
+            cardView = (CardView) view.findViewById(R.id.card_view);
         }
     }
 }

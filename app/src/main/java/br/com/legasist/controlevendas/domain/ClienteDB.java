@@ -150,8 +150,8 @@ public class ClienteDB extends SQLiteOpenHelper {
                 cliente.uf = c.getString(c.getColumnIndex("uf"));
                 cliente.celular = c.getString(c.getColumnIndex("celular"));
                 cliente.email = c.getString(c.getColumnIndex("email"));
-                cliente.latitude = c.getString(c.getColumnIndex("latitude"));
-                cliente.longitude = c.getString(c.getColumnIndex("longitude"));
+                cliente.latitude = c.getDouble(c.getColumnIndex("latitude"));
+                cliente.longitude = c.getDouble(c.getColumnIndex("longitude"));
             }while (c.moveToNext());
         }
         return clientes;

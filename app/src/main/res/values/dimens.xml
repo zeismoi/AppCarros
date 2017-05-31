@@ -21,4 +21,9 @@
     <dimen name="popup_width">300dp</dimen>
     <dimen name="popup_height">300dp</dimen>
 
+
+
+    <dimen name="size_nome_cli">16dp</dimen>
+    <dimen name="size_endereco_cli">14dp</dimen>
+
 </resources>

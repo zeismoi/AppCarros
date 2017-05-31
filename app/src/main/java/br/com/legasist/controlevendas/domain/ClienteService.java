@@ -165,8 +165,8 @@ public class ClienteService {
                 c.uf = jsonCliente.optString("uf");
                 c.celular = jsonCliente.optString("celular");
                 c.email = jsonCliente.optString("email");
-                c.latitude = jsonCliente.optString("latitude");
-                c.longitude = jsonCliente.optString("longitude");
+                c.latitude = jsonCliente.optDouble("latitude");
+                c.longitude = jsonCliente.optDouble("longitude");
                 if(LOG_ON){
                     Log.d(TAG, "Cliente" + c.nome);
                 }

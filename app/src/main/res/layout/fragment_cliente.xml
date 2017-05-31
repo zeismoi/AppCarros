@@ -89,6 +89,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_action_location_found"
                     android:layout_gravity="center"
+
                     />
 
                 <!-- Celular -->
@@ -155,7 +156,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/latitudeLongitude"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -170,7 +170,7 @@
 
                 <!-- Mapa -->
                 <FrameLayout
-                    android:id="@+id/mapFragment"
+                    android:id="@+id/mapCliFragment"
                     android:layout_width="wrap_content"
                     android:layout_height="320dp"
                     android:layout_margin="16dp"/>

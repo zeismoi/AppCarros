@@ -11,8 +11,8 @@ public class Cliente {
     public String uf;
     public String celular;
     public String email;
-    public String latitude;
-    public String longitude;
+    public double latitude;
+    public double longitude;
     public boolean selected; //Flag para indicar que o cliente está selecionado
 
     @Override
