@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textCliente"
+            android:id="@+id/textProduto"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:textSize="@dimen/size_titulo_lista"/>
@@ -31,7 +31,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textEnderecoCli"
+            android:id="@+id/textEstoqueAtual"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/size_detalhes_lista"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textPrecoVenda"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="12dp"
             android:textSize="@dimen/size_detalhes_lista"/>
@@ -40,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <!-- Foto do Cliente -->
+            <!-- Foto do Produto -->
             <ImageView
                 android:layout_width="@dimen/img_carro_adapter_width"
                 android:layout_height="@dimen/img_carro_adapter_height"

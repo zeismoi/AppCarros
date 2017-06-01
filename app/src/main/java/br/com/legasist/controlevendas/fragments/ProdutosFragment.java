@@ -20,33 +20,30 @@ import com.squareup.otto.Subscribe;
 
 import org.parceler.Parcels;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.CarroActivity;
-import br.com.legasist.controlevendas.adapter.CarroAdapter;
-import br.com.legasist.controlevendas.domain.Carro;
-import br.com.legasist.controlevendas.domain.CarroDB;
-import br.com.legasist.controlevendas.domain.CarroService;
+import br.com.legasist.controlevendas.activity.ProdutoActivity;
+import br.com.legasist.controlevendas.adapter.ProdutoAdapter;
+import br.com.legasist.controlevendas.domain.Produto;
+import br.com.legasist.controlevendas.domain.ProdutoDB;
+import br.com.legasist.controlevendas.domain.ProdutoService;
 import livroandroid.lib.utils.AndroidUtils;
-import livroandroid.lib.utils.IOUtils;
-import livroandroid.lib.utils.SDCardUtils;
 
 public class ProdutosFragment extends BaseFragment {
     private int tipo;
     protected RecyclerView recyclerView;
-    private List<Carro> carros;
+    private List<Produto> produtos;
     private SwipeRefreshLayout swipeLayout;
     private ActionMode actionMode;
     //private Intent shareIntent;
 
-    //Método para instanciar esse fragment pelo tipo
+    //Método para instanciar esse //fragment
     public static ProdutosFragment newInstance(){
-        //Bundle args = new Bundle();
-        //args.putInt("tipo", tipo);
+        /*Bundle args = new Bundle();
+        args.putInt("tipo", tipo);*/
         ProdutosFragment f = new ProdutosFragment();
         //f.setArguments(args);
         return f;
@@ -59,8 +56,6 @@ public class ProdutosFragment extends BaseFragment {
             //Lê os tipos dos argumentos
             this.tipo = getArguments().getInt("tipo");
         }*/
-
-
         //Registra a classe para receber eventos
         ControleVendasApplication.getInstance().getBus().register(this);
     }
@@ -69,23 +64,15 @@ public class ProdutosFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_produtos, container, false);
-        recyclerView = (RecyclerView) view.findViewById(br.com.legasist.controlevendas.R.id.recyclerView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewProd);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
 
-        //FAB
-        view.findViewById(R.id.fabprod).setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                snack(v, "Exemplo de FAB button Produtos 323");
-            }
-        });
-
         //Swipe to Refresh
-        swipeLayout = (SwipeRefreshLayout) view.findViewById(br.com.legasist.controlevendas.R.id.swipeToRefresh);
+        swipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeToRefresh);
         swipeLayout.setOnRefreshListener(OnRefreshListener());
-        swipeLayout.setColorSchemeResources(br.com.legasist.controlevendas.R.color.refresh_progress_1, br.com.legasist.controlevendas.R.color.refresh_progress_2, br.com.legasist.controlevendas.R.color.refresh_progress_3);
+        swipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
 
         //FAB
         /*view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
@@ -94,6 +81,19 @@ public class ProdutosFragment extends BaseFragment {
                 snack(recyclerView, "Exemplo de FAB button");
             }
         });*/
+
+        //FAB
+        view.findViewById(R.id.fabprod).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                //snack(v, "Exemplo de FAB button - Produtos");
+                //abre a tela para cadastro de um novo produto
+                Produto p = new Produto();
+                Intent intent = new Intent(getContext(), ProdutoActivity.class);
+                intent.putExtra("produto", Parcels.wrap(p));//converte o objeto para Parcelable
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -106,9 +106,9 @@ public class ProdutosFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onBusAtualizarListaCarros(String refresh){
+    public void onBusAtualizarListaProdutos(String refresh){
         //Recebeu o evento, atualiza a lista
-        taskCarros(false);
+        taskProdutos(false);
     }
 
     private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {
@@ -118,10 +118,10 @@ public class ProdutosFragment extends BaseFragment {
                 //Valida se existe conexão ao fazer o gesto Pull to Refresh
                 if (AndroidUtils.isNetworkAvailable(getContext())){
                     //atualiza ao fazer o gesto Pull to Refresh
-                    taskCarros(true);
+                    taskProdutos(true);
                 }else{
                     swipeLayout.setRefreshing(false);
-                    snack(recyclerView, br.com.legasist.controlevendas.R.string.error_conexao_indisponivel);
+                    snack(recyclerView, R.string.error_conexao_indisponivel);
                 }
             }
         };
@@ -130,10 +130,10 @@ public class ProdutosFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
-        taskCarros(false);
+        taskProdutos(false);
     }
 
-    private void taskCarros(boolean pullToRefresh){
+    private void taskProdutos(boolean pullToRefresh){
         //busca os carros pelo tipo
         /*try {
             this.carros = CarroService.getCarros(getContext(), tipo);
@@ -144,24 +144,24 @@ public class ProdutosFragment extends BaseFragment {
         }*/
         //Busca os carros: Dispara a Task
         //new GetCarrosTask().execute();
-        startTask("carros", new GetCarrosTask(pullToRefresh), pullToRefresh? br.com.legasist.controlevendas.R.id.swipeToRefresh : br.com.legasist.controlevendas.R.id.progress);
+        startTask("produtos", new GetProdutosTask(pullToRefresh), pullToRefresh? R.id.swipeToRefresh : R.id.progress);
     }
 
 
 
-    private CarroAdapter.CarroOnClickListener onClickCarro(){
-        return new CarroAdapter.CarroOnClickListener(){
+    private ProdutoAdapter.ProdutoOnClickListener onClickProduto(){
+        return new ProdutoAdapter.ProdutoOnClickListener(){
             @Override
-            public void onClickCarro(View view, int idx){
-                Carro c = carros.get(idx);
+            public void onClickProduto(View view, int idx){
+                Produto p = produtos.get(idx);
                 if (actionMode == null){
-                    Intent intent = new Intent(getContext(), CarroActivity.class);
-                    intent.putExtra("carro", Parcels.wrap(c));//converte o objeto para Parcelable
+                    Intent intent = new Intent(getContext(), ProdutoActivity.class);
+                    intent.putExtra("produto", Parcels.wrap(p));//converte o objeto para Parcelable
                     startActivity(intent);
                 }else{//Se a CAB está ativada
-                    //seleciona o carro
-                    c.selected = !c.selected;
-                    //Atualiza o título com a quantidade de carros selecionados
+                    //seleciona o produto
+                    p.selected = !p.selected;
+                    //Atualiza o título com a quantidade de produtos selecionados
                     updateActionModeTilte();
                     //redesenha a lista
                     recyclerView.getAdapter().notifyDataSetChanged();
@@ -169,17 +169,17 @@ public class ProdutosFragment extends BaseFragment {
             }
 
             @Override
-            public void onLongClickCarro(View view, int idx) {
+            public void onLongClickProduto(View view, int idx) {
                 if (actionMode != null) {
                     return;
                 }
                 //liga a action bar de contexto CAB
                 actionMode = getAppCompatActivity().startSupportActionMode(getActionModeCallBack());
-                Carro c = carros.get(idx);
-                c.selected = true; //seleciona o carro
+                Produto p = produtos.get(idx);
+                p.selected = true; //seleciona o produto
                 //solicita ao Android para desenhar a lista novamente
                 recyclerView.getAdapter().notifyDataSetChanged();
-                //atualiza o título para mostrar a quantidade de carros selecionados
+                //atualiza o título para mostrar a quantidade de produtos selecionados
                 updateActionModeTilte();
             }
         };
@@ -190,8 +190,8 @@ public class ProdutosFragment extends BaseFragment {
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 //infla o menu específico da action bar de contexto CAB
-                MenuInflater inflater = getActivity().getMenuInflater();
-                inflater.inflate(br.com.legasist.controlevendas.R.menu.menu_frag_carros_context, menu);
+                    MenuInflater inflater = getActivity().getMenuInflater();
+                    inflater.inflate(R.menu.menu_frag_produtos_context, menu);
                 /*MenuItem shareItem = menu.findItem(R.id.action_share);
                 ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
                 shareIntent = new Intent(Intent.ACTION_SEND);
@@ -207,23 +207,23 @@ public class ProdutosFragment extends BaseFragment {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                List<Carro> selectedCarros = getSelectedCarros();
-                if (item.getItemId() == br.com.legasist.controlevendas.R.id.action_remove){
-                    CarroDB db = new CarroDB(getContext());
+                List<Produto> selectedProdutos = getSelectedProdutos();
+                if (item.getItemId() == R.id.action_remove){
+                    ProdutoDB db = new ProdutoDB(getContext());
                     try{
-                        for (Carro c : selectedCarros){
-                            db.delete(c);//Deleta o carro do banco
-                            carros.remove(c);//Remove da lista
+                        for (Produto p : selectedProdutos){
+                            db.delete(p);//Deleta o produto do banco
+                            produtos.remove(p);//Remove da lista
                         }
                     }finally {
                         db.close();
                     }
-                    snack(recyclerView, "Carros excluídos com sucesso");
+                    snack(recyclerView, "Produtos excluídos com sucesso");
 
-                }else if (item.getItemId() == br.com.legasist.controlevendas.R.id.action_share){
+                }else if (item.getItemId() == R.id.action_share){
                     //Dispara a tarefa para fazer download das fotos
-                    startTask("compartilhar", new CompartilharTask(selectedCarros));
-                    toast("compartilhar " + selectedCarros);
+                    startTask("compartilhar", new CompartilharTask(selectedProdutos));
+                    toast("compartilhar " + selectedProdutos);
                 }
                 //encerra o action mode
                 mode.finish();
@@ -234,9 +234,9 @@ public class ProdutosFragment extends BaseFragment {
             public void onDestroyActionMode(ActionMode mode) {
                 //limpa o estado
                 actionMode = null;
-                //configura todos os carros para não selecionados
-                for (Carro c : carros){
-                    c.selected = false;
+                //configura todos os produtos para não selecionados
+                for (Produto p : produtos){
+                    p.selected = false;
                 }
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
@@ -246,13 +246,13 @@ public class ProdutosFragment extends BaseFragment {
     //Atualiza o título da action bar CAB
     private void updateActionModeTilte(){
         if (actionMode != null){
-            actionMode.setTitle("Selecione os carros.");
+            actionMode.setTitle("Selecione os produtos.");
             actionMode.setSubtitle(null);
-            List<Carro> selectedCarros = getSelectedCarros();
-            if (selectedCarros.size() == 1){
-                actionMode.setSubtitle("1 carro selecionado.");
-            }else if (selectedCarros.size() > 1){
-                actionMode.setSubtitle(selectedCarros.size() + " carros selecionados.");
+            List<Produto> selectedProdutos = getSelectedProdutos();
+            if (selectedProdutos.size() == 1){
+                actionMode.setSubtitle("1 produto selecionado.");
+            }else if (selectedProdutos.size() > 1){
+                actionMode.setSubtitle(selectedProdutos.size() + " produtos selecionados.");
             }
             //updateShareIntent(selectedCarros);
         }
@@ -266,44 +266,44 @@ public class ProdutosFragment extends BaseFragment {
         }
     }*/
 
-    //Retorna a lista de carros selecionados
-    private List<Carro> getSelectedCarros() {
-        List<Carro> list = new ArrayList<Carro>();
-        for (Carro c : carros){
-            if (c.selected){
-                list.add(c);
+    //Retorna a lista de produtos selecionados
+    private List<Produto> getSelectedProdutos() {
+        List<Produto> list = new ArrayList<Produto>();
+        for (Produto p : produtos){
+            if (p.selected){
+                list.add(p);
             }
         }
         return list;
     }
 
-    //Task para buscar os carros
-    private class GetCarrosTask implements TaskListener<List<Carro>>{
+    //Task para buscar os produtos
+    private class GetProdutosTask implements TaskListener<List<Produto>>{
         private boolean refresh;
-        public GetCarrosTask(boolean refresh){
+        public GetProdutosTask(boolean refresh){
             this.refresh = refresh;
         }
         @Override
-        public List<Carro> execute() throws Exception {
+        public List<Produto> execute() throws Exception {
             //Thread.sleep(800);
             //busca os carros em background
-            return CarroService.getCarros(getContext(), tipo, refresh);
+            return ProdutoService.getProdutos(getContext(), tipo, refresh);
         }
 
         @Override
-        public void updateView(List<Carro> carros) {
-            if (carros != null){
-                //salva a lista de carros no atributo da classe
-                ProdutosFragment.this.carros = carros;
+        public void updateView(List<Produto> produtos) {
+            if (produtos != null){
+                //salva a lista de produtos no atributo da classe
+                ProdutosFragment.this.produtos = produtos;
                 //Atualiza a view na UI Thread
-                recyclerView.setAdapter(new CarroAdapter(getContext(), carros, onClickCarro()));
+                recyclerView.setAdapter(new ProdutoAdapter(getContext(), produtos, onClickProduto()));
             }
         }
 
         @Override
         public void onError(Exception exception) {
             //qualquer exceção lançada no método execute vai cair aqui
-            alert("Ocorreu algum erro ao buscar os dados");
+            alert("Ocorreu algum erro ao buscar os dados de produtos");
         }
 
         @Override
@@ -317,24 +317,25 @@ public class ProdutosFragment extends BaseFragment {
     private class CompartilharTask implements TaskListener {
         // Lista de arquivos para compartilhar
         ArrayList<Uri> imageUris = new ArrayList<Uri>();
-        private final List<Carro> selectedCarros;
+        private final List<Produto> selectedProdutos;
 
-        public CompartilharTask(List<Carro> selectedCarros) {
-            this.selectedCarros = selectedCarros;
+        public CompartilharTask(List<Produto> selectedProdutos) {
+            this.selectedProdutos = selectedProdutos;
         }
 
         @Override
         public Object execute() throws Exception {
-            if (selectedCarros != null){
-                for (Carro c :selectedCarros){
-                    //Faz o download da foto do carro para arquivo
+            if (selectedProdutos != null){
+                for (Produto p : selectedProdutos){
+                    //controlevendas
+                 /*   //Faz o download da foto do carro para arquivo
                     String url = c.urlFoto;
                     String fileName = url.substring(url.lastIndexOf("/"));
                     //Cria o arquivo no SD card
                     File file = SDCardUtils.getPrivateFile(getContext(), "carros", fileName);
                     IOUtils.downloadToFile(c.urlFoto, file);
                     //Salva a Uri para compartilhar a foto
-                    imageUris.add(Uri.fromFile(file));
+                    imageUris.add(Uri.fromFile(file));*/
                 }
             }
             return null;
@@ -342,14 +343,14 @@ public class ProdutosFragment extends BaseFragment {
 
         @Override
         public void updateView(Object o) {
-            //Cria a intent com a foto dos carros
+            //Cria a intent com a foto dos produtos
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
             shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
             shareIntent.setType("image/*");
             //Cria o intent chooser com as opções
-            startActivity(Intent.createChooser(shareIntent, "Enviar carros"));
+            startActivity(Intent.createChooser(shareIntent, "Enviar produtos"));
         }
 
         @Override
@@ -373,7 +374,6 @@ public class ProdutosFragment extends BaseFragment {
                 return null;
             }
         }
-
         //Atualiza a interface
         @Override
         protected void onPostExecute(List<Carro> carros) {

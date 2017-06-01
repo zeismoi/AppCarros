@@ -32,7 +32,7 @@ public class TabsAdapter extends FragmentPagerAdapter{
         if(position == 0){
             return context.getString(R.string.clientes);
         }else if(position == 1){
-            return context.getString(R.string.vendas);
+            return context.getString(R.string.produtos);
         }
         return context.getString(R.string.areceber);
     }
@@ -43,7 +43,7 @@ public class TabsAdapter extends FragmentPagerAdapter{
         if(position == 0){
             f = ClientesFragment.newInstance();
         }else if(position == 1){
-            f = CarrosFragment.newInstance(br.com.legasist.controlevendas.R.string.esportivos);
+            f = ProdutosFragment.newInstance();
         }else{
             f = CarrosFragment.newInstance(br.com.legasist.controlevendas.R.string.luxo);
         }

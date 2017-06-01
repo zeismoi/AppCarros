@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -160,7 +161,7 @@ public class ClientesFragment extends BaseFragment {
                 }else{//Se a CAB está ativada
                     //seleciona o cliente
                     c.selected = !c.selected;
-                    //Atualiza o título com a quantidade de carros selecionados
+                    //Atualiza o título com a quantidade de clientes selecionados
                     updateActionModeTilte();
                     //redesenha a lista
                     recyclerView.getAdapter().notifyDataSetChanged();
@@ -178,7 +179,7 @@ public class ClientesFragment extends BaseFragment {
                 c.selected = true; //seleciona o cliente
                 //solicita ao Android para desenhar a lista novamente
                 recyclerView.getAdapter().notifyDataSetChanged();
-                //atualiza o título para mostrar a quantidade de carros selecionados
+                //atualiza o título para mostrar a quantidade de clientes selecionados
                 updateActionModeTilte();
             }
         };
@@ -189,8 +190,8 @@ public class ClientesFragment extends BaseFragment {
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 //infla o menu específico da action bar de contexto CAB
-                //    MenuInflater inflater = getActivity().getMenuInflater();
-                //    inflater.inflate(br.com.legasist.controlevendas.R.menu.menu_frag_carros_context, menu);
+                    MenuInflater inflater = getActivity().getMenuInflater();
+                    inflater.inflate(R.menu.menu_frag_clientes_context, menu);
                 /*MenuItem shareItem = menu.findItem(R.id.action_share);
                 ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
                 shareIntent = new Intent(Intent.ACTION_SEND);
@@ -285,14 +286,14 @@ public class ClientesFragment extends BaseFragment {
         @Override
         public List<Cliente> execute() throws Exception {
             //Thread.sleep(800);
-            //busca os carros em background
+            //busca os clientes em background
             return ClienteService.getClientes(getContext(), tipo, refresh);
         }
 
         @Override
         public void updateView(List<Cliente> clientes) {
             if (clientes != null){
-                //salva a lista de carros no atributo da classe
+                //salva a lista de clientes no atributo da classe
                 ClientesFragment.this.clientes = clientes;
                 //Atualiza a view na UI Thread
                 recyclerView.setAdapter(new ClienteAdapter(getContext(), clientes, onClickCliente()));
@@ -302,7 +303,7 @@ public class ClientesFragment extends BaseFragment {
         @Override
         public void onError(Exception exception) {
             //qualquer exceção lançada no método execute vai cair aqui
-            alert("Ocorreu algum erro ao buscar os dados");
+            alert("Ocorreu algum erro ao buscar os dados de clientes");
         }
 
         @Override
@@ -342,7 +343,7 @@ public class ClientesFragment extends BaseFragment {
 
         @Override
         public void updateView(Object o) {
-            //Cria a intent com a foto dos carros
+            //Cria a intent com a foto dos clientes
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);

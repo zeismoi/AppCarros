@@ -14,23 +14,17 @@ import java.util.List;
  * Created by ovs on 18/05/2017.
  */
 
-public class ClienteDB extends SQLiteOpenHelper {
-    private static final String TAG = "sql";
-    //Nome do banco
-    public static final String NOME_BANCO = "controle_vendas";
-    private static final int VERSAO_BANCO = 1;
+public class ClienteDB extends OperacoesDB {
 
     public ClienteDB(Context context) {
         //context, nome do banco, factory, versão
-        super(context, NOME_BANCO, null, VERSAO_BANCO);
+        //super(context, NOME_BANCO, null, VERSAO_BANCO);
+        super(context);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d(TAG, "Criando a tabela cliente...");
-        db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome tex, endereco text, cidade text, " +
-                "uf text, celular text, email text, latitude text, longitude text); ");
-        Log.d(TAG, "Tabela cliente criada com sucesso.");
+
     }
 
 
@@ -157,23 +151,5 @@ public class ClienteDB extends SQLiteOpenHelper {
         return clientes;
     }
 
-    //Executa um SQL
-    public void execSQL(String sql){
-        SQLiteDatabase db = getWritableDatabase();
-        try {
-            db.execSQL(sql);
-        }finally {
-            db.close();
-        }
-    }
 
-    //Executa um SQL
-    public void execSQL(String sql, Object[] args){
-        SQLiteDatabase db = getWritableDatabase();
-        try {
-            db.execSQL(sql, args);
-        }finally {
-            db.close();
-        }
-    }
 }

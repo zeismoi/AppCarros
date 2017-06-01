@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.legasist.controlevendas.activity.ProdutosActivity"
     android:orientation="vertical">
 
     <include layout="@layout/include_toolbar"/>
 
     <!-- Fragment aqui -->
     <FrameLayout
-        android:id="@+id/container"
+        android:id="@+id/containerProdutos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></FrameLayout>
 

@@ -45,7 +45,7 @@ Versao %s<br><br>
     <!-- N -->
     <string name="nav_drawer_username">Ricardo Lecheta</string>
     <string name="nav_drawer_email">rlecheta@gmail.com</string>
-    <string name="nome">Nome</string>
+
 
     <!-- O -->
     <string name="ok">OK</string>
@@ -74,6 +74,8 @@ Versao %s<br><br>
     <string name="mapa_zoom_out">Zoom (-)</string>
 
 
+    <string name="nome">Nome</string>
+
     <string name="clientes">Clientes</string>
     <string name="nomecli">Nome</string>
     <string name="endereco">Endereço</string>
@@ -81,6 +83,16 @@ Versao %s<br><br>
     <string name="uf">Estado</string>
     <string name="celular">Celular</string>
     <string name="email">E-mail</string>
+
+    <string name="estoque_atual">Estoque atual</string>
+    <string name="estoque_min">Estoque mínimo</string>
+    <string name="preco_custo">Preço custo</string>
+    <string name="preco_venda">Preço venda</string>
+    <string name="codigo_barras">Código de barras</string>
+    <string name="fornecedor">Fornecedor</string>
+    <string name="nome_prod">Nome</string>
+
+
 
 
 

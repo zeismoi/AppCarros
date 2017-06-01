@@ -23,7 +23,10 @@
 
 
 
-    <dimen name="size_nome_cli">16dp</dimen>
-    <dimen name="size_endereco_cli">14dp</dimen>
+    <dimen name="size_titulo_lista">16sp</dimen>
+    <dimen name="size_detalhes_lista">14sp</dimen>
+
+    <dimen name="size_texo_formulario">16sp</dimen>
+
 
 </resources>
