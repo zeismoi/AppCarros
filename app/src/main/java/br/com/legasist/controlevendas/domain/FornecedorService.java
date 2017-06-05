@@ -17,26 +17,26 @@ import livroandroid.lib.utils.HttpHelper;
 import livroandroid.lib.utils.IOUtils;
 
 /**
- * Created by ovs on 29/05/2017.
+ * Created by ovs on 05/06/2017.
  */
 
-public class ClienteService {
+public class FornecedorService {
     private static final boolean LOG_ON = false;
-    private static final String TAG = "ClienteService";
+    private static final String TAG = "FornecedorService";
     private static final String URL = "http://www.livroandroid.com.br/livro/carros/carros_{tipo}.json";
 
-    public static List<Cliente> getClientes(Context context, int tipo, boolean refresh) throws IOException {
-        //busca os clientes no banco de dados (somente se refresh = false)
-        //List<Cliente> clientes = !refresh ? getClientesFromBanco(context) : null;
-        //sempre buscar no banco por enquanto
-        List<Cliente> clientes = !false ? getClientesFromBanco(context) : null;
-        if(clientes != null && clientes.size()>0){
-            //retorna os clientes encontrados do banco
-            return clientes;
+    public static List<Fornecedor> getFornecedores(Context context, int tipo, boolean refresh) throws IOException {
+        //busca os fornecedores no banco de dados (somente se refresh = false)
+        //List<Cliente> clientes = !refresh ? getFornecedoresFromBanco(context) : null;
+        // sempre buscar no banco por enquanto
+        List<Fornecedor> fornecedores = !false ? getFornecedoresFromBanco(context) : null;
+        if(fornecedores != null && fornecedores.size()>0){
+            //retorna os fornecedores encontrados do banco
+            return fornecedores;
         }
         //se não encontrar, busca no WebService
-        clientes = getClientesFromWebService(context, tipo);
-        return clientes;
+        fornecedores = getFornecedoresFromWebService(context, tipo);
+        return fornecedores;
 
         /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
@@ -48,31 +48,31 @@ public class ClienteService {
 
     }
 
-    private static List<Cliente> getClientesFromWebService(Context context, int tipo) throws IOException {
+    private static List<Fornecedor> getFornecedoresFromWebService(Context context, int tipo) throws IOException {
         String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
         Log.d(TAG, "URL: " + url);
         //Faz a requisição HTTP no servidor e retorna a String com o conteúdo
         HttpHelper http = new HttpHelper();
         String json = http.doGet(url);
-        List<Cliente> clientes = parserJSON(context, json);
+        List<Fornecedor> fornecedores = parserJSON(context, json);
         //Depois de buscar, salva os clientes
-        salvarClientes(context, clientes);
-        return clientes;
+        salvarFornecedores(context, fornecedores);
+        return fornecedores;
     }
 
-    //salva os clientes no banco de dados
-    private static void salvarClientes(Context context, List<Cliente> clientes) {
-        ClienteDB db = new ClienteDB(context);
+    //salva os fornecedores no banco de dados
+    private static void salvarFornecedores(Context context, List<Fornecedor> fornecedores) {
+        FornecedorDB db = new FornecedorDB(context);
         try{
-            //Deleta os clientes pelo tipo para limpar o banco
+            //Deleta os fornecedores pelo tipo para limpar o banco
            // String tipoString = getTipo(tipo);
-            db.deleteTodosClientes();
+            db.deleteTodosFornecedores();
             //salva todos os clientes
-            for (Cliente c : clientes){
+            for (Fornecedor f : fornecedores){
                 //c.tipo = tipoString;
-                Log.d(TAG, "Salvando o cliente: " + c.nome);
-                db.save(c);
+                Log.d(TAG, "Salvando o fornecedor: " + f.nome);
+                db.save(f);
             }
         }finally {
             db.close();
@@ -80,13 +80,13 @@ public class ClienteService {
 
     }
 
-    private static List<Cliente> getClientesFromBanco(Context context) throws IOException {
-        ClienteDB db = new ClienteDB(context);
+    private static List<Fornecedor> getFornecedoresFromBanco(Context context) throws IOException {
+        FornecedorDB db = new FornecedorDB(context);
         try {
             //String tipoString = getTipo(tipo);
-            List<Cliente> clientes = db.findAll();
-            Log.d(TAG, "Retornando " + clientes.size() + " clientes do banco");
-            return clientes;
+            List<Fornecedor> fornecedores = db.findAll();
+            Log.d(TAG, "Retornando " + fornecedores.size() + " fornecedores do banco");
+            return fornecedores;
         }finally {
             db.close();
         }
@@ -99,6 +99,7 @@ public class ClienteService {
         Log.d(TAG, "Arquivo salvo: " + file);
     }
 
+    //controlevendas
     //Converte a constante para String, para criar a URL do wen service
     private static String getTipo(int tipo) {
         if (tipo == br.com.legasist.controlevendas.R.string.classicos){
@@ -109,15 +110,16 @@ public class ClienteService {
         return "luxo";
     }
 
+    //controlevendas
     //FAZ A LEITURA DO ARQUIVO QUE ESTÁ NA PASTA /res/raw
-    private static String readFile(Context context, int tipo) throws IOException {
+    /*private static String readFile(Context context, int tipo) throws IOException {
         if(tipo == br.com.legasist.controlevendas.R.string.classicos){
             return FileUtils.readRawFileString(context, br.com.legasist.controlevendas.R.raw.carros_classicos, "UTF-8");
         }else if(tipo == br.com.legasist.controlevendas.R.string.esportivos){
             return FileUtils.readRawFileString(context, br.com.legasist.controlevendas.R.raw.carros_esportivos, "UTF-8");
         }
         return FileUtils.readRawFileString(context, br.com.legasist.controlevendas.R.raw.carros_luxo, "UTF-8");
-    }
+    }*/
 
     //controlevendas
     //Faz o parser do XML e cria a lista de carros
@@ -149,38 +151,38 @@ public class ClienteService {
         return carros;
     }*/
 
-    //Faz o parser do JSON e cria a lista de clientes
-    private static List<Cliente> parserJSON(Context context, String json) throws IOException {
-        List<Cliente> clientes = new ArrayList<Cliente>();
+    //Faz o parser do JSON e cria a lista de fornecedores
+    private static List<Fornecedor> parserJSON(Context context, String json) throws IOException {
+        List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
         try{
             JSONObject root = new JSONObject(json);
-            JSONObject obj = root.getJSONObject("clientes");
-            JSONArray jsonClientes = obj.getJSONArray("cliente");
-            //insere cada cliente na lista
-            for (int i=0; i < jsonClientes.length(); i++){
-                JSONObject jsonCliente = jsonClientes.getJSONObject(i);
-                Cliente c = new Cliente();
-                //Lê as informações de cada cliente
-                c.nome = jsonCliente.optString("nome");
-                c.endereco = jsonCliente.optString("endereco");
-                c.cidade = jsonCliente.optString("cidade");
-                c.uf = jsonCliente.optString("uf");
-                c.celular = jsonCliente.optString("celular");
-                c.email = jsonCliente.optString("email");
-                c.latitude = jsonCliente.optDouble("latitude");
-                c.longitude = jsonCliente.optDouble("longitude");
+            JSONObject obj = root.getJSONObject("fornecedores");
+            JSONArray jsonFornecedores = obj.getJSONArray("fornecedor");
+            //insere cada fornecedor na lista
+            for (int i=0; i < jsonFornecedores.length(); i++){
+                JSONObject jsonFornecedor = jsonFornecedores.getJSONObject(i);
+                Fornecedor f = new Fornecedor();
+                //Lê as informações de cada fornecedor
+                f.nome = jsonFornecedor.optString("nome");
+                f.endereco = jsonFornecedor.optString("endereco");
+                f.cidade = jsonFornecedor.optString("cidade");
+                f.uf = jsonFornecedor.optString("uf");
+                f.telefone= jsonFornecedor.optString("telefone");
+                f.email = jsonFornecedor.optString("email");
+                f.latitude = jsonFornecedor.optDouble("latitude");
+                f.longitude = jsonFornecedor.optDouble("longitude");
                 if(LOG_ON){
-                    Log.d(TAG, "Cliente" + c.nome);
+                    Log.d(TAG, "Fornecedor" + f.nome);
                 }
-                clientes.add(c);
+                fornecedores.add(f);
             }
             if (LOG_ON){
-                Log.d(TAG, clientes.size() + " encontrados");
+                Log.d(TAG, fornecedores.size() + " encontrados");
             }
 
         } catch (JSONException e) {
             throw  new IOException(e.getMessage(), e);
         }
-        return clientes;
+        return fornecedores;
     }
 }

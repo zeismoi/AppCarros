@@ -34,10 +34,16 @@ public class OperacoesDB extends SQLiteOpenHelper {
                 "uf text, celular text, email text, latitude text, longitude text); ");
         Log.d(TAG, "Tabela cliente criada com sucesso.");
 
+        Log.d(TAG, "Criando a tabela fornecedor...");
+        db.execSQL("create table if not exists fornecedor (_id integer primary key autoincrement, nome tex, endereco text, cidade text, " +
+                "uf text, telefone text, email text, latitude text, longitude text); ");
+        Log.d(TAG, "Tabela fornecedor criada com sucesso.");
+
         Log.d(TAG, "Criando a tabela produto...");
         db.execSQL("create table if not exists produto (_id integer primary key autoincrement, nome text, codigo_barras text, estoque_atual Numeric(10,2), " +
-                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), id_fornecedor int); ");
+                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), id_fornecedor int, FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id); ");
         Log.d(TAG, "Tabela produto criada com sucesso.");
+
     }
 
 

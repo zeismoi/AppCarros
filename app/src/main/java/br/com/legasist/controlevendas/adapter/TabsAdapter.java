@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.fragments.CarrosFragment;
 import br.com.legasist.controlevendas.fragments.ClientesFragment;
+import br.com.legasist.controlevendas.fragments.FornecedoresFragment;
 import br.com.legasist.controlevendas.fragments.ProdutosFragment;
 
 /**
@@ -24,7 +25,7 @@ public class TabsAdapter extends FragmentPagerAdapter{
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -33,6 +34,8 @@ public class TabsAdapter extends FragmentPagerAdapter{
             return context.getString(R.string.clientes);
         }else if(position == 1){
             return context.getString(R.string.produtos);
+        }else if(position == 2){
+            return context.getString(R.string.fornecedores);
         }
         return context.getString(R.string.areceber);
     }
@@ -44,7 +47,9 @@ public class TabsAdapter extends FragmentPagerAdapter{
             f = ClientesFragment.newInstance();
         }else if(position == 1){
             f = ProdutosFragment.newInstance();
-        }else{
+        }else if (position == 2){
+            f = FornecedoresFragment.newInstance();
+        }else if (position == 3){
             f = CarrosFragment.newInstance(br.com.legasist.controlevendas.R.string.luxo);
         }
         return f;

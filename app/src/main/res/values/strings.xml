@@ -75,6 +75,7 @@ Versao %s<br><br>
 
 
     <string name="nome">Nome</string>
+    <string name="telefone">Telefone</string>
 
     <string name="clientes">Clientes</string>
     <string name="nomecli">Nome</string>
@@ -93,16 +94,14 @@ Versao %s<br><br>
     <string name="nome_prod">Nome</string>
 
 
-
-
-
-
     <string name="vendas">Vendas</string>
     <string name="areceber">A Receber</string>
     <string name="fornecedores">Fornecedores</string>
     <string name="produtos">Produtos</string>
 
     <string name="mapa_location_cliente">Localização do cliente</string>
+
+    <string name="mapa_location_fornecedor">Localização do fornecedor</string>
 
 
 </resources>

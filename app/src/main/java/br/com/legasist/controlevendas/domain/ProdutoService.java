@@ -27,7 +27,9 @@ public class ProdutoService {
 
     public static List<Produto> getProdutos(Context context, int tipo, boolean refresh) throws IOException {
         //busca os produtos no banco de dados (somente se refresh = false)
-        List<Produto> produtos = !refresh ? getProdutosFromBanco(context) : null;
+        //List<Produto> produtos = !refresh ? getProdutosFromBanco(context) : null;
+        //sempre buscar no banco por enquanto
+        List<Produto> produtos = !false ? getProdutosFromBanco(context) : null;
         if(produtos != null && produtos.size()>0){
             //retorna os produtos encontrados do banco
             return produtos;
