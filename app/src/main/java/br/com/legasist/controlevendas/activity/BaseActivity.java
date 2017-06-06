@@ -79,18 +79,18 @@ public class BaseActivity extends livroandroid.lib.activity.BaseActivity {
         switch (menuItem.getItemId()){
             case R.id.nav_item_produtos_todos:
                 Intent intent_produtos = new Intent(getContext(), ProdutosActivity.class);
-                intent_produtos.putExtra("tipo", br.com.legasist.controlevendas.R.string.classicos);
+                //intent_produtos.putExtra("tipo", br.com.legasist.controlevendas.R.string.classicos);
                 startActivity(intent_produtos);
                 break;
-            case br.com.legasist.controlevendas.R.id.nav_item_carros_classicos:
+            case R.id.nav_item_categorias:
                 //replaceFragment(CarrosFragment.newInstance(R.string.classicos));
-                Intent intent = new Intent(getContext(), CarrosActivity.class);
-                intent.putExtra("tipo", br.com.legasist.controlevendas.R.string.classicos);
-                startActivity(intent);
+                Intent intent_categorias = new Intent(getContext(), CategoriasActivity.class);
+               // intent.putExtra("tipo", br.com.legasist.controlevendas.R.string.classicos);
+                startActivity(intent_categorias);
                 break;
             case br.com.legasist.controlevendas.R.id.nav_item_carros_esportivos:
                 //replaceFragment(CarrosFragment.newInstance(R.string.esportivos));
-                intent = new Intent(getContext(), CarrosActivity.class);
+                Intent intent = new Intent(getContext(), CarrosActivity.class);
                 intent.putExtra("tipo", br.com.legasist.controlevendas.R.string.esportivos);
                 startActivity(intent);
 

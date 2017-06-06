@@ -43,8 +43,8 @@ Versao %s<br><br>
     <string name="msg_error_conexao_indisponivel">Conexão indisponível. Verifique seu Wi-Fi ou 3G.</string>
 
     <!-- N -->
-    <string name="nav_drawer_username">Ricardo Lecheta</string>
-    <string name="nav_drawer_email">rlecheta@gmail.com</string>
+    <string name="nav_drawer_username">LegaSist - Lucro Certo</string>
+    <string name="nav_drawer_email">legasist.apps@gmail.com</string>
 
 
     <!-- O -->
@@ -72,6 +72,9 @@ Versao %s<br><br>
     <string name="mapa_location_carro">Localização do carro</string>
     <string name="mapa_zoom_in">Zoom (+)</string>
     <string name="mapa_zoom_out">Zoom (-)</string>
+
+    <string name="selecione_o_estado">Selecione o estado</string>
+    <string name="categorias">Categorias</string>
 
 
     <string name="nome">Nome</string>
@@ -102,6 +105,36 @@ Versao %s<br><br>
     <string name="mapa_location_cliente">Localização do cliente</string>
 
     <string name="mapa_location_fornecedor">Localização do fornecedor</string>
+
+    <string-array name="estados">
+        <item>AC</item>
+        <item>AL</item>
+        <item>AP</item>
+        <item>AM</item>
+        <item>BA</item>
+        <item>CE</item>
+        <item>DF</item>
+        <item>ES</item>
+        <item>GO</item>
+        <item>MA</item>
+        <item>MT</item>
+        <item>MS</item>
+        <item>MG</item>
+        <item>PA</item>
+        <item>PB</item>
+        <item>PR</item>
+        <item>PE</item>
+        <item>PI</item>
+        <item>RJ</item>
+        <item>RN</item>
+        <item>RS</item>
+        <item>RO</item>
+        <item>RR</item>
+        <item>SC</item>
+        <item>SP</item>
+        <item>SE</item>
+        <item>TO</item>
+    </string-array>
 
 
 </resources>

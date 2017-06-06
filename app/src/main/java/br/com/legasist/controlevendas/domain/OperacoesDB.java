@@ -18,7 +18,7 @@ public class OperacoesDB extends SQLiteOpenHelper {
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    private static final int VERSAO_BANCO = 5;
+    private static final int VERSAO_BANCO = 6;
 
     public OperacoesDB(Context context) {
         //context, nome do banco, factory, versão
@@ -29,6 +29,10 @@ public class OperacoesDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        Log.d(TAG, "Criando a tabela categoria...");
+        db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria tex); ");
+        Log.d(TAG, "Tabela categoria criada com sucesso.");
+
         Log.d(TAG, "Criando a tabela cliente...");
         db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome tex, endereco text, cidade text, " +
                 "uf text, celular text, email text, latitude text, longitude text); ");

@@ -49,6 +49,7 @@ public class FornecedorDB extends OperacoesDB {
             values.put("cidade", fornecedor.cidade);
             values.put("uf", fornecedor.uf);
             values.put("telefone", fornecedor.telefone);
+            values.put("email", fornecedor.email);
             values.put("latitude", fornecedor.latitude);
             values.put("longitude", fornecedor.longitude);
     //        values.put("id_fornecedor", produto.fornecedor);

@@ -13,9 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -46,7 +48,7 @@ import livroandroid.lib.utils.IntentUtils;
 public class ClienteFragment extends BaseFragment {
     private Cliente cliente;
 
-    EditText edtNome, edtEndereco, edtCidade, edtUf, edtCelular, edtEmail;
+    EditText edtNome, edtEndereco, edtCidade, edtCelular, edtEmail;
     ImageButton btnSalvar, btnLocalizar;
 
 
@@ -63,10 +65,15 @@ public class ClienteFragment extends BaseFragment {
         cliente = Parcels.unwrap(getArguments().getParcelable("cliente"));
         setHasOptionsMenu(true); // precisamos informar ao Android q este fragment tem menu
 
+        final Spinner combo = (Spinner) view.findViewById(R.id.comboEstados);
+        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(getContext(), R.array.estados, android.R.layout.simple_spinner_item);
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        combo.setAdapter(adaptador);
+
         edtNome = (EditText) view.findViewById(R.id.textNomeCli);
         edtEndereco = (EditText) view.findViewById(R.id.textEnderecoCli);
         edtCidade = (EditText) view.findViewById(R.id.textCidadeCli);
-        edtUf = (EditText) view.findViewById(R.id.textUfCli);
+        //edtUf = (EditText) view.findViewById(R.id.textUfCli);
         edtCelular = (EditText) view.findViewById(R.id.textCelularCli);
         edtEmail = (EditText) view.findViewById(R.id.textEmailCli);
 
@@ -74,9 +81,10 @@ public class ClienteFragment extends BaseFragment {
             edtNome.setText(cliente.nome);
             edtEndereco.setText(cliente.endereco);
             edtCidade.setText(cliente.cidade);
-            edtUf.setText(cliente.uf);
+            //edtUf.setText(cliente.uf);
             edtCelular.setText(cliente.celular);
             edtEmail.setText(cliente.email);
+            combo.setSelection(adaptador.getPosition(cliente.uf));
         }
 
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarCli);
@@ -90,7 +98,7 @@ public class ClienteFragment extends BaseFragment {
                         c.nome = String.valueOf(edtNome.getText());
                         c.endereco = String.valueOf(edtEndereco.getText());
                         c.cidade = String.valueOf(edtCidade.getText());
-                        c.uf = String.valueOf(edtUf.getText());
+                        c.uf = combo.getSelectedItem().toString(); //String.valueOf(edtUf.getText());
                         c.celular = String.valueOf(edtCelular.getText());
                         c.email = String.valueOf(edtEmail.getText());
                         db.save(c);
@@ -102,7 +110,7 @@ public class ClienteFragment extends BaseFragment {
                         cliente.nome = String.valueOf(edtNome.getText());
                         cliente.endereco = String.valueOf(edtEndereco.getText());
                         cliente.cidade = String.valueOf(edtCidade.getText());
-                        cliente.uf = String.valueOf(edtUf.getText());
+                        cliente.uf = combo.getSelectedItem().toString(); //String.valueOf(edtUf.getText());
                         cliente.celular = String.valueOf(edtCelular.getText());
                         cliente.email = String.valueOf(edtEmail.getText());
                         db.save(cliente);
@@ -122,7 +130,7 @@ public class ClienteFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 //para descobrir a latitude e a longitude do endereço
-                String endereco = edtEndereco.getText() + " " + edtCidade.getText() + " " + edtUf.getText();
+                String endereco = edtEndereco.getText() + " " + edtCidade.getText() + " " + combo.getSelectedItem().toString();;
                 Geocoder gc = new Geocoder(getContext(), new Locale("pt", "BR"));
                 List<Address> list = null;
                 try {
@@ -144,7 +152,7 @@ public class ClienteFragment extends BaseFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getContext(), "Retorno: " + list.get(0).getLatitude() + " - " + list.get(0).getLongitude() , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Retorno: " + list.get(0).getLatitude() + " - " + list.get(0).getLongitude() , Toast.LENGTH_LONG).show();
             }
         });
 

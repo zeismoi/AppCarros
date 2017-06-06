@@ -9,12 +9,13 @@
             android:title="@string/produtos" />
 
 
-        <!-- Lista com os carros clássicos -->
+        <!-- Lista com as categorias de produtos -->
         <item
-            android:id="@+id/nav_item_carros_classicos"
+            android:id="@+id/nav_item_categorias"
             android:checked="true"
             android:icon="@drawable/ic_drawer_carro"
-            android:title="@string/classicos" />
+            android:title="@string/categorias" />
+
         <!-- Lista com os carros esportivos -->
         <item
             android:id="@+id/nav_item_carros_esportivos"

@@ -1,4 +1,4 @@
-package br.com.legasist.controlevendas.fragments;
+package br.com.legasist.controlevendas.fragments.dialog;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -18,33 +18,35 @@ import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 
-import org.parceler.Parcels;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.ClienteActivity;
+import br.com.legasist.controlevendas.adapter.CategoriaAdapter;
 import br.com.legasist.controlevendas.adapter.ClienteAdapter;
+import br.com.legasist.controlevendas.domain.Categoria;
+import br.com.legasist.controlevendas.domain.CategoriaDB;
+import br.com.legasist.controlevendas.domain.CategoriaService;
 import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.ClienteDB;
 import br.com.legasist.controlevendas.domain.ClienteService;
+import br.com.legasist.controlevendas.fragments.BaseFragment;
 import livroandroid.lib.utils.AndroidUtils;
 
-public class ClientesFragment extends BaseFragment {
+public class CategoriasFragment extends BaseFragment {
     private int tipo;
     protected RecyclerView recyclerView;
-    private List<Cliente> clientes;
+    private List<Categoria> categorias;
     private SwipeRefreshLayout swipeLayout;
     private ActionMode actionMode;
     //private Intent shareIntent;
 
     //Método para instanciar esse //fragment pelo tipo
-    public static ClientesFragment newInstance(){
+    public static CategoriasFragment newInstance(){
         /*Bundle args = new Bundle();
         args.putInt("tipo", tipo);*/
-        ClientesFragment f = new ClientesFragment();
+        CategoriasFragment f = new CategoriasFragment();
         //f.setArguments(args);
         return f;
     }
@@ -63,8 +65,8 @@ public class ClientesFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_clientes, container, false);
-        recyclerView = (RecyclerView) view.findViewById(br.com.legasist.controlevendas.R.id.recyclerView);
+        View view = inflater.inflate(R.layout.fragment_categorias, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
@@ -87,11 +89,23 @@ public class ClientesFragment extends BaseFragment {
             @Override
             public void onClick(View v){
                 //snack(v, "Exemplo de FAB button - Clientes");
-                //abre a tela para cadastro d eum novo cliente
-                Cliente c = new Cliente();
-                Intent intent = new Intent(getContext(), ClienteActivity.class);
-                intent.putExtra("cliente", Parcels.wrap(c));//converte o objeto para Parcelable
-                startActivity(intent);
+                //abre a tela para cadastro de uma nova categoria
+
+                CategoriaDialog.show(getFragmentManager(), null, new CategoriaDialog.Callback() {
+                    @Override
+                    public void onCategoriaUpdate(Categoria categoria) {
+                        toast("Categoria [" + categoria.categoria + "] atualizada");
+                        //Salva a catgoria depois de fechar o Dialog
+                        CategoriaDB db = new CategoriaDB(getContext());
+                        db.save(categoria);
+                        //controlevendas
+                        //Atualiza o título com o novo nome
+                        //CategoriaActivity a = (CarroActivity) getActivity();
+                        //a.setTitle(carro.nome);
+                        //Envia o evento para o Bus
+                        ControleVendasApplication.getInstance().getBus().post("refresh");
+                    }
+                });
             }
         });
 
@@ -106,9 +120,9 @@ public class ClientesFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onBusAtualizarListaClientes(String refresh){
+    public void onBusAtualizarListaCategorias(String refresh){
         //Recebeu o evento, atualiza a lista
-        taskClientes(false);
+        taskCategorias(false);
     }
 
     private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {
@@ -118,10 +132,10 @@ public class ClientesFragment extends BaseFragment {
                 //Valida se existe conexão ao fazer o gesto Pull to Refresh
                 if (AndroidUtils.isNetworkAvailable(getContext())){
                     //atualiza ao fazer o gesto Pull to Refresh
-                    taskClientes(true);
+                    taskCategorias(true);
                 }else{
                     swipeLayout.setRefreshing(false);
-                    snack(recyclerView, br.com.legasist.controlevendas.R.string.error_conexao_indisponivel);
+                    snack(recyclerView, R.string.error_conexao_indisponivel);
                 }
             }
         };
@@ -130,10 +144,10 @@ public class ClientesFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
-        taskClientes(false);
+        taskCategorias(false);
     }
 
-    private void taskClientes(boolean pullToRefresh){
+    private void taskCategorias(boolean pullToRefresh){
         //busca os carros pelo tipo
         /*try {
             this.carros = CarroService.getCarros(getContext(), tipo);
@@ -144,24 +158,36 @@ public class ClientesFragment extends BaseFragment {
         }*/
         //Busca os carros: Dispara a Task
         //new GetCarrosTask().execute();
-        startTask("clientes", new GetClientesTask(pullToRefresh), pullToRefresh? R.id.swipeToRefresh : R.id.progress);
+        startTask("categorias", new GetCategoriasTask(pullToRefresh), pullToRefresh? R.id.swipeToRefresh : R.id.progress);
     }
 
 
 
-    private ClienteAdapter.ClienteOnClickListener onClickCliente(){
-        return new ClienteAdapter.ClienteOnClickListener(){
+    private CategoriaAdapter.CategoriaOnClickListener onClickCategoria(){
+        return new CategoriaAdapter.CategoriaOnClickListener(){
             @Override
-            public void onClickCliente(View view, int idx){
-                Cliente c = clientes.get(idx);
+            public void onClickCategoria(View view, int idx){
+                Categoria c = categorias.get(idx);
                 if (actionMode == null){
-                    Intent intent = new Intent(getContext(), ClienteActivity.class);
-                    intent.putExtra("cliente", Parcels.wrap(c));//converte o objeto para Parcelable
-                    startActivity(intent);
+                    CategoriaDialog.show(getFragmentManager(), c, new CategoriaDialog.Callback() {
+                        @Override
+                        public void onCategoriaUpdate(Categoria categoria) {
+                            toast("Categoria [" + categoria.categoria + "] atualizada");
+                            //Salva a catgoria depois de fechar o Dialog
+                            CategoriaDB db = new CategoriaDB(getContext());
+                            db.save(categoria);
+                            //controlevendas
+                            //Atualiza o título com o novo nome
+                            //CategoriaActivity a = (CarroActivity) getActivity();
+                            //a.setTitle(carro.nome);
+                            //Envia o evento para o Bus
+                            ControleVendasApplication.getInstance().getBus().post("refresh");
+                        }
+                    });
                 }else{//Se a CAB está ativada
-                    //seleciona o cliente
+                    //seleciona a categoria
                     c.selected = !c.selected;
-                    //Atualiza o título com a quantidade de clientes selecionados
+                    //Atualiza o título com a quantidade de categorias selecionados
                     updateActionModeTilte();
                     //redesenha a lista
                     recyclerView.getAdapter().notifyDataSetChanged();
@@ -169,14 +195,14 @@ public class ClientesFragment extends BaseFragment {
             }
 
             @Override
-            public void onLongClickCliente(View view, int idx) {
+            public void onLongClickCategoria(View view, int idx) {
                 if (actionMode != null) {
                     return;
                 }
                 //liga a action bar de contexto CAB
                 actionMode = getAppCompatActivity().startSupportActionMode(getActionModeCallBack());
-                Cliente c = clientes.get(idx);
-                c.selected = true; //seleciona o cliente
+                Categoria c = categorias.get(idx);
+                c.selected = true; //seleciona a categoria
                 //solicita ao Android para desenhar a lista novamente
                 recyclerView.getAdapter().notifyDataSetChanged();
                 //atualiza o título para mostrar a quantidade de clientes selecionados
@@ -191,7 +217,7 @@ public class ClientesFragment extends BaseFragment {
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 //infla o menu específico da action bar de contexto CAB
                     MenuInflater inflater = getActivity().getMenuInflater();
-                    inflater.inflate(R.menu.menu_frag_clientes_context, menu);
+                    inflater.inflate(R.menu.menu_frag_categorias_context, menu);
                 /*MenuItem shareItem = menu.findItem(R.id.action_share);
                 ShareActionProvider share = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
                 shareIntent = new Intent(Intent.ACTION_SEND);
@@ -207,23 +233,19 @@ public class ClientesFragment extends BaseFragment {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                List<Cliente> selectedClientes = getSelectedClientes();
-                if (item.getItemId() == br.com.legasist.controlevendas.R.id.action_remove){
-                    ClienteDB db = new ClienteDB(getContext());
+                List<Categoria> selectedCategorias = getSelectedCategorias();
+                if (item.getItemId() == R.id.action_remove){
+                    CategoriaDB db = new CategoriaDB(getContext());
                     try{
-                        for (Cliente c : selectedClientes){
-                            db.delete(c);//Deleta o cliente do banco
-                            clientes.remove(c);//Remove da lista
+                        for (Categoria c : selectedCategorias){
+                            db.delete(c);//Deleta a categoria do banco
+                            categorias.remove(c);//Remove da lista
                         }
                     }finally {
                         db.close();
                     }
-                    snack(recyclerView, "Clientes excluídos com sucesso");
+                    snack(recyclerView, "Categorias excluídas com sucesso");
 
-                }else if (item.getItemId() == br.com.legasist.controlevendas.R.id.action_share){
-                    //Dispara a tarefa para fazer download das fotos
-                    startTask("compartilhar", new CompartilharTask(selectedClientes));
-                    toast("compartilhar " + selectedClientes);
                 }
                 //encerra o action mode
                 mode.finish();
@@ -234,8 +256,8 @@ public class ClientesFragment extends BaseFragment {
             public void onDestroyActionMode(ActionMode mode) {
                 //limpa o estado
                 actionMode = null;
-                //configura todos os clientes para não selecionados
-                for (Cliente c : clientes){
+                //configura todas as categorias para não selecionadas
+                for (Categoria c : categorias){
                     c.selected = false;
                 }
                 recyclerView.getAdapter().notifyDataSetChanged();
@@ -246,13 +268,13 @@ public class ClientesFragment extends BaseFragment {
     //Atualiza o título da action bar CAB
     private void updateActionModeTilte(){
         if (actionMode != null){
-            actionMode.setTitle("Selecione os clientes.");
+            actionMode.setTitle("Selecione as categorias.");
             actionMode.setSubtitle(null);
-            List<Cliente> selectedClientes = getSelectedClientes();
-            if (selectedClientes.size() == 1){
-                actionMode.setSubtitle("1 cliente selecionado.");
-            }else if (selectedClientes.size() > 1){
-                actionMode.setSubtitle(selectedClientes.size() + " clientes selecionados.");
+            List<Categoria> selectedCategorias = getSelectedCategorias();
+            if (selectedCategorias.size() == 1){
+                actionMode.setSubtitle("1 categorias selecionada.");
+            }else if (selectedCategorias.size() > 1){
+                actionMode.setSubtitle(selectedCategorias.size() + " categorias selecionadas.");
             }
             //updateShareIntent(selectedCarros);
         }
@@ -266,10 +288,10 @@ public class ClientesFragment extends BaseFragment {
         }
     }*/
 
-    //Retorna a lista de clientes selecionados
-    private List<Cliente> getSelectedClientes() {
-        List<Cliente> list = new ArrayList<Cliente>();
-        for (Cliente c : clientes){
+    //Retorna a lista de categorias selecionadas
+    private List<Categoria> getSelectedCategorias() {
+        List<Categoria> list = new ArrayList<Categoria>();
+        for (Categoria c : categorias){
             if (c.selected){
                 list.add(c);
             }
@@ -277,33 +299,33 @@ public class ClientesFragment extends BaseFragment {
         return list;
     }
 
-    //Task para buscar os clientes
-    private class GetClientesTask implements TaskListener<List<Cliente>>{
+    //Task para buscar as categorias
+    private class GetCategoriasTask implements TaskListener<List<Categoria>>{
         private boolean refresh;
-        public GetClientesTask(boolean refresh){
+        public GetCategoriasTask(boolean refresh){
             this.refresh = refresh;
         }
         @Override
-        public List<Cliente> execute() throws Exception {
+        public List<Categoria> execute() throws Exception {
             //Thread.sleep(800);
-            //busca os clientes em background
-            return ClienteService.getClientes(getContext(), tipo, refresh);
+            //busca as categorias em background
+            return CategoriaService.getCategorias(getContext(), tipo, refresh);
         }
 
         @Override
-        public void updateView(List<Cliente> clientes) {
-            if (clientes != null){
-                //salva a lista de clientes no atributo da classe
-                ClientesFragment.this.clientes = clientes;
+        public void updateView(List<Categoria> categorias) {
+            if (categorias != null){
+                //salva a lista de categorias no atributo da classe
+                CategoriasFragment.this.categorias = categorias;
                 //Atualiza a view na UI Thread
-                recyclerView.setAdapter(new ClienteAdapter(getContext(), clientes, onClickCliente()));
+                recyclerView.setAdapter(new CategoriaAdapter(getContext(), categorias, onClickCategoria()));
             }
         }
 
         @Override
         public void onError(Exception exception) {
             //qualquer exceção lançada no método execute vai cair aqui
-            alert("Ocorreu algum erro ao buscar os dados de clientes");
+            alert("Ocorreu algum erro ao buscar os dados de catgorias");
         }
 
         @Override
@@ -312,9 +334,10 @@ public class ClientesFragment extends BaseFragment {
         }
     }
 
+    //controlevendas
     //Task para fazer o download
     //Faça import da classe android.net.URI
-    private class CompartilharTask implements TaskListener {
+    /*private class CompartilharTask implements TaskListener {
         // Lista de arquivos para compartilhar
         ArrayList<Uri> imageUris = new ArrayList<Uri>();
         private final List<Cliente> selectedClientes;
@@ -328,14 +351,14 @@ public class ClientesFragment extends BaseFragment {
             if (selectedClientes != null){
                 for (Cliente c :selectedClientes){
                     //controlevendas
-                 /*   //Faz o download da foto do carro para arquivo
+                 *//*   //Faz o download da foto do carro para arquivo
                     String url = c.urlFoto;
                     String fileName = url.substring(url.lastIndexOf("/"));
                     //Cria o arquivo no SD card
                     File file = SDCardUtils.getPrivateFile(getContext(), "carros", fileName);
                     IOUtils.downloadToFile(c.urlFoto, file);
                     //Salva a Uri para compartilhar a foto
-                    imageUris.add(Uri.fromFile(file));*/
+                    imageUris.add(Uri.fromFile(file));*//*
                 }
             }
             return null;
@@ -348,7 +371,7 @@ public class ClientesFragment extends BaseFragment {
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
             shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
-            shareIntent.setType("image/*");
+            shareIntent.setType("image*//*");
             //Cria o intent chooser com as opções
             startActivity(Intent.createChooser(shareIntent, "Enviar clientes"));
         }
@@ -362,7 +385,7 @@ public class ClientesFragment extends BaseFragment {
         public void onCancelled(String cod) {
 
         }
-    }
+    }*/
 
        /* @Override
         protected List<Carro> doInBackground(Void... params) {

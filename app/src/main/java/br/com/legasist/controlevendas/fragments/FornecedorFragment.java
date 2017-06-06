@@ -6,15 +6,16 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.parceler.Parcels;
@@ -25,15 +26,10 @@ import java.util.Locale;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.MapaClienteActivity;
 import br.com.legasist.controlevendas.activity.MapaFornecedorActivity;
-import br.com.legasist.controlevendas.domain.Cliente;
-import br.com.legasist.controlevendas.domain.ClienteDB;
 import br.com.legasist.controlevendas.domain.Fornecedor;
 import br.com.legasist.controlevendas.domain.FornecedorDB;
-import br.com.legasist.controlevendas.fragments.dialog.DeletarClienteDialog;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarFornecedorDialog;
-import livroandroid.lib.utils.IntentUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +37,7 @@ import livroandroid.lib.utils.IntentUtils;
 public class FornecedorFragment extends BaseFragment {
     private Fornecedor fornecedor;
 
-    EditText edtNome, edtEndereco, edtCidade, edtUf, edtTelefone, edtEmail;
+    EditText edtNome, edtEndereco, edtCidade, edtTelefone, edtEmail;
     ImageButton btnSalvar, btnLocalizar;
 
 
@@ -58,10 +54,15 @@ public class FornecedorFragment extends BaseFragment {
         fornecedor = Parcels.unwrap(getArguments().getParcelable("fornecedor"));
         setHasOptionsMenu(true); // precisamos informar ao Android q este fragment tem menu
 
-        edtNome = (EditText) view.findViewById(R.id.textNomeCli);
+        final Spinner combo = (Spinner) view.findViewById(R.id.comboEstados);
+        ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(getContext(), R.array.estados, android.R.layout.simple_spinner_item);
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        combo.setAdapter(adaptador);
+
+        edtNome = (EditText) view.findViewById(R.id.textNomeFornec);
         edtEndereco = (EditText) view.findViewById(R.id.textEnderecoFornec);
         edtCidade = (EditText) view.findViewById(R.id.textCidadeFornec);
-        edtUf = (EditText) view.findViewById(R.id.textUfFornec);
+        //edtUf = (EditText) view.findViewById(R.id.textUfFornec);
         edtTelefone = (EditText) view.findViewById(R.id.textTelefoneFornec);
         edtEmail = (EditText) view.findViewById(R.id.textEmailFornec);
 
@@ -69,9 +70,10 @@ public class FornecedorFragment extends BaseFragment {
             edtNome.setText(fornecedor.nome);
             edtEndereco.setText(fornecedor.endereco);
             edtCidade.setText(fornecedor.cidade);
-            edtUf.setText(fornecedor.uf);
+           // edtUf.setText(fornecedor.uf);
             edtTelefone.setText(fornecedor.telefone);
             edtEmail.setText(fornecedor.email);
+            combo.setSelection(adaptador.getPosition(fornecedor.uf));
         }
 
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarFornec);
@@ -85,7 +87,7 @@ public class FornecedorFragment extends BaseFragment {
                         f.nome = String.valueOf(edtNome.getText());
                         f.endereco = String.valueOf(edtEndereco.getText());
                         f.cidade = String.valueOf(edtCidade.getText());
-                        f.uf = String.valueOf(edtUf.getText());
+                        f.uf = combo.getSelectedItem().toString();//String.valueOf(edtUf.getText());
                         f.telefone = String.valueOf(edtTelefone.getText());
                         f.email = String.valueOf(edtEmail.getText());
                         db.save(f);
@@ -97,7 +99,7 @@ public class FornecedorFragment extends BaseFragment {
                         fornecedor.nome = String.valueOf(edtNome.getText());
                         fornecedor.endereco = String.valueOf(edtEndereco.getText());
                         fornecedor.cidade = String.valueOf(edtCidade.getText());
-                        fornecedor.uf = String.valueOf(edtUf.getText());
+                        fornecedor.uf = combo.getSelectedItem().toString();  //String.valueOf(edtUf.getText());
                         fornecedor.telefone = String.valueOf(edtTelefone.getText());
                         fornecedor.email = String.valueOf(edtEmail.getText());
                         db.save(fornecedor);
@@ -117,7 +119,7 @@ public class FornecedorFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 //para descobrir a latitude e a longitude do endereço
-                String endereco = edtEndereco.getText() + " " + edtCidade.getText() + " " + edtUf.getText();
+                String endereco = edtEndereco.getText() + " " + edtCidade.getText() + " " + combo.getSelectedItem().toString();
                 Geocoder gc = new Geocoder(getContext(), new Locale("pt", "BR"));
                 List<Address> list = null;
                 try {
@@ -139,7 +141,7 @@ public class FornecedorFragment extends BaseFragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getContext(), "Retorno: " + list.get(0).getLatitude() + " - " + list.get(0).getLongitude() , Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "Retorno: " + list.get(0).getLatitude() + " - " + list.get(0).getLongitude() , Toast.LENGTH_LONG).show();
             }
         });
 

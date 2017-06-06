@@ -78,10 +78,15 @@
                     android:text="@string/uf"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/textUfFornec"
+
+                <Spinner
+                    android:id="@+id/comboEstados"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:drawSelectorOnTop="true"
+                    android:prompt="@string/selecione_o_estado"
+                    android:layout_margin="16dp" />
+
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnLocalizacaoFornec"
