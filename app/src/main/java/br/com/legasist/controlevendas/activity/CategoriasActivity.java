@@ -3,8 +3,7 @@ package br.com.legasist.controlevendas.activity;
 import android.os.Bundle;
 
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.fragments.ClientesFragment;
-import br.com.legasist.controlevendas.fragments.dialog.CategoriasFragment;
+import br.com.legasist.controlevendas.fragments.CategoriasFragment;
 
 public class CategoriasActivity extends BaseActivity {
 
@@ -15,7 +14,7 @@ public class CategoriasActivity extends BaseActivity {
         setUpToolbar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Título
-        getSupportActionBar().setTitle(R.string.clientes);
+        getSupportActionBar().setTitle(R.string.categorias);
         //Adiciona o Fragment com o mesmo Bundle (args) da intent
         if (savedInstanceState == null){
             CategoriasFragment frag = new CategoriasFragment();

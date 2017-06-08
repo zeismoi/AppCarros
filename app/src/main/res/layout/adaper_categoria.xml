@@ -26,6 +26,7 @@
             android:id="@+id/textCategoria"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:textSize="@dimen/size_titulo_lista"/>
 
 

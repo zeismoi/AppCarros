@@ -10,15 +10,32 @@
         android:text="@string/nome" />
 
     <EditText
-        android:id="@+id/tNome"
+        android:id="@+id/tNomeCateg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp" />
 
-    <Button
-        android:id="@+id/btAtualizar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/Atualizar" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btAtualizar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/Atualizar" />
+
+        <Button
+            android:id="@+id/btFechar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/fechar_janela" />
+
+    </LinearLayout>
+
+
 </LinearLayout>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">LegaSist-Vendas</string>
 
+
     <!-- A -->
     <string name="action_about">Sobre</string>
     <string name="action_settings">Settings</string>
@@ -74,7 +75,10 @@ Versao %s<br><br>
     <string name="mapa_zoom_out">Zoom (-)</string>
 
     <string name="selecione_o_estado">Selecione o estado</string>
+    <string name="selecione_a_categoria">Selecione a categoria</string>
+    <string name="fechar_janela">Fechar</string>
     <string name="categorias">Categorias</string>
+    <string name="categoria">Categoria</string>
 
 
     <string name="nome">Nome</string>

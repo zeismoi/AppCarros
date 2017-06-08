@@ -34,9 +34,11 @@ public class ProdutoService {
             //retorna os produtos encontrados do banco
             return produtos;
         }
+        //controlevendas
         //se não encontrar, busca no WebService
-        produtos = getProdutosFromWebService(context, tipo);
-        return produtos;
+        //produtos = getProdutosFromWebService(context, tipo);
+        //return produtos;
+        return null;
 
         /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);

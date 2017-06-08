@@ -14,18 +14,24 @@ import java.util.List;
  * Created by ovs on 01/06/2017.
  */
 
-public class ProdutoDB extends OperacoesDB {
-
+public class ProdutoDB extends SQLiteOpenHelper {
+    protected static final String TAG = "sql";
+    //Nome do banco
+    public static final String NOME_BANCO = "controle_vendas";
+    public static final int VERSAO_BANCO = 28;
 
     public ProdutoDB(Context context) {
-        super(context);
+       // super(context);
         //context, nome do banco, factory, versão
-     //   super(context, NOME_BANCO, null, VERSAO_BANCO);
+        super(context, NOME_BANCO, null, VERSAO_BANCO);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        Log.d(TAG, "Criando a tabela produto...");
+        db.execSQL("create table if not exists produto (_id integer primary key autoincrement, nome text, codigo_barras text, estoque_atual Numeric(10,2), " +
+                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), categoria text, id_categoria integer, id_fornecedor integer, FOREIGN KEY (id_categoria) REFERENCES categoria(_id), FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
+        Log.d(TAG, "Tabela produto criada com sucesso.");
     }
 
 
@@ -33,9 +39,12 @@ public class ProdutoDB extends OperacoesDB {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
         Log.d(TAG, "Criando a tabela produto...");
+        db.execSQL("drop table produto ; ");
+
         db.execSQL("create table if not exists produto (_id integer primary key autoincrement, nome text, codigo_barras text, estoque_atual Numeric(10,2), " +
-                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), id_fornecedor int); ");
-        Log.d(TAG, "Tabela produto criada com sucesso.");
+                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), categoria text, id_categoria integer, id_fornecedor integer, FOREIGN KEY (id_categoria) REFERENCES categoria(_id), FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
+
+        Log.d(TAG, "Tabela produto alterada com sucesso.");
     }
 
     //insere um novo produto, ou atualiza se existe
@@ -50,6 +59,8 @@ public class ProdutoDB extends OperacoesDB {
             values.put("estoque_min", produto.estoqueMin);
             values.put("preco_custo", produto.precoCusto);
             values.put("preco_venda", produto.precoVenda);
+            values.put("categoria", produto.categoria);
+            values.put("id_categoria", produto.categ.id);
     //        values.put("id_fornecedor", produto.fornecedor);
             if(id != 0){
                 String _id = String.valueOf(produto.id);
@@ -134,6 +145,7 @@ public class ProdutoDB extends OperacoesDB {
                 produto.estoqueMin = Double.parseDouble(c.getString(c.getColumnIndex("estoque_min")));
                 produto.precoCusto = Double.parseDouble(c.getString(c.getColumnIndex("preco_custo")));
                 produto.precoVenda = Double.parseDouble(c.getString(c.getColumnIndex("preco_venda")));
+                produto.categoria = c.getString(c.getColumnIndex("categoria"));
             }while (c.moveToNext());
         }
         return produtos;

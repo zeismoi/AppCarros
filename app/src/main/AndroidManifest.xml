@@ -117,10 +117,10 @@
 
         <activity
             android:name=".activity.MapaFornecedorActivity"
-            android:parentActivityName=".activity.ClienteActivity">
+            android:parentActivityName=".activity.FornecedorActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.ClienteActivity" />
+                android:value=".activity.FornecedorActivity" />
         </activity>
 
 
@@ -135,6 +135,14 @@
 
         <activity
             android:name=".activity.ProdutosActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activity.CategoriasActivity"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

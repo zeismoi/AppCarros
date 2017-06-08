@@ -6,15 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
 
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.domain.Categoria;
-import br.com.legasist.controlevendas.domain.Cliente;
 
 /**
  * Created by ovs on 06/06/2017.

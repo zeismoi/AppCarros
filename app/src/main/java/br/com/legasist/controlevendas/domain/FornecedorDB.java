@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.FloatProperty;
 import android.util.Log;
 
@@ -14,18 +15,25 @@ import java.util.List;
  * Created by ovs on 05/06/2017.
  */
 
-public class FornecedorDB extends OperacoesDB {
+public class FornecedorDB extends SQLiteOpenHelper {
+    protected static final String TAG = "sql";
+    //Nome do banco
+    public static final String NOME_BANCO = "controle_vendas";
+    public static final int VERSAO_BANCO = 28;
 
 
     public FornecedorDB(Context context) {
-        super(context);
+        //super(context);
         //context, nome do banco, factory, versão
-     //   super(context, NOME_BANCO, null, VERSAO_BANCO);
+        super(context, NOME_BANCO, null, VERSAO_BANCO);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        Log.d(TAG, "Criando a tabela fornecedor...");
+        db.execSQL("create table if not exists fornecedor (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
+                "uf text, telefone text, email text, latitude text, longitude text); ");
+        Log.d(TAG, "Tabela fornecedor criada com sucesso.");
     }
 
 
@@ -33,7 +41,7 @@ public class FornecedorDB extends OperacoesDB {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
         Log.d(TAG, "Criando a tabela fornecedor...");
-        db.execSQL("create table if not exists fornecedor (_id integer primary key autoincrement, nome tex, endereco text, cidade text, " +
+        db.execSQL("create table if not exists fornecedor (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
                 "uf text, telefone text, email text, latitude text, longitude text); ");
         Log.d(TAG, "Tabela fornecedor criada com sucesso.");
     }

@@ -12,6 +12,8 @@ public class Produto {
     public double precoVenda;
     public String codigoBarras;
     public Fornecedor fornecedor;
+    public String categoria;
+    public Categoria categ;
     public boolean selected; //Flag para indicar que o produto está selecionado
 
     @Override

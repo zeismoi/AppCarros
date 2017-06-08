@@ -34,9 +34,11 @@ public class CategoriaService {
             //retorna as categorias encontrados do banco
             return categorias;
         }
+        //controlevendas
         //se não encontrar, busca no WebService
-        categorias = getCategoriasFromWebService(context, tipo);
-        return categorias;
+        //categorias = getCategoriasFromWebService(context, tipo);
+        //return categorias;
+        return null;
 
         /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);

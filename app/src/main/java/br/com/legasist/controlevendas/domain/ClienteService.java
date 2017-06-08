@@ -34,9 +34,11 @@ public class ClienteService {
             //retorna os clientes encontrados do banco
             return clientes;
         }
+        //controlelevendas
         //se não encontrar, busca no WebService
-        clientes = getClientesFromWebService(context, tipo);
-        return clientes;
+        //clientes = getClientesFromWebService(context, tipo);
+        //return clientes;
+        return null;
 
         /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);

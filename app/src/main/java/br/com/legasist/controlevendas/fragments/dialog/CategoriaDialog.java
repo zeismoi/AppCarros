@@ -63,11 +63,14 @@ public class CategoriaDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_editar_categoria, container, false);
-        view.findViewById(br.com.legasist.controlevendas.R.id.btAtualizar).setOnClickListener(onClickAtualizar());
-        tNome = (TextView) view.findViewById(br.com.legasist.controlevendas.R.id.tNome);
+        view.findViewById(R.id.btAtualizar).setOnClickListener(onClickAtualizar());
+        view.findViewById(R.id.btFechar).setOnClickListener(onClickFechar());
+        tNome = (TextView) view.findViewById(R.id.tNomeCateg);
         this.categoria = Parcels.unwrap(getArguments().getParcelable("categoria"));
         if (categoria != null){
             tNome.setText(categoria.categoria);
+        }else{
+            categoria = new Categoria();
         }
         return view;
     }
@@ -87,6 +90,16 @@ public class CategoriaDialog extends DialogFragment {
                 if(callback != null){
                     callback.onCategoriaUpdate(categoria);
                 }
+                //Fecha o DialogFragment
+                dismiss();
+            }
+        };
+    }
+
+    private View.OnClickListener onClickFechar() {
+        return new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
                 //Fecha o DialogFragment
                 dismiss();
             }

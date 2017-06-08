@@ -1,6 +1,7 @@
 package br.com.legasist.controlevendas.fragments;
 
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,13 +10,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
+import java.util.List;
+
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
+import br.com.legasist.controlevendas.domain.Categoria;
+import br.com.legasist.controlevendas.domain.CategoriaDB;
+import br.com.legasist.controlevendas.domain.CategoriaService;
 import br.com.legasist.controlevendas.domain.Produto;
 import br.com.legasist.controlevendas.domain.ProdutoDB;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarProdutoDialog;
@@ -43,6 +52,20 @@ public class ProdutoFragment extends BaseFragment {
         produto = Parcels.unwrap(getArguments().getParcelable("produto"));
         setHasOptionsMenu(true); // precisamos informar ao Android q este fragment tem menu
 
+        final Spinner combo = (Spinner) view.findViewById(R.id.comboCategorias);
+
+        final ArrayAdapter<String> adaptador;
+        adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
+        adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        combo.setAdapter(adaptador);
+
+        CategoriaDB db = new CategoriaDB(getContext());
+        List<Categoria> listaCateg = db.findAll();
+
+        for (Categoria cat:listaCateg) {
+            adaptador.add(cat.categoria);
+        }
+
         edtNome = (EditText) view.findViewById(R.id.textNomeProd);
         edtCodBarras = (EditText) view.findViewById(R.id.textCodBarras);
         edtEstAtual = (EditText) view.findViewById(R.id.textEstAtual);
@@ -57,6 +80,7 @@ public class ProdutoFragment extends BaseFragment {
             edtEstMinimo.setText(Double.toString(produto.estoqueMin));
             edtPrecoCusto.setText(Double.toString(produto.precoCusto));
             edtPrecoVenda.setText(Double.toString(produto.precoVenda));
+            combo.setSelection(adaptador.getPosition(produto.categoria));
         }
 
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarProd);
@@ -73,7 +97,7 @@ public class ProdutoFragment extends BaseFragment {
                         p.estoqueMin = Double.parseDouble(String.valueOf(edtEstMinimo.getText()));
                         p.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         p.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
-
+                        p.categoria = String.valueOf(combo.getSelectedItem());
                         db.save(p);
                     }finally {
                         db.close();
@@ -81,11 +105,12 @@ public class ProdutoFragment extends BaseFragment {
                 }else{
                     try{
                         produto.nome = String.valueOf(edtNome.getText());
-                        produto.codigoBarras = String.valueOf(edtCodBarras.getText());
+                        produto.codigoBarras = String.valueOf(combo.getSelectedItem()); //String.valueOf(edtCodBarras.getText());
                         produto.estoqueAtual = Double.parseDouble(String.valueOf(edtEstAtual.getText()));
                         produto.estoqueMin = Double.parseDouble(String.valueOf(edtEstMinimo.getText()));
                         produto.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         produto.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
+                        produto.categoria = String.valueOf(combo.getSelectedItem());
                         db.save(produto);
                     }finally {
                         db.close();

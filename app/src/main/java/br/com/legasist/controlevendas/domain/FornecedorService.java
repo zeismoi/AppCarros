@@ -34,9 +34,11 @@ public class FornecedorService {
             //retorna os fornecedores encontrados do banco
             return fornecedores;
         }
+        //controlevendas
         //se não encontrar, busca no WebService
-        fornecedores = getFornecedoresFromWebService(context, tipo);
-        return fornecedores;
+        //fornecedores = getFornecedoresFromWebService(context, tipo);
+        //return fornecedores;
+        return null;
 
         /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
@@ -49,7 +51,7 @@ public class FornecedorService {
     }
 
     private static List<Fornecedor> getFornecedoresFromWebService(Context context, int tipo) throws IOException {
-        String tipoString = getTipo(tipo);
+        /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
         Log.d(TAG, "URL: " + url);
         //Faz a requisição HTTP no servidor e retorna a String com o conteúdo
@@ -57,8 +59,8 @@ public class FornecedorService {
         String json = http.doGet(url);
         List<Fornecedor> fornecedores = parserJSON(context, json);
         //Depois de buscar, salva os clientes
-        salvarFornecedores(context, fornecedores);
-        return fornecedores;
+        //salvarFornecedores(context, fornecedores);*/
+        return null;
     }
 
     //salva os fornecedores no banco de dados

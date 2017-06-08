@@ -1,7 +1,5 @@
-package br.com.legasist.controlevendas.fragments.dialog;
+package br.com.legasist.controlevendas.fragments;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,14 +22,10 @@ import java.util.List;
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.adapter.CategoriaAdapter;
-import br.com.legasist.controlevendas.adapter.ClienteAdapter;
 import br.com.legasist.controlevendas.domain.Categoria;
 import br.com.legasist.controlevendas.domain.CategoriaDB;
 import br.com.legasist.controlevendas.domain.CategoriaService;
-import br.com.legasist.controlevendas.domain.Cliente;
-import br.com.legasist.controlevendas.domain.ClienteDB;
-import br.com.legasist.controlevendas.domain.ClienteService;
-import br.com.legasist.controlevendas.fragments.BaseFragment;
+import br.com.legasist.controlevendas.fragments.dialog.CategoriaDialog;
 import livroandroid.lib.utils.AndroidUtils;
 
 public class CategoriasFragment extends BaseFragment {
@@ -85,7 +79,7 @@ public class CategoriasFragment extends BaseFragment {
         });*/
 
         //FAB
-        view.findViewById(R.id.fabcli).setOnClickListener(new View.OnClickListener(){
+        view.findViewById(R.id.fabcateg).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //snack(v, "Exemplo de FAB button - Clientes");
@@ -325,7 +319,7 @@ public class CategoriasFragment extends BaseFragment {
         @Override
         public void onError(Exception exception) {
             //qualquer exceção lançada no método execute vai cair aqui
-            alert("Ocorreu algum erro ao buscar os dados de catgorias");
+            alert("Ocorreu algum erro ao buscar os dados de categorias");
         }
 
         @Override

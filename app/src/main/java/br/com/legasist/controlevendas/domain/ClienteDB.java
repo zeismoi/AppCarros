@@ -14,23 +14,34 @@ import java.util.List;
  * Created by ovs on 18/05/2017.
  */
 
-public class ClienteDB extends OperacoesDB {
+public class ClienteDB extends SQLiteOpenHelper{
+    protected static final String TAG = "sql";
+    //Nome do banco
+    public static final String NOME_BANCO = "controle_vendas";
+    public static final int VERSAO_BANCO = 28;
 
     public ClienteDB(Context context) {
         //context, nome do banco, factory, versão
-        //super(context, NOME_BANCO, null, VERSAO_BANCO);
-        super(context);
+        super(context, NOME_BANCO, null, VERSAO_BANCO);
+
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        Log.d(TAG, "Criando a tabela cliente...");
+        db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
+                "uf text, celular text, email text, latitude text, longitude text); ");
+        Log.d(TAG, "Tabela cliente criada com sucesso.");
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
+        Log.d(TAG, "Criando a tabela cliente...");
+        db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
+                "uf text, celular text, email text, latitude text, longitude text); ");
+        Log.d(TAG, "Tabela cliente criada com sucesso.");
     }
 
     //insere um novo cliente, ou atualiza se existe

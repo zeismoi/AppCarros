@@ -4,32 +4,45 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.legasist.controlevendas.R;
+
 /**
  * Created by ovs on 06/06/2017.
  */
 
-public class CategoriaDB extends OperacoesDB {
+public class CategoriaDB extends SQLiteOpenHelper {
+    protected static final String TAG = "sql";
+    //Nome do banco
+    public static final String NOME_BANCO = "controle_vendas";
+    public static final int VERSAO_BANCO = 28;
+
 
     public CategoriaDB(Context context) {
         //context, nome do banco, factory, versão
-        //super(context, NOME_BANCO, null, VERSAO_BANCO);
-        super(context);
+        super(context, NOME_BANCO, null, VERSAO_BANCO);
+        //super(context);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        Log.d(TAG, "Criando a tabela categoria...");
+        db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria text); ");
+        Log.d(TAG, "Tabela categoria criada com sucesso.");
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
+        Log.d(TAG, "Criando a tabela categoria...");
+        db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria text); ");
+        Log.d(TAG, "Tabela categoria criada com sucesso.");
     }
 
     //insere uma nova categoria, ou atualiza se existe
@@ -107,20 +120,20 @@ public class CategoriaDB extends OperacoesDB {
         }
     }
 
-    //Consulta o carro pelo tipo
-    //controlevendas
-    /*public List<Carro> findAllByTipo(String tipo){
+
+    //Consulta a categoria pelo id
+    public Categoria findById(Integer id){
         SQLiteDatabase db = getWritableDatabase();
         try{
-            //select * from carro where tipo = ?
-            Cursor c = db.query("carro", null, "tipo = '" + tipo + "'", null, null, null, null);
-            return toList(c);
+            //select * from categoria where id = ?
+            Cursor c = db.query("categoria", null, "_id = '" + id + "'", null, null, null, null);
+            return toList(c).get(0);
         }finally {
             db.close();
         }
 
     }
-*/
+
     //Lê o cursor e cria a lista de categorias
     private List<Categoria> toList(Cursor c) {
         List<Categoria> categorias = new ArrayList<Categoria>();
