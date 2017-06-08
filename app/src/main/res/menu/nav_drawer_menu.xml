@@ -16,12 +16,21 @@
             android:icon="@drawable/ic_drawer_carro"
             android:title="@string/categorias" />
 
-        <!-- Lista com os carros esportivos -->
+        <!-- Lista com todos os clientes -->
         <item
-            android:id="@+id/nav_item_carros_esportivos"
+            android:id="@+id/nav_item_clientes"
             android:checked="true"
             android:icon="@drawable/ic_drawer_carro"
-            android:title="@string/esportivos" />
+            android:title="@string/clientes" />
+
+        <!-- Lista com todos os fornecedores -->
+        <item
+            android:id="@+id/nav_item_fornecedores"
+            android:checked="true"
+            android:icon="@drawable/ic_drawer_carro"
+            android:title="@string/fornecedor" />
+
+
         <!-- Lista com os carros de luxo -->
         <item
             android:id="@+id/nav_item_carros_luxo"

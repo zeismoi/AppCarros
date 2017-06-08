@@ -88,26 +88,22 @@ public class BaseActivity extends livroandroid.lib.activity.BaseActivity {
                // intent.putExtra("tipo", br.com.legasist.controlevendas.R.string.classicos);
                 startActivity(intent_categorias);
                 break;
-            case br.com.legasist.controlevendas.R.id.nav_item_carros_esportivos:
+            case R.id.nav_item_clientes:
                 //replaceFragment(CarrosFragment.newInstance(R.string.esportivos));
-                Intent intent = new Intent(getContext(), CarrosActivity.class);
-                intent.putExtra("tipo", br.com.legasist.controlevendas.R.string.esportivos);
-                startActivity(intent);
-
+                Intent intent_clientes = new Intent(getContext(), ClientesActivity.class);
+                startActivity(intent_clientes);
                 break;
-            case br.com.legasist.controlevendas.R.id.nav_item_carros_luxo:
+            case R.id.nav_item_fornecedores:
                 //replaceFragment(CarrosFragment.newInstance(R.string.luxo));
-                intent = new Intent(getContext(), CarrosActivity.class);
-                intent.putExtra("tipo", br.com.legasist.controlevendas.R.string.luxo);
-                startActivity(intent);
-
+                Intent intent_fornec = new Intent(getContext(), FornecedoresActivity.class);
+                startActivity(intent_fornec);
                 break;
             case br.com.legasist.controlevendas.R.id.nav_item_site_livro:
                 replaceFragment(new SiteLivroFragment());
                 break;
             case br.com.legasist.controlevendas.R.id.nav_item_settings:
-                intent = new Intent(this, ConfiguracoesActivity.class);
-                startActivity(intent);
+                Intent intent_config = new Intent(this, ConfiguracoesActivity.class);
+                startActivity(intent_config);
                 break;
         }
     }

@@ -20,7 +20,7 @@ public class CategoriaDB extends SQLiteOpenHelper {
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    public static final int VERSAO_BANCO = 28;
+    public static final int VERSAO_BANCO = 31;
 
 
     public CategoriaDB(Context context) {
@@ -41,6 +41,7 @@ public class CategoriaDB extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
         Log.d(TAG, "Criando a tabela categoria...");
+        db.execSQL("drop table categoria ; ");
         db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria text); ");
         Log.d(TAG, "Tabela categoria criada com sucesso.");
     }

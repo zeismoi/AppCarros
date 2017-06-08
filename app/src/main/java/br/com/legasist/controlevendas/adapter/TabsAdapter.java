@@ -1,9 +1,13 @@
 package br.com.legasist.controlevendas.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ImageSpan;
 
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.fragments.CarrosFragment;
@@ -17,6 +21,7 @@ import br.com.legasist.controlevendas.fragments.ProdutosFragment;
 
 public class TabsAdapter extends FragmentPagerAdapter{
     private Context context;
+    Drawable myDrawable;
 
     public TabsAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -30,14 +35,40 @@ public class TabsAdapter extends FragmentPagerAdapter{
 
     @Override
     public CharSequence getPageTitle(int position) {
+        SpannableStringBuilder sb;
+        ImageSpan span;
         if(position == 0){
-            return context.getString(R.string.clientes);
+            myDrawable = context.getResources().getDrawable(R.drawable.ic_people_black_24dp);
+            sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
+            myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
+            sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
+           // return context.getString(R.string.clientes);
         }else if(position == 1){
-            return context.getString(R.string.produtos);
+            myDrawable = context.getResources().getDrawable(R.drawable.ic_content_paste_black_24dp);
+            sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
+            myDrawable.setBounds(0, 9, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
+            sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
+            //return context.getString(R.string.produtos);
         }else if(position == 2){
-            return context.getString(R.string.fornecedores);
+            myDrawable = context.getResources().getDrawable(R.drawable.ic_account_balance_black_24dp);
+            sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
+            myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
+            sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            return sb;
+            //return context.getString(R.string.fornecedores);
         }
-        return context.getString(R.string.areceber);
+        myDrawable = context.getResources().getDrawable(R.drawable.ic_monetization_on_black_24dp);
+        sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
+        myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+        span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
+        sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return sb;
+        //return context.getString(R.string.areceber);
     }
 
     @Override

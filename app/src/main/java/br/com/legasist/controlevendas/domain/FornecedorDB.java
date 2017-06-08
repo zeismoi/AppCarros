@@ -19,7 +19,7 @@ public class FornecedorDB extends SQLiteOpenHelper {
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    public static final int VERSAO_BANCO = 28;
+    public static final int VERSAO_BANCO = 31;
 
 
     public FornecedorDB(Context context) {
@@ -41,8 +41,9 @@ public class FornecedorDB extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
         Log.d(TAG, "Criando a tabela fornecedor...");
+        db.execSQL("drop table produto ; ");
         db.execSQL("create table if not exists fornecedor (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
-                "uf text, telefone text, email text, latitude text, longitude text); ");
+               "uf text, telefone text, email text, latitude text, longitude text); ");
         Log.d(TAG, "Tabela fornecedor criada com sucesso.");
     }
 

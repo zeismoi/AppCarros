@@ -27,9 +27,9 @@
         android:id="@+id/fabcli"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_gravity="top|right"
         android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
         android:src="@android:drawable/ic_input_add"
         android:tint="#fff000"/>
 

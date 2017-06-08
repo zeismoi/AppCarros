@@ -18,7 +18,7 @@ public class ProdutoDB extends SQLiteOpenHelper {
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    public static final int VERSAO_BANCO = 28;
+    public static final int VERSAO_BANCO = 31;
 
     public ProdutoDB(Context context) {
        // super(context);
