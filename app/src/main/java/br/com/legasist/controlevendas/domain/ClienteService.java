@@ -65,16 +65,16 @@ public class ClienteService {
 
     //salva os clientes no banco de dados
     private static void salvarClientes(Context context, List<Cliente> clientes) {
-        ClienteDB db = new ClienteDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try{
             //Deleta os clientes pelo tipo para limpar o banco
            // String tipoString = getTipo(tipo);
-            db.deleteTodosClientes();
+            db.deleteTodos("cliente");
             //salva todos os clientes
             for (Cliente c : clientes){
                 //c.tipo = tipoString;
                 Log.d(TAG, "Salvando o cliente: " + c.nome);
-                db.save(c);
+                db.saveCliente(c);
             }
         }finally {
             db.close();
@@ -83,10 +83,10 @@ public class ClienteService {
     }
 
     private static List<Cliente> getClientesFromBanco(Context context) throws IOException {
-        ClienteDB db = new ClienteDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try {
             //String tipoString = getTipo(tipo);
-            List<Cliente> clientes = db.findAll();
+            List<Cliente> clientes = db.findAllClientes();
             Log.d(TAG, "Retornando " + clientes.size() + " clientes do banco");
             return clientes;
         }finally {

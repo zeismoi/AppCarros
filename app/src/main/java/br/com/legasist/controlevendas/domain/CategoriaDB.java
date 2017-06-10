@@ -1,3 +1,4 @@
+/*
 package br.com.legasist.controlevendas.domain;
 
 import android.content.ContentValues;
@@ -12,18 +13,20 @@ import java.util.List;
 
 import br.com.legasist.controlevendas.R;
 
+*/
 /**
  * Created by ovs on 06/06/2017.
- */
+ *//*
 
-public class CategoriaDB extends SQLiteOpenHelper {
+
+public class OperacoesDB extends SQLiteOpenHelper {
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
     public static final int VERSAO_BANCO = 31;
 
 
-    public CategoriaDB(Context context) {
+    public OperacoesDB(Context context) {
         //context, nome do banco, factory, versão
         super(context, NOME_BANCO, null, VERSAO_BANCO);
         //super(context);
@@ -84,7 +87,9 @@ public class CategoriaDB extends SQLiteOpenHelper {
 
     //Deleta os clientes do tipo fornecido
     //controlevendas
-    /*public int deleteCarrosByTipo(String tipo){
+    *//*
+*/
+/*public int deleteCarrosByTipo(String tipo){
         SQLiteDatabase db = getWritableDatabase();
         try{
             //delete from carro where tipo=?
@@ -94,7 +99,9 @@ public class CategoriaDB extends SQLiteOpenHelper {
         }finally {
             db.close();
         }
-    }*/
+    }*//*
+*/
+/*
 
     //Deleta as categorias
     public int deleteTodasCategorias(){
@@ -149,6 +156,8 @@ public class CategoriaDB extends SQLiteOpenHelper {
         }
         return categorias;
     }
+*//*
 
 
 }
+*/

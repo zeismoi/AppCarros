@@ -65,16 +65,16 @@ public class FornecedorService {
 
     //salva os fornecedores no banco de dados
     private static void salvarFornecedores(Context context, List<Fornecedor> fornecedores) {
-        FornecedorDB db = new FornecedorDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try{
             //Deleta os fornecedores pelo tipo para limpar o banco
            // String tipoString = getTipo(tipo);
-            db.deleteTodosFornecedores();
+            db.deleteTodos("fornecedor");
             //salva todos os clientes
             for (Fornecedor f : fornecedores){
                 //c.tipo = tipoString;
                 Log.d(TAG, "Salvando o fornecedor: " + f.nome);
-                db.save(f);
+                db.saveFornecedor(f);
             }
         }finally {
             db.close();
@@ -83,10 +83,10 @@ public class FornecedorService {
     }
 
     private static List<Fornecedor> getFornecedoresFromBanco(Context context) throws IOException {
-        FornecedorDB db = new FornecedorDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try {
             //String tipoString = getTipo(tipo);
-            List<Fornecedor> fornecedores = db.findAll();
+            List<Fornecedor> fornecedores = db.findAllFornecedores();
             Log.d(TAG, "Retornando " + fornecedores.size() + " fornecedores do banco");
             return fornecedores;
         }finally {

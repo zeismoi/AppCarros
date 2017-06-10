@@ -1,3 +1,4 @@
+/*
 package br.com.legasist.controlevendas.domain;
 
 import android.content.ContentValues;
@@ -10,9 +11,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by ovs on 01/06/2017.
- */
+ *//*
+
 
 public class ProdutoDB extends SQLiteOpenHelper {
     protected static final String TAG = "sql";
@@ -118,7 +121,8 @@ public class ProdutoDB extends SQLiteOpenHelper {
 
     //Consulta o carro pelo tipo
     //controlevendas
-    /*public List<Carro> findAllByTipo(String tipo){
+    */
+/*public List<Carro> findAllByTipo(String tipo){
         SQLiteDatabase db = getWritableDatabase();
         try{
             //select * from carro where tipo = ?
@@ -129,7 +133,8 @@ public class ProdutoDB extends SQLiteOpenHelper {
         }
 
     }
-*/
+*//*
+
     //Lê o cursor e cria a lista de produtos
     private List<Produto> toList(Cursor c) {
         List<Produto> produtos = new ArrayList<Produto>();
@@ -153,3 +158,4 @@ public class ProdutoDB extends SQLiteOpenHelper {
 
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package br.com.legasist.controlevendas.domain;
 
 import android.content.ContentValues;
@@ -10,9 +11,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by ovs on 18/05/2017.
- */
+ *//*
+
 
 public class ClienteDB extends SQLiteOpenHelper{
     protected static final String TAG = "sql";
@@ -90,7 +93,8 @@ public class ClienteDB extends SQLiteOpenHelper{
 
     //Deleta os clientes do tipo fornecido
     //controlevendas
-    /*public int deleteCarrosByTipo(String tipo){
+    */
+/*public int deleteCarrosByTipo(String tipo){
         SQLiteDatabase db = getWritableDatabase();
         try{
             //delete from carro where tipo=?
@@ -100,7 +104,8 @@ public class ClienteDB extends SQLiteOpenHelper{
         }finally {
             db.close();
         }
-    }*/
+    }*//*
+
 
     //Deleta os clientes
     public int deleteTodosClientes(){
@@ -129,7 +134,8 @@ public class ClienteDB extends SQLiteOpenHelper{
 
     //Consulta o carro pelo tipo
     //controlevendas
-    /*public List<Carro> findAllByTipo(String tipo){
+    */
+/*public List<Carro> findAllByTipo(String tipo){
         SQLiteDatabase db = getWritableDatabase();
         try{
             //select * from carro where tipo = ?
@@ -140,7 +146,8 @@ public class ClienteDB extends SQLiteOpenHelper{
         }
 
     }
-*/
+*//*
+
     //Lê o cursor e cria a lista de clientes
     private List<Cliente> toList(Cursor c) {
         List<Cliente> clientes = new ArrayList<Cliente>();
@@ -165,3 +172,4 @@ public class ClienteDB extends SQLiteOpenHelper{
 
 
 }
+*/

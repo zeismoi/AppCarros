@@ -65,16 +65,16 @@ public class ProdutoService {
 
     //salva os produtos no banco de dados
     private static void salvarProdutos(Context context, List<Produto> produtos) {
-        ProdutoDB db = new ProdutoDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try{
             //Deleta os produtos pelo tipo para limpar o banco
            // String tipoString = getTipo(tipo);
-            db.deleteTodosProdutos();
+            db.deleteTodos("produto");
             //salva todos os produtos
             for (Produto p : produtos){
                 //c.tipo = tipoString;
                 Log.d(TAG, "Salvando o produto: " + p.nome);
-                db.save(p);
+                db.saveProduto(p);
             }
         }finally {
             db.close();
@@ -83,10 +83,10 @@ public class ProdutoService {
     }
 
     private static List<Produto> getProdutosFromBanco(Context context) throws IOException {
-        ProdutoDB db = new ProdutoDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try {
             //String tipoString = getTipo(tipo);
-            List<Produto> produtos = db.findAll();
+            List<Produto> produtos = db.findAllProdutos();
             Log.d(TAG, "Retornando " + produtos.size() + " produtos do banco");
             return produtos;
         }finally {

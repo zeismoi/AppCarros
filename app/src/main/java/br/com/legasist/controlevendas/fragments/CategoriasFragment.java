@@ -23,7 +23,7 @@ import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.adapter.CategoriaAdapter;
 import br.com.legasist.controlevendas.domain.Categoria;
-import br.com.legasist.controlevendas.domain.CategoriaDB;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.CategoriaService;
 import br.com.legasist.controlevendas.fragments.dialog.CategoriaDialog;
 import livroandroid.lib.utils.AndroidUtils;
@@ -90,8 +90,8 @@ public class CategoriasFragment extends BaseFragment {
                     public void onCategoriaUpdate(Categoria categoria) {
                         toast("Categoria [" + categoria.categoria + "] atualizada");
                         //Salva a catgoria depois de fechar o Dialog
-                        CategoriaDB db = new CategoriaDB(getContext());
-                        db.save(categoria);
+                        OperacoesDB db = new OperacoesDB(getContext());
+                        db.saveCategoria(categoria);
                         //controlevendas
                         //Atualiza o título com o novo nome
                         //CategoriaActivity a = (CarroActivity) getActivity();
@@ -168,8 +168,8 @@ public class CategoriasFragment extends BaseFragment {
                         public void onCategoriaUpdate(Categoria categoria) {
                             toast("Categoria [" + categoria.categoria + "] atualizada");
                             //Salva a catgoria depois de fechar o Dialog
-                            CategoriaDB db = new CategoriaDB(getContext());
-                            db.save(categoria);
+                            OperacoesDB db = new OperacoesDB(getContext());
+                            db.saveCategoria(categoria);
                             //controlevendas
                             //Atualiza o título com o novo nome
                             //CategoriaActivity a = (CarroActivity) getActivity();
@@ -229,10 +229,10 @@ public class CategoriasFragment extends BaseFragment {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 List<Categoria> selectedCategorias = getSelectedCategorias();
                 if (item.getItemId() == R.id.action_remove){
-                    CategoriaDB db = new CategoriaDB(getContext());
+                    OperacoesDB db = new OperacoesDB(getContext());
                     try{
                         for (Categoria c : selectedCategorias){
-                            db.delete(c);//Deleta a categoria do banco
+                            db.delete("categoria", c.id);//Deleta a categoria do banco
                             categorias.remove(c);//Remove da lista
                         }
                     }finally {

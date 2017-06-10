@@ -1,7 +1,6 @@
 package br.com.legasist.controlevendas.fragments;
 
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,16 +16,13 @@ import android.widget.Spinner;
 
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.domain.Categoria;
-import br.com.legasist.controlevendas.domain.CategoriaDB;
-import br.com.legasist.controlevendas.domain.CategoriaService;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Produto;
-import br.com.legasist.controlevendas.domain.ProdutoDB;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarProdutoDialog;
 
 /**
@@ -59,8 +55,8 @@ public class ProdutoFragment extends BaseFragment {
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         combo.setAdapter(adaptador);
 
-        CategoriaDB db = new CategoriaDB(getContext());
-        List<Categoria> listaCateg = db.findAll();
+        OperacoesDB db = new OperacoesDB(getContext());
+        List<Categoria> listaCateg = db.findAllCategorias();
 
         for (Categoria cat:listaCateg) {
             adaptador.add(cat.categoria);
@@ -87,7 +83,7 @@ public class ProdutoFragment extends BaseFragment {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ProdutoDB db = new ProdutoDB(getContext());
+                OperacoesDB db = new OperacoesDB(getContext());
                 if(produto == null || produto.id == 0){
                     Produto p = new Produto();
                     try{
@@ -98,7 +94,7 @@ public class ProdutoFragment extends BaseFragment {
                         p.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         p.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
                         p.categoria = String.valueOf(combo.getSelectedItem());
-                        db.save(p);
+                        db.saveProduto(p);
                     }finally {
                         db.close();
                     }
@@ -111,7 +107,7 @@ public class ProdutoFragment extends BaseFragment {
                         produto.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         produto.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
                         produto.categoria = String.valueOf(combo.getSelectedItem());
-                        db.save(produto);
+                        db.saveProduto(produto);
                     }finally {
                         db.close();
                     }
@@ -156,8 +152,8 @@ public class ProdutoFragment extends BaseFragment {
                 public void onClickYes() {
                     toast("Produto [" + produto.nome + "] deletado");
                     //Deleta o produto
-                    ProdutoDB db = new ProdutoDB(getActivity());
-                    db.delete(produto);
+                    OperacoesDB db = new OperacoesDB(getActivity());
+                    db.delete("produto", produto.id);
                     //fecha a Activity
                     getActivity().finish();
                     //Envia o evento para o Bus

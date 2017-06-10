@@ -65,16 +65,16 @@ public class CategoriaService {
 
     //salva as categorias no banco de dados
     private static void salvarCategorias(Context context, List<Categoria> categorias) {
-        CategoriaDB db = new CategoriaDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try{
             //Deleta as categorias pelo tipo para limpar o banco
            // String tipoString = getTipo(tipo);
-            db.deleteTodasCategorias();
+            db.deleteTodos("categoria");
             //salva todos as categorias
             for (Categoria c : categorias){
                 //c.tipo = tipoString;
                 Log.d(TAG, "Salvando a categoria: " + c.categoria);
-                db.save(c);
+                db.saveCategoria(c);
             }
         }finally {
             db.close();
@@ -83,10 +83,10 @@ public class CategoriaService {
     }
 
     private static List<Categoria> getCategoriasFromBanco(Context context) throws IOException {
-        CategoriaDB db = new CategoriaDB(context);
+        OperacoesDB db = new OperacoesDB(context);
         try {
             //String tipoString = getTipo(tipo);
-            List<Categoria> categorias = db.findAll();
+            List<Categoria> categorias = db.findAllCategorias();
             Log.d(TAG, "Retornando " + categorias.size() + " categorias do banco");
             return categorias;
         }finally {

@@ -36,7 +36,7 @@ import br.com.legasist.controlevendas.activity.MapaClienteActivity;
 import br.com.legasist.controlevendas.domain.Carro;
 import br.com.legasist.controlevendas.domain.CarroDB;
 import br.com.legasist.controlevendas.domain.Cliente;
-import br.com.legasist.controlevendas.domain.ClienteDB;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarCarroDialog;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarClienteDialog;
 import br.com.legasist.controlevendas.fragments.dialog.EditarCarroDialog;
@@ -91,7 +91,7 @@ public class ClienteFragment extends BaseFragment {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClienteDB db = new ClienteDB(getContext());
+                OperacoesDB db = new OperacoesDB(getContext());
                 if(cliente == null || cliente.id == 0){
                     Cliente c = new Cliente();
                     try{
@@ -101,7 +101,7 @@ public class ClienteFragment extends BaseFragment {
                         c.uf = combo.getSelectedItem().toString(); //String.valueOf(edtUf.getText());
                         c.celular = String.valueOf(edtCelular.getText());
                         c.email = String.valueOf(edtEmail.getText());
-                        db.save(c);
+                        db.saveCliente(c);
                     }finally {
                         db.close();
                     }
@@ -113,7 +113,7 @@ public class ClienteFragment extends BaseFragment {
                         cliente.uf = combo.getSelectedItem().toString(); //String.valueOf(edtUf.getText());
                         cliente.celular = String.valueOf(edtCelular.getText());
                         cliente.email = String.valueOf(edtEmail.getText());
-                        db.save(cliente);
+                        db.saveCliente(cliente);
                     }finally {
                         db.close();
                     }
@@ -215,7 +215,7 @@ public class ClienteFragment extends BaseFragment {
                 public void onClickYes() {
                     toast("Cliente [" + cliente.nome + "] deletado");
                     //Deleta o cliente
-                    ClienteDB db = new ClienteDB(getActivity());
+                    OperacoesDB db = new OperacoesDB(getActivity());
                     db.delete(cliente);
                     //fecha a Activity
                     getActivity().finish();
