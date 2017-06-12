@@ -28,7 +28,7 @@ import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.activity.ProdutoActivity;
 import br.com.legasist.controlevendas.adapter.ProdutoAdapter;
 import br.com.legasist.controlevendas.domain.Produto;
-import br.com.legasist.controlevendas.domain.ProdutoDB;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.ProdutoService;
 import livroandroid.lib.utils.AndroidUtils;
 
@@ -209,10 +209,10 @@ public class ProdutosFragment extends BaseFragment {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 List<Produto> selectedProdutos = getSelectedProdutos();
                 if (item.getItemId() == R.id.action_remove){
-                    ProdutoDB db = new ProdutoDB(getContext());
+                    OperacoesDB db = new OperacoesDB(getContext());
                     try{
                         for (Produto p : selectedProdutos){
-                            db.delete(p);//Deleta o produto do banco
+                            db.delete("produto", p.id);//Deleta o produto do banco
                             produtos.remove(p);//Remove da lista
                         }
                     }finally {

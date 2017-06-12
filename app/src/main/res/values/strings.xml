@@ -75,6 +75,7 @@ Versao %s<br><br>
 
     <string name="selecione_o_estado">Selecione o estado</string>
     <string name="selecione_a_categoria">Selecione a categoria</string>
+    <string name="selecione_o_fornecedor">Selecione o fornecedor</string>
     <string name="fechar_janela">Fechar</string>
     <string name="categorias">Categorias</string>
     <string name="categoria">Categoria</string>

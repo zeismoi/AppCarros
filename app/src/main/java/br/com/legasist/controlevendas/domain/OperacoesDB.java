@@ -18,7 +18,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    public static final int VERSAO_BANCO = 31;
+    public static final int VERSAO_BANCO = 33;
 
     public OperacoesDB(Context context) {
         //context, nome do banco, factory, versão
@@ -54,8 +54,12 @@ public class OperacoesDB extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
+        db.execSQL("drop table if exists cliente ; ");
+        db.execSQL("drop table if exists fornecedor ; ");
+        db.execSQL("drop table  if exists produto ; ");
+        db.execSQL("drop table  if exists categoria ; ");
+
         Log.d(TAG, "Criando a tabela cliente...");
-        db.execSQL("drop table cliente ; ");
         db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
                 "uf text, celular text, email text, latitude text, longitude text); ");
         Log.d(TAG, "Tabela cliente criada com sucesso.");
@@ -251,6 +255,19 @@ public class OperacoesDB extends SQLiteOpenHelper{
         }
     }
 
+    //Consulta o fornecedor pelo id
+    public Fornecedor findFornecedorById(long id){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            //select * from fornecedor where id = ?
+            Cursor c = db.query("fornecedor", null, "_id = '" + id + "'", null, null, null, null);
+            return toListFornecedores(c).get(0);
+        }finally {
+            db.close();
+        }
+
+    }
+
 
     //Lê o cursor e cria a lista de fornecedores
     private List<Fornecedor> toListFornecedores(Cursor c) {
@@ -291,9 +308,9 @@ public class OperacoesDB extends SQLiteOpenHelper{
             values.put("estoque_min", produto.estoqueMin);
             values.put("preco_custo", produto.precoCusto);
             values.put("preco_venda", produto.precoVenda);
-            values.put("categoria", produto.categoria);
-            values.put("id_categoria", produto.categ.id);
-            //        values.put("id_fornecedor", produto.fornecedor);
+  //          values.put("categoria", produto.categoria);
+            values.put("id_categoria", produto.categ);
+            values.put("id_fornecedor", produto.fornecedor);
             if(id != 0){
                 String _id = String.valueOf(produto.id);
                 String[] whereArgs = new String[]{_id};
@@ -338,6 +355,12 @@ public class OperacoesDB extends SQLiteOpenHelper{
                 produto.precoCusto = Double.parseDouble(c.getString(c.getColumnIndex("preco_custo")));
                 produto.precoVenda = Double.parseDouble(c.getString(c.getColumnIndex("preco_venda")));
                 produto.categoria = c.getString(c.getColumnIndex("categoria"));
+                if(c.getString(c.getColumnIndex("id_categoria")) != null) {
+                    produto.categ = Long.parseLong(c.getString(c.getColumnIndex("id_categoria")));
+                }
+                if (c.getString(c.getColumnIndex("id_fornecedor")) != null) {
+                    produto.fornecedor = Long.parseLong(c.getString(c.getColumnIndex("id_fornecedor")));
+                }
             }while (c.moveToNext());
         }
         return produtos;
@@ -385,7 +408,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
 
 
     //Consulta a categoria pelo id
-    public Categoria findCategoriaById(Integer id){
+    public Categoria findCategoriaById(long id){
         SQLiteDatabase db = getWritableDatabase();
         try{
             //select * from categoria where id = ?

@@ -1,7 +1,6 @@
 package br.com.legasist.controlevendas.fragments;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,16 +24,11 @@ import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.ClienteActivity;
 import br.com.legasist.controlevendas.activity.FornecedorActivity;
-import br.com.legasist.controlevendas.adapter.ClienteAdapter;
 import br.com.legasist.controlevendas.adapter.FornecedorAdapter;
-import br.com.legasist.controlevendas.domain.Cliente;
-import br.com.legasist.controlevendas.domain.ClienteDB;
-import br.com.legasist.controlevendas.domain.ClienteService;
 import br.com.legasist.controlevendas.domain.Fornecedor;
-import br.com.legasist.controlevendas.domain.FornecedorDB;
 import br.com.legasist.controlevendas.domain.FornecedorService;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import livroandroid.lib.utils.AndroidUtils;
 
 public class FornecedoresFragment extends BaseFragment {
@@ -214,10 +208,10 @@ public class FornecedoresFragment extends BaseFragment {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 List<Fornecedor> selectedFornecedores = getSelectedFornecedores();
                 if (item.getItemId() == R.id.action_remove){
-                    FornecedorDB db = new FornecedorDB(getContext());
+                    OperacoesDB db = new OperacoesDB(getContext());
                     try{
                         for (Fornecedor f : selectedFornecedores){
-                            db.delete(f);//Deleta o fornecedor do banco
+                            db.delete("fornecedor", f.id_fornecedor);//Deleta o fornecedor do banco
                             fornecedores.remove(f);//Remove da lista
                         }
                     }finally {

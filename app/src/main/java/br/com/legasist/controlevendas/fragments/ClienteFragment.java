@@ -216,7 +216,7 @@ public class ClienteFragment extends BaseFragment {
                     toast("Cliente [" + cliente.nome + "] deletado");
                     //Deleta o cliente
                     OperacoesDB db = new OperacoesDB(getActivity());
-                    db.delete(cliente);
+                    db.delete("cliente", cliente.id);
                     //fecha a Activity
                     getActivity().finish();
                     //Envia o evento para o Bus

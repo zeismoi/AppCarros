@@ -28,7 +28,7 @@ import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.activity.ClienteActivity;
 import br.com.legasist.controlevendas.adapter.ClienteAdapter;
 import br.com.legasist.controlevendas.domain.Cliente;
-import br.com.legasist.controlevendas.domain.ClienteDB;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.ClienteService;
 import livroandroid.lib.utils.AndroidUtils;
 
@@ -209,10 +209,10 @@ public class ClientesFragment extends BaseFragment {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 List<Cliente> selectedClientes = getSelectedClientes();
                 if (item.getItemId() == br.com.legasist.controlevendas.R.id.action_remove){
-                    ClienteDB db = new ClienteDB(getContext());
+                    OperacoesDB db = new OperacoesDB(getContext());
                     try{
                         for (Cliente c : selectedClientes){
-                            db.delete(c);//Deleta o cliente do banco
+                            db.delete("cliente", c.id);//Deleta o cliente do banco
                             clientes.remove(c);//Remove da lista
                         }
                     }finally {

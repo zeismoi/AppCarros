@@ -16,11 +16,13 @@ import android.widget.Spinner;
 
 import org.parceler.Parcels;
 
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.domain.Categoria;
+import br.com.legasist.controlevendas.domain.Fornecedor;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Produto;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarProdutoDialog;
@@ -49,17 +51,31 @@ public class ProdutoFragment extends BaseFragment {
         setHasOptionsMenu(true); // precisamos informar ao Android q este fragment tem menu
 
         final Spinner combo = (Spinner) view.findViewById(R.id.comboCategorias);
+        final Spinner comboFornec = (Spinner) view.findViewById(R.id.comboFornecedores);
 
         final ArrayAdapter<String> adaptador;
         adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         combo.setAdapter(adaptador);
-
         OperacoesDB db = new OperacoesDB(getContext());
         List<Categoria> listaCateg = db.findAllCategorias();
-
+        String[] spinnerArray = new String[listaCateg.size()];
+        final HashMap<String,String> spinnerMap = new HashMap<String, String>();
         for (Categoria cat:listaCateg) {
             adaptador.add(cat.categoria);
+            spinnerMap.put(cat.categoria, String.valueOf(cat.id));
+        }
+
+        final ArrayAdapter<String> adaptadorFornec;
+        adaptadorFornec = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item);
+        adaptadorFornec.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        comboFornec.setAdapter(adaptadorFornec);
+        List<Fornecedor> listaFornec = db.findAllFornecedores();
+        String[] spinnerArrayFornec = new String[listaFornec.size()];
+        final HashMap<String,String> spinnerMapFornec = new HashMap<String, String>();
+        for (Fornecedor f:listaFornec) {
+            adaptadorFornec.add(f.nome);
+            spinnerMapFornec.put(f.nome, String.valueOf(f.id_fornecedor));
         }
 
         edtNome = (EditText) view.findViewById(R.id.textNomeProd);
@@ -76,7 +92,16 @@ public class ProdutoFragment extends BaseFragment {
             edtEstMinimo.setText(Double.toString(produto.estoqueMin));
             edtPrecoCusto.setText(Double.toString(produto.precoCusto));
             edtPrecoVenda.setText(Double.toString(produto.precoVenda));
-            combo.setSelection(adaptador.getPosition(produto.categoria));
+
+            if(produto.categ != 0) {
+                Categoria cat = db.findCategoriaById((produto.categ));
+                combo.setSelection(adaptador.getPosition(cat.categoria));
+            }
+
+            if(produto.fornecedor != 0) {
+                Fornecedor f = db.findFornecedorById((produto.fornecedor));
+                comboFornec.setSelection(adaptadorFornec.getPosition(f.nome));
+            }
         }
 
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarProd);
@@ -93,7 +118,15 @@ public class ProdutoFragment extends BaseFragment {
                         p.estoqueMin = Double.parseDouble(String.valueOf(edtEstMinimo.getText()));
                         p.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         p.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
-                        p.categoria = String.valueOf(combo.getSelectedItem());
+                        //p.categoria = String.valueOf(combo.getSelectedItem());
+                        long id = Long.parseLong(spinnerMap.get(String.valueOf(combo.getSelectedItem())));
+                        //p.categ = new Categoria();
+                        p.categ = id;
+
+                        long idFornec = Long.parseLong(spinnerMapFornec.get(String.valueOf(comboFornec.getSelectedItem())));
+                        p.fornecedor = idFornec;
+
+                        //p.categ.id = id;
                         db.saveProduto(p);
                     }finally {
                         db.close();
@@ -106,7 +139,13 @@ public class ProdutoFragment extends BaseFragment {
                         produto.estoqueMin = Double.parseDouble(String.valueOf(edtEstMinimo.getText()));
                         produto.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         produto.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
-                        produto.categoria = String.valueOf(combo.getSelectedItem());
+                        //produto.categoria = String.valueOf(combo.getSelectedItem());
+                        long id = Long.parseLong(spinnerMap.get(String.valueOf(combo.getSelectedItem())));
+                        produto.categ = id;
+
+                        long idFornec = Long.parseLong(spinnerMapFornec.get(String.valueOf(comboFornec.getSelectedItem())));
+                        produto.fornecedor = idFornec;
+
                         db.saveProduto(produto);
                     }finally {
                         db.close();

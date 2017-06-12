@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -28,7 +27,7 @@ import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.activity.MapaFornecedorActivity;
 import br.com.legasist.controlevendas.domain.Fornecedor;
-import br.com.legasist.controlevendas.domain.FornecedorDB;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarFornecedorDialog;
 
 /**
@@ -80,7 +79,7 @@ public class FornecedorFragment extends BaseFragment {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FornecedorDB db = new FornecedorDB(getContext());
+                OperacoesDB db = new OperacoesDB(getContext());
                 if(fornecedor == null || fornecedor.id_fornecedor == 0){
                     Fornecedor f = new Fornecedor();
                     try{
@@ -90,7 +89,7 @@ public class FornecedorFragment extends BaseFragment {
                         f.uf = combo.getSelectedItem().toString();//String.valueOf(edtUf.getText());
                         f.telefone = String.valueOf(edtTelefone.getText());
                         f.email = String.valueOf(edtEmail.getText());
-                        db.save(f);
+                        db.saveFornecedor(f);
                     }finally {
                         db.close();
                     }
@@ -102,7 +101,7 @@ public class FornecedorFragment extends BaseFragment {
                         fornecedor.uf = combo.getSelectedItem().toString();  //String.valueOf(edtUf.getText());
                         fornecedor.telefone = String.valueOf(edtTelefone.getText());
                         fornecedor.email = String.valueOf(edtEmail.getText());
-                        db.save(fornecedor);
+                        db.saveFornecedor(fornecedor);
                     }finally {
                         db.close();
                     }
@@ -204,8 +203,8 @@ public class FornecedorFragment extends BaseFragment {
                 public void onClickYes() {
                     toast("Fornecedor [" + fornecedor.nome + "] deletado");
                     //Deleta o fornecedor
-                    FornecedorDB db = new FornecedorDB(getActivity());
-                    db.delete(fornecedor);
+                    OperacoesDB db = new OperacoesDB(getActivity());
+                    db.delete("fornecedor", fornecedor.id_fornecedor);
                     //fecha a Activity
                     getActivity().finish();
                     //Envia o evento para o Bus

@@ -129,6 +129,23 @@
                     android:prompt="@string/selecione_a_categoria"
                     android:layout_margin="16dp" />
 
+                <!-- Fornecedor -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/fornecedor"
+                    android:textSize="@dimen/size_texo_formulario"
+                    android:textStyle="bold" />
+                <Spinner
+                    android:id="@+id/comboFornecedores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawSelectorOnTop="true"
+                    android:prompt="@string/selecione_o_fornecedor"
+                    android:layout_margin="16dp" />
+
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnSalvarProd"
