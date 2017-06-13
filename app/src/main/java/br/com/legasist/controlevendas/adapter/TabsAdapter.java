@@ -38,33 +38,37 @@ public class TabsAdapter extends FragmentPagerAdapter{
         SpannableStringBuilder sb;
         ImageSpan span;
         if(position == 0){
-            myDrawable = context.getResources().getDrawable(R.drawable.ic_people_black_24dp);
+            myDrawable = context.getResources().getDrawable(R.drawable.icone_branco_cliente);
             sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
-            myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            //myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            myDrawable.setBounds(0, 0, 78, 78);
             span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
             sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return sb;
            // return context.getString(R.string.clientes);
         }else if(position == 1){
-            myDrawable = context.getResources().getDrawable(R.drawable.ic_content_paste_black_24dp);
+            myDrawable = context.getResources().getDrawable(R.drawable.icone_branco_produto);
             sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
-            myDrawable.setBounds(0, 9, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            //myDrawable.setBounds(0, 9, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            myDrawable.setBounds(0, 0, 78, 78);
             span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
             sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return sb;
             //return context.getString(R.string.produtos);
         }else if(position == 2){
-            myDrawable = context.getResources().getDrawable(R.drawable.ic_account_balance_black_24dp);
+            myDrawable = context.getResources().getDrawable(R.drawable.icone_branco_fornecedor);
             sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
-            myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            //myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+            myDrawable.setBounds(0, 0, 78, 78);
             span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
             sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             return sb;
             //return context.getString(R.string.fornecedores);
         }
-        myDrawable = context.getResources().getDrawable(R.drawable.ic_monetization_on_black_24dp);
+        myDrawable = context.getResources().getDrawable(R.drawable.icone_dinheiro);
         sb = new SpannableStringBuilder("[icon]"); // space added before text for convenience
-        myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+        //myDrawable.setBounds(0, 0, myDrawable.getIntrinsicWidth(), myDrawable.getIntrinsicHeight());
+        myDrawable.setBounds(0, 0, 78, 78);
         span = new ImageSpan(myDrawable, ImageSpan.ALIGN_BASELINE);
         sb.setSpan(span, 0, 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return sb;

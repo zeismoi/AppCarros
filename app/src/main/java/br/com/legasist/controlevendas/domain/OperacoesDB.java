@@ -42,12 +42,26 @@ public class OperacoesDB extends SQLiteOpenHelper{
 
         Log.d(TAG, "Criando a tabela produto...");
         db.execSQL("create table if not exists produto (_id integer primary key autoincrement, nome text, codigo_barras text, estoque_atual Numeric(10,2), " +
-                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), categoria text, id_categoria integer, id_fornecedor integer, FOREIGN KEY (id_categoria) REFERENCES categoria(_id), FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
+                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), categoria text, foto BLOB, id_categoria integer, id_fornecedor integer, " +
+                "FOREIGN KEY (id_categoria) REFERENCES categoria(_id), " +
+                "FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
         Log.d(TAG, "Tabela produto criada com sucesso.");
 
         Log.d(TAG, "Criando a tabela categoria...");
         db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria text); ");
         Log.d(TAG, "Tabela categoria criada com sucesso.");
+
+        Log.d(TAG, "Criando a tabela venda...");
+        db.execSQL("create table if not exists venda (_id integer primary key autoincrement, data Numeric, id_cliente integer, valor Numeric, desconto Numeric, total Numeric, " +
+                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id); ");
+        Log.d(TAG, "Tabela venda criada com sucesso.");
+
+        Log.d(TAG, "Criando a tabela itensVenda...");
+        db.execSQL("create table if not exists itens_venda (_id integer primary key autoincrement, quantidade Numeric, id_venda integer, id_produto integer, " +
+                "FOREIGN KEY (id_venda) REFERENCES venda(_id), " +
+                "FOREIGN KEY (id_produto) REFERENCES produto(_id); ");
+        Log.d(TAG, "Tabela itens_venda criada com sucesso.");
+
     }
 
 
@@ -58,6 +72,8 @@ public class OperacoesDB extends SQLiteOpenHelper{
         db.execSQL("drop table if exists fornecedor ; ");
         db.execSQL("drop table  if exists produto ; ");
         db.execSQL("drop table  if exists categoria ; ");
+        db.execSQL("drop table  if exists itens_venda ; ");
+        db.execSQL("drop table  if exists venda ; ");
 
         Log.d(TAG, "Criando a tabela cliente...");
         db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
@@ -71,12 +87,23 @@ public class OperacoesDB extends SQLiteOpenHelper{
 
         Log.d(TAG, "Criando a tabela produto...");
         db.execSQL("create table if not exists produto (_id integer primary key autoincrement, nome text, codigo_barras text, estoque_atual Numeric(10,2), " +
-                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), categoria text, id_categoria integer, id_fornecedor integer, FOREIGN KEY (id_categoria) REFERENCES categoria(_id), FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
+                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), foto BLOB, categoria text, id_categoria integer, id_fornecedor integer, FOREIGN KEY (id_categoria) REFERENCES categoria(_id), FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
         Log.d(TAG, "Tabela produto criada com sucesso.");
 
         Log.d(TAG, "Criando a tabela categoria...");
         db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria text); ");
         Log.d(TAG, "Tabela categoria criada com sucesso.");
+
+        Log.d(TAG, "Criando a tabela venda...");
+        db.execSQL("create table if not exists venda (_id integer primary key autoincrement, data Numeric, id_cliente integer, valor Numeric, desconto Numeric, total Numeric, " +
+                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id); ");
+        Log.d(TAG, "Tabela venda criada com sucesso.");
+
+        Log.d(TAG, "Criando a tabela itensVenda...");
+        db.execSQL("create table if not exists itens_venda (_id integer primary key autoincrement, quantidade Numeric, id_venda integer, id_produto integer, " +
+                "FOREIGN KEY (id_venda) REFERENCES venda(_id), " +
+                "FOREIGN KEY (id_produto) REFERENCES produto(_id); ");
+        Log.d(TAG, "Tabela itens_venda criada com sucesso.");
     }
 
 

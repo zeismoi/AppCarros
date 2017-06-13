@@ -1,7 +1,14 @@
 package br.com.legasist.controlevendas.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.widget.EditText;
+import android.widget.ImageView;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import org.parceler.Parcels;
 
@@ -36,6 +43,30 @@ public class ProdutoActivity extends BaseActivity {
             //adiciona o fragment ao Layoult
             getSupportFragmentManager().beginTransaction().add(R.id.produtoFragment,frag).commit();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == 2 && resultCode == RESULT_OK){
+            ImageView fotoProd = (ImageView) findViewById(R.id.imgProd);
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            fotoProd.setImageBitmap(imageBitmap);
+        }
+
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
+        if(result!= null){
+            EditText edtCodBarras = (EditText) findViewById(R.id.textCodBarras);
+            String barCode = result.getContents();
+            if(barCode != null && !"".equals(barCode)){
+                edtCodBarras.setText(barCode);
+            }
+        }
+
+
+
     }
 
     public void setTitle(String s){

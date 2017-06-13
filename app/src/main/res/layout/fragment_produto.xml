@@ -50,10 +50,29 @@
                     android:text="@string/codigo_barras"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/textCodBarras"
+
+                <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/textCodBarras"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:enabled="false"/>
+
+                    <android.support.v7.widget.AppCompatImageButton
+                        android:id="@+id/btnCodBarrasProd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_action_search"
+                        android:layout_gravity="right"
+                        />
+
+                </android.support.v7.widget.LinearLayoutCompat>
 
                 <!-- Estoque atual -->
                 <TextView
@@ -67,7 +86,8 @@
                 <EditText
                     android:id="@+id/textEstAtual"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
 
                 <!-- Estoque mínimo -->
                 <TextView
@@ -81,7 +101,8 @@
                 <EditText
                     android:id="@+id/textEstMinimo"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
 
                 <!-- Preço Custo -->
                 <TextView
@@ -95,7 +116,8 @@
                 <EditText
                     android:id="@+id/textPrecoCusto"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
 
                 <!-- Preço Venda -->
                 <TextView
@@ -109,7 +131,8 @@
                 <EditText
                     android:id="@+id/textPrecoVenda"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
 
 
                 <!-- Categoria -->
@@ -145,6 +168,21 @@
                     android:drawSelectorOnTop="true"
                     android:prompt="@string/selecione_o_fornecedor"
                     android:layout_margin="16dp" />
+
+                <!-- Foto do Produto -->
+                <ImageView
+                    android:layout_width="@dimen/img_carro_adapter_width"
+                    android:layout_height="@dimen/img_carro_adapter_height"
+                    android:id="@+id/imgProd"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"/>
+                <android.support.v7.widget.AppCompatImageButton
+                    android:id="@+id/btnFotoProd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_action_video"
+                    android:layout_gravity="center"
+                    />
 
 
                 <android.support.v7.widget.AppCompatImageButton

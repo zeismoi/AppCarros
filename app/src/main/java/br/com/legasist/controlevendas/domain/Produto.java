@@ -14,6 +14,7 @@ public class Produto {
     public long fornecedor;
     public String categoria;
     public long categ;
+    public byte[] foto;
     public boolean selected; //Flag para indicar que o produto está selecionado
 
     @Override
