@@ -15,7 +15,7 @@
         <!-- Aqui é a parte do fragment que deve fazer a rolagem-->
         <!--layoult de marcação para o fragment -->
         <FrameLayout
-            android:id="@+id/clienteFragment"
+            android:id="@+id/vendaFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </android.support.v4.widget.NestedScrollView>

@@ -143,10 +143,12 @@ public class ProdutoFragment extends BaseFragment {
                 comboFornec.setSelection(adaptadorFornec.getPosition(f.nome));
             }
 
-            byte[] foto = produto.foto;
-            ByteArrayInputStream imageStream = new ByteArrayInputStream(foto);
-            Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
-            fotoProd.setImageBitmap(imageBitmap);
+            if(produto.foto != null) {
+                byte[] foto = produto.foto;
+                ByteArrayInputStream imageStream = new ByteArrayInputStream(foto);
+                Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+                fotoProd.setImageBitmap(imageBitmap);
+            }
         }
 
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarProd);
@@ -155,7 +157,6 @@ public class ProdutoFragment extends BaseFragment {
             public void onClick(View view) {
                 OperacoesDB db = new OperacoesDB(getContext());
 
-                //Bundle extras = getArguments();
                 byte imagemBytes[] = new byte[0];//extras.getByteArray("imagemByte");
                 imagemBytes = ProdutoActivity.imagemBytes;
 

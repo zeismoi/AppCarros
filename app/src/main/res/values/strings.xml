@@ -109,6 +109,13 @@ Versao %s<br><br>
     <string name="fornecedores">Fornecedores</string>
     <string name="produtos">Produtos</string>
 
+    <!--   Venda-->
+    <string name="data">Data</string>
+    <string name="cliente">Cliente</string>
+    <string name="valor">Valor</string>
+    <string name="desconto">Desconto</string>
+    <string name="total">Total</string>
+
     <string name="mapa_location_cliente">Localização do cliente</string>
 
     <string name="mapa_location_fornecedor">Localização do fornecedor</string>

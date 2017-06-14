@@ -7,7 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -70,7 +73,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
         //db.execSQL("drop table if exists cliente ; ");
         //db.execSQL("drop table if exists fornecedor ; ");
-        db.execSQL("drop table  if exists produto ; ");
+        //db.execSQL("drop table  if exists produto ; ");
         //db.execSQL("drop table  if exists categoria ; ");
         //db.execSQL("drop table  if exists itens_venda ; ");
         //db.execSQL("drop table  if exists venda ; ");
@@ -383,7 +386,11 @@ public class OperacoesDB extends SQLiteOpenHelper{
                 produto.precoCusto = Double.parseDouble(c.getString(c.getColumnIndex("preco_custo")));
                 produto.precoVenda = Double.parseDouble(c.getString(c.getColumnIndex("preco_venda")));
                 produto.categoria = c.getString(c.getColumnIndex("categoria"));
-                produto.foto = c.getBlob(c.getColumnIndex("foto"));
+
+                if(produto.foto != null) {
+                    produto.foto = c.getBlob(c.getColumnIndex("foto"));
+                }
+
                 if(c.getString(c.getColumnIndex("id_categoria")) != null) {
                     produto.categ = Long.parseLong(c.getString(c.getColumnIndex("id_categoria")));
                 }
@@ -398,7 +405,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
 //***FIM  **   MÉTODOS DE PRODUTOS*****************************************************
 
 
-//MÉTODOS DE CATEGORIAS*****************************************************
+//MÉTODOS DE CATEGORIAS *****************************************************************
 
     //insere uma nova categoria, ou atualiza se existe
     public long saveCategoria(Categoria categoria){
@@ -464,6 +471,75 @@ public class OperacoesDB extends SQLiteOpenHelper{
         return categorias;
     }
 
-//**FIM  ***  MÉTODOS DE PRODUTOS*****************************************************
+//**FIM  ***  MÉTODOS DE CATEGORIAS *****************************************************
+
+
+//MÉTODOS DE VENDAS*****************************************************
+
+    //insere uma nova venda, ou atualiza se existe
+    public long saveVenda(Venda venda){
+        long id = venda.id;
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            Date date = new Date();
+            ContentValues values = new ContentValues();
+            values.put("data", dateFormat.format(venda.data));
+            values.put("valor", venda.valor);
+            values.put("desconto", venda.desconto);
+            values.put("total", venda.total);
+            values.put("id_cliente", venda.cliente);
+            if(id != 0){
+                String _id = String.valueOf(venda.id);
+                String[] whereArgs = new String[]{_id};
+                //update venda set values = ...where _id=?
+                int count = db.update("venda", values, "_id=?", whereArgs);
+                return count;
+            }else{
+                //insert into venda values(...)
+                id = db.insert("venda", "", values);
+                return id;
+            }
+        }finally {
+            db.close();
+        }
+    }
+
+    //consulta a lista com todas as vendas
+    public List<Venda> findAllVendas() throws ParseException {
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            //select * from venda
+            Cursor c = db.query("venda", null, null, null, null, null, "data", null);
+            return toListVendas(c);
+        }finally {
+            db.close();
+        }
+    }
+
+    //Lê o cursor e cria a lista de vendas
+    private List<Venda> toListVendas(Cursor c) throws ParseException {
+        List<Venda> vendas = new ArrayList<Venda>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        if(c.moveToFirst()){
+            do{
+                Venda venda = new Venda();
+                vendas.add(venda);
+                //recupera os atributos de venda
+                venda.id = c.getLong(c.getColumnIndex("_id"));
+                venda.data = dateFormat.parse(c.getString(c.getColumnIndex("data")));
+                venda.valor = Double.parseDouble(c.getString(c.getColumnIndex("valor")));
+                venda.desconto = Double.parseDouble(c.getString(c.getColumnIndex("desconto")));
+                venda.total = Double.parseDouble(c.getString(c.getColumnIndex("total")));
+
+                if(c.getString(c.getColumnIndex("id_cliente")) != null) {
+                    venda.cliente = Long.parseLong(c.getString(c.getColumnIndex("id_cliente")));
+                }
+            }while (c.moveToNext());
+        }
+        return vendas;
+    }
+
+//***FIM  **   MÉTODOS DE VENDAS*****************************************************
 
 }

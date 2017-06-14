@@ -54,11 +54,12 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
         holder.tEstAtual.setText(Double.toString(p.estoqueAtual));
         holder.tPrecoVenda.setText(Double.toString(p.precoVenda));
 
-        byte[] foto = p.foto;
-        ByteArrayInputStream imageStream = new ByteArrayInputStream(foto);
-        Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
-        holder.img.setImageBitmap(imageBitmap);
-
+        if(p.foto != null) {
+            byte[] foto = p.foto;
+            ByteArrayInputStream imageStream = new ByteArrayInputStream(foto);
+            Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+            holder.img.setImageBitmap(imageBitmap);
+        }
 
         //holder.progress.setVisibility(View.VISIBLE);
         //controlevendas
