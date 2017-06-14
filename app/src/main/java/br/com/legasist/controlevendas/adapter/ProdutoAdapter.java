@@ -1,6 +1,8 @@
 package br.com.legasist.controlevendas.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import br.com.legasist.controlevendas.R;
@@ -50,6 +53,11 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
         holder.tNome.setText(p.nome);
         holder.tEstAtual.setText(Double.toString(p.estoqueAtual));
         holder.tPrecoVenda.setText(Double.toString(p.precoVenda));
+
+        byte[] foto = p.foto;
+        ByteArrayInputStream imageStream = new ByteArrayInputStream(foto);
+        Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+        holder.img.setImageBitmap(imageBitmap);
 
 
         //holder.progress.setVisibility(View.VISIBLE);

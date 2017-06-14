@@ -2,6 +2,8 @@ package br.com.legasist.controlevendas.fragments;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -22,6 +24,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.parceler.Parcels;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
@@ -118,8 +121,9 @@ public class ProdutoFragment extends BaseFragment {
         edtPrecoVenda = (EditText) view.findViewById(R.id.textPrecoVenda);
         fotoProd = (ImageView) view.findViewById(R.id.imgProd);
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        fotoProd.pres
+        final Bitmap imagemBitmap = null;
+    
+
 
         if(produto != null && produto.id != 0){
             edtNome.setText(produto.nome);
@@ -138,6 +142,11 @@ public class ProdutoFragment extends BaseFragment {
                 Fornecedor f = db.findFornecedorById((produto.fornecedor));
                 comboFornec.setSelection(adaptadorFornec.getPosition(f.nome));
             }
+
+            byte[] foto = produto.foto;
+            ByteArrayInputStream imageStream = new ByteArrayInputStream(foto);
+            Bitmap imageBitmap = BitmapFactory.decodeStream(imageStream);
+            fotoProd.setImageBitmap(imageBitmap);
         }
 
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarProd);
@@ -145,6 +154,11 @@ public class ProdutoFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 OperacoesDB db = new OperacoesDB(getContext());
+
+                //Bundle extras = getArguments();
+                byte imagemBytes[] = new byte[0];//extras.getByteArray("imagemByte");
+                imagemBytes = ProdutoActivity.imagemBytes;
+
                 if(produto == null || produto.id == 0){
                     Produto p = new Produto();
                     try{
@@ -154,6 +168,7 @@ public class ProdutoFragment extends BaseFragment {
                         p.estoqueMin = Double.parseDouble(String.valueOf(edtEstMinimo.getText()));
                         p.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         p.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
+                        p.foto = imagemBytes;
                         //p.categoria = String.valueOf(combo.getSelectedItem());
 
                         //SE NÃO EXISTIR NENHUM ITEM SELECIONADO NA COMBO, NÃO GRAVA, POIS O ID ESTAVA VINDO COMO -1
@@ -181,6 +196,7 @@ public class ProdutoFragment extends BaseFragment {
                         produto.estoqueMin = Double.parseDouble(String.valueOf(edtEstMinimo.getText()));
                         produto.precoCusto = Double.parseDouble(String.valueOf(edtPrecoCusto.getText()));
                         produto.precoVenda = Double.parseDouble(String.valueOf(edtPrecoVenda.getText()));
+                        produto.foto = imagemBytes;
                         //produto.categoria = String.valueOf(combo.getSelectedItem());
 
                         //SE NÃO EXISTIR NENHUM ITEM SELECIONADO NA COMBO, NÃO GRAVA, POIS O ID ESTAVA VINDO COMO -1

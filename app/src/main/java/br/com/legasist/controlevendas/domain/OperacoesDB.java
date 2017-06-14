@@ -18,7 +18,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    public static final int VERSAO_BANCO = 33;
+    public static final int VERSAO_BANCO = 35;
 
     public OperacoesDB(Context context) {
         //context, nome do banco, factory, versão
@@ -68,14 +68,14 @@ public class OperacoesDB extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
-        db.execSQL("drop table if exists cliente ; ");
-        db.execSQL("drop table if exists fornecedor ; ");
+        //db.execSQL("drop table if exists cliente ; ");
+        //db.execSQL("drop table if exists fornecedor ; ");
         db.execSQL("drop table  if exists produto ; ");
-        db.execSQL("drop table  if exists categoria ; ");
-        db.execSQL("drop table  if exists itens_venda ; ");
-        db.execSQL("drop table  if exists venda ; ");
+        //db.execSQL("drop table  if exists categoria ; ");
+        //db.execSQL("drop table  if exists itens_venda ; ");
+        //db.execSQL("drop table  if exists venda ; ");
 
-        Log.d(TAG, "Criando a tabela cliente...");
+        /*Log.d(TAG, "Criando a tabela cliente...");
         db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
                 "uf text, celular text, email text, latitude text, longitude text); ");
         Log.d(TAG, "Tabela cliente criada com sucesso.");
@@ -83,14 +83,14 @@ public class OperacoesDB extends SQLiteOpenHelper{
         Log.d(TAG, "Criando a tabela fornecedor...");
         db.execSQL("create table if not exists fornecedor (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
                 "uf text, telefone text, email text, latitude text, longitude text); ");
-        Log.d(TAG, "Tabela fornecedor criada com sucesso.");
+        Log.d(TAG, "Tabela fornecedor criada com sucesso.");*/
 
         Log.d(TAG, "Criando a tabela produto...");
         db.execSQL("create table if not exists produto (_id integer primary key autoincrement, nome text, codigo_barras text, estoque_atual Numeric(10,2), " +
                 "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), foto BLOB, categoria text, id_categoria integer, id_fornecedor integer, FOREIGN KEY (id_categoria) REFERENCES categoria(_id), FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
         Log.d(TAG, "Tabela produto criada com sucesso.");
 
-        Log.d(TAG, "Criando a tabela categoria...");
+        /*Log.d(TAG, "Criando a tabela categoria...");
         db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria text); ");
         Log.d(TAG, "Tabela categoria criada com sucesso.");
 
@@ -103,7 +103,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
         db.execSQL("create table if not exists itens_venda (_id integer primary key autoincrement, quantidade Numeric, id_venda integer, id_produto integer, " +
                 "FOREIGN KEY (id_venda) REFERENCES venda(_id), " +
                 "FOREIGN KEY (id_produto) REFERENCES produto(_id); ");
-        Log.d(TAG, "Tabela itens_venda criada com sucesso.");
+        Log.d(TAG, "Tabela itens_venda criada com sucesso.");*/
     }
 
 
@@ -338,6 +338,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
   //          values.put("categoria", produto.categoria);
             values.put("id_categoria", produto.categ);
             values.put("id_fornecedor", produto.fornecedor);
+            values.put("foto", produto.foto);
             if(id != 0){
                 String _id = String.valueOf(produto.id);
                 String[] whereArgs = new String[]{_id};
@@ -382,6 +383,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
                 produto.precoCusto = Double.parseDouble(c.getString(c.getColumnIndex("preco_custo")));
                 produto.precoVenda = Double.parseDouble(c.getString(c.getColumnIndex("preco_venda")));
                 produto.categoria = c.getString(c.getColumnIndex("categoria"));
+                produto.foto = c.getBlob(c.getColumnIndex("foto"));
                 if(c.getString(c.getColumnIndex("id_categoria")) != null) {
                     produto.categ = Long.parseLong(c.getString(c.getColumnIndex("id_categoria")));
                 }

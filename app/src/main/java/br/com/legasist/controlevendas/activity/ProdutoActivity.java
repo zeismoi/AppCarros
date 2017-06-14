@@ -12,6 +12,8 @@ import com.google.zxing.integration.android.IntentResult;
 
 import org.parceler.Parcels;
 
+import java.io.ByteArrayOutputStream;
+
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.activity.BaseActivity;
 import br.com.legasist.controlevendas.domain.Cliente;
@@ -20,6 +22,8 @@ import br.com.legasist.controlevendas.fragments.ClienteFragment;
 import br.com.legasist.controlevendas.fragments.ProdutoFragment;
 
 public class ProdutoActivity extends BaseActivity {
+
+    public static byte[] imagemBytes = new byte[0];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,14 @@ public class ProdutoActivity extends BaseActivity {
         if(requestCode == 2 && resultCode == RESULT_OK){
             ImageView fotoProd = (ImageView) findViewById(R.id.imgProd);
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            fotoProd.setImageBitmap(imageBitmap);
+            Bitmap imagemBitmap = (Bitmap) extras.get("data");
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imagemBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            imagemBytes = stream.toByteArray();
+
+
+            fotoProd.setImageBitmap(imagemBitmap);
         }
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -64,8 +74,6 @@ public class ProdutoActivity extends BaseActivity {
                 edtCodBarras.setText(barCode);
             }
         }
-
-
 
     }
 
