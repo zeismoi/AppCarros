@@ -14,6 +14,7 @@ import br.com.legasist.controlevendas.fragments.CarrosFragment;
 import br.com.legasist.controlevendas.fragments.ClientesFragment;
 import br.com.legasist.controlevendas.fragments.FornecedoresFragment;
 import br.com.legasist.controlevendas.fragments.ProdutosFragment;
+import br.com.legasist.controlevendas.fragments.VendasFragment;
 
 /**
  * Created by ovs on 10/05/2017.
@@ -85,7 +86,7 @@ public class TabsAdapter extends FragmentPagerAdapter{
         }else if (position == 2){
             f = FornecedoresFragment.newInstance();
         }else if (position == 3){
-            f = CarrosFragment.newInstance(br.com.legasist.controlevendas.R.string.luxo);
+            f = VendasFragment.newInstance();
         }
         return f;
     }
