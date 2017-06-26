@@ -27,9 +27,9 @@ import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.activity.VendaActivity;
 import br.com.legasist.controlevendas.adapter.VendaAdapter;
-import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Venda;
+import br.com.legasist.controlevendas.domain.VendaService;
 import livroandroid.lib.utils.AndroidUtils;
 
 public class VendasFragment extends BaseFragment {
@@ -63,7 +63,7 @@ public class VendasFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+        View view = inflater.inflate(R.layout.fragment_vendas, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -105,7 +105,7 @@ public class VendasFragment extends BaseFragment {
     }
 
     @Subscribe
-    public void onBusAtualizarListaClientes(String refresh){
+    public void onBusAtualizarListaVendas(String refresh){
         //Recebeu o evento, atualiza a lista
         taskVendas(false);
     }

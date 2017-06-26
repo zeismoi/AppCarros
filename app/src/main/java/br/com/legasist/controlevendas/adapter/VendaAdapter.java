@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.Venda;
 
 /**

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import livroandroid.lib.utils.FileUtils;
@@ -17,6 +18,7 @@ import livroandroid.lib.utils.HttpHelper;
 import livroandroid.lib.utils.IOUtils;
 
 import static br.com.legasist.controlevendas.R.string.clientes;
+import static br.com.legasist.controlevendas.R.string.vendas;
 
 /**
  * Created by ovs on 29/05/2017.
@@ -34,7 +36,7 @@ public class VendaService {
         List<Venda> vendas = !false ? getVendasFromBanco(context) : null;
         if(vendas != null && vendas.size()>0){
             //retorna os clientes encontrados do banco
-            return clientes;
+            return vendas;
         }
         //controlelevendas
         //se não encontrar, busca no WebService
@@ -153,7 +155,7 @@ public class VendaService {
         return carros;
     }*/
 
-    //Faz o parser do JSON e cria a lista de clientes
+    //Faz o parser do JSON e cria a lista de vendas
     private static List<Venda> parserJSON(Context context, String json) throws IOException {
         List<Venda> vendas = new ArrayList<Venda>();
         try{
@@ -165,26 +167,23 @@ public class VendaService {
                 JSONObject jsonVenda = jsonVendas.getJSONObject(i);
                 Venda v = new Venda();
                 //Lê as informações de cada venda
-                v.data = jsonVenda.optString("data");
-                c.endereco = jsonVenda.optString("endereco");
-                c.cidade = jsonVenda.optString("cidade");
-                c.uf = jsonVenda.optString("uf");
-                c.celular = jsonVenda.optString("celular");
-                c.email = jsonVenda.optString("email");
-                c.latitude = jsonVenda.optDouble("latitude");
-                c.longitude = jsonVenda.optDouble("longitude");
+                v.data = (Date) jsonVenda.opt("data");
+                v.cliente = jsonVenda.optLong("cliente");
+                v.valor = jsonVenda.optDouble("valor");
+                v.desconto = jsonVenda.optDouble("desconto");
+                v.total = jsonVenda.optDouble("total");
                 if(LOG_ON){
-                    Log.d(TAG, "Cliente" + c.nome);
+                    Log.d(TAG, "Venda" + v.cliente + " " + v.total);
                 }
-                clientes.add(c);
+                vendas.add(v);
             }
             if (LOG_ON){
-                Log.d(TAG, clientes.size() + " encontrados");
+                Log.d(TAG, vendas.size() + " encontrados");
             }
 
         } catch (JSONException e) {
             throw  new IOException(e.getMessage(), e);
         }
-        return clientes;
+        return vendas;
     }
 }

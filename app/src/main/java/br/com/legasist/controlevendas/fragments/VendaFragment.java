@@ -1,9 +1,6 @@
 package br.com.legasist.controlevendas.fragments;
 
 
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
@@ -13,26 +10,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.MapaClienteActivity;
-import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Venda;
-import br.com.legasist.controlevendas.fragments.dialog.DeletarClienteDialog;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarVendaDialog;
 import livroandroid.lib.utils.IntentUtils;
 
@@ -40,7 +29,6 @@ import livroandroid.lib.utils.IntentUtils;
  * A simple {@link Fragment} subclass.
  */
 public class VendaFragment extends BaseFragment {
-    //private Cliente cliente;
     private Venda venda;
 
     EditText edtData, edtCliente, edtValor, edtDesconto, edtTotal;
@@ -123,7 +111,7 @@ public class VendaFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle saveInstanceState) {
         super.onViewCreated(view, saveInstanceState);
-        //Atualiza a view do fragment com os dados do cliente
+        //Atualiza a view do fragment com os dados da venda
         setTextString(R.id.tDesc, String.valueOf(venda.cliente));
 
     }
@@ -161,7 +149,7 @@ public class VendaFragment extends BaseFragment {
             DeletarVendaDialog.show(getFragmentManager(), new DeletarVendaDialog.Callback() {
                 @Override
                 public void onClickYes() {
-                    toast("Venda [" + venda.cliente + "] deletada");
+                    toast("Venda [" + venda.data + " - " + venda.cliente + "] deletada");
                     //Deleta a venda
                     OperacoesDB db = new OperacoesDB(getActivity());
                     db.delete("venda", venda.id);

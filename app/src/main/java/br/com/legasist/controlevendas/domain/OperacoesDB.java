@@ -56,13 +56,13 @@ public class OperacoesDB extends SQLiteOpenHelper{
 
         Log.d(TAG, "Criando a tabela venda...");
         db.execSQL("create table if not exists venda (_id integer primary key autoincrement, data Numeric, id_cliente integer, valor Numeric, desconto Numeric, total Numeric, " +
-                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id); ");
+                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id)); ");
         Log.d(TAG, "Tabela venda criada com sucesso.");
 
         Log.d(TAG, "Criando a tabela itensVenda...");
         db.execSQL("create table if not exists itens_venda (_id integer primary key autoincrement, quantidade Numeric, id_venda integer, id_produto integer, " +
                 "FOREIGN KEY (id_venda) REFERENCES venda(_id), " +
-                "FOREIGN KEY (id_produto) REFERENCES produto(_id); ");
+                "FOREIGN KEY (id_produto) REFERENCES produto(_id)); ");
         Log.d(TAG, "Tabela itens_venda criada com sucesso.");
 
     }
@@ -506,7 +506,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     }
 
     //consulta a lista com todas as vendas
-    public List<Venda> findAllVendas() throws ParseException {
+    public List<Venda> findAllVendas() {
         SQLiteDatabase db = getWritableDatabase();
         try {
             //select * from venda
@@ -518,7 +518,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     }
 
     //Lê o cursor e cria a lista de vendas
-    private List<Venda> toListVendas(Cursor c) throws ParseException {
+    private List<Venda> toListVendas(Cursor c) {
         List<Venda> vendas = new ArrayList<Venda>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         if(c.moveToFirst()){
@@ -527,7 +527,11 @@ public class OperacoesDB extends SQLiteOpenHelper{
                 vendas.add(venda);
                 //recupera os atributos de venda
                 venda.id = c.getLong(c.getColumnIndex("_id"));
-                venda.data = dateFormat.parse(c.getString(c.getColumnIndex("data")));
+                try {
+                    venda.data = dateFormat.parse(c.getString(c.getColumnIndex("data")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 venda.valor = Double.parseDouble(c.getString(c.getColumnIndex("valor")));
                 venda.desconto = Double.parseDouble(c.getString(c.getColumnIndex("desconto")));
                 venda.total = Double.parseDouble(c.getString(c.getColumnIndex("total")));
