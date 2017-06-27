@@ -7,6 +7,7 @@ import org.parceler.Parcels;
 
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.domain.Cliente;
+import br.com.legasist.controlevendas.domain.Venda;
 import br.com.legasist.controlevendas.fragments.ClienteFragment;
 import br.com.legasist.controlevendas.fragments.VendaFragment;
 
