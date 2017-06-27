@@ -21,7 +21,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    public static final int VERSAO_BANCO = 35;
+    public static final int VERSAO_BANCO = 38;
 
     public OperacoesDB(Context context) {
         //context, nome do banco, factory, versão
@@ -56,13 +56,13 @@ public class OperacoesDB extends SQLiteOpenHelper{
 
         Log.d(TAG, "Criando a tabela venda...");
         db.execSQL("create table if not exists venda (_id integer primary key autoincrement, data Numeric, id_cliente integer, valor Numeric, desconto Numeric, total Numeric, " +
-                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id); ");
+                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id)); ");
         Log.d(TAG, "Tabela venda criada com sucesso.");
 
         Log.d(TAG, "Criando a tabela itensVenda...");
         db.execSQL("create table if not exists itens_venda (_id integer primary key autoincrement, quantidade Numeric, id_venda integer, id_produto integer, " +
                 "FOREIGN KEY (id_venda) REFERENCES venda(_id), " +
-                "FOREIGN KEY (id_produto) REFERENCES produto(_id); ");
+                "FOREIGN KEY (id_produto) REFERENCES produto(_id)); ");
         Log.d(TAG, "Tabela itens_venda criada com sucesso.");
 
     }
@@ -71,14 +71,14 @@ public class OperacoesDB extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
-        //db.execSQL("drop table if exists cliente ; ");
-        //db.execSQL("drop table if exists fornecedor ; ");
-        //db.execSQL("drop table  if exists produto ; ");
-        //db.execSQL("drop table  if exists categoria ; ");
-        //db.execSQL("drop table  if exists itens_venda ; ");
-        //db.execSQL("drop table  if exists venda ; ");
+        db.execSQL("drop table if exists cliente ; ");
+        db.execSQL("drop table if exists fornecedor ; ");
+        db.execSQL("drop table  if exists produto ; ");
+        db.execSQL("drop table  if exists categoria ; ");
+        db.execSQL("drop table  if exists itens_venda ; ");
+        db.execSQL("drop table  if exists venda ; ");
 
-        /*Log.d(TAG, "Criando a tabela cliente...");
+        Log.d(TAG, "Criando a tabela cliente...");
         db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
                 "uf text, celular text, email text, latitude text, longitude text); ");
         Log.d(TAG, "Tabela cliente criada com sucesso.");
@@ -86,27 +86,29 @@ public class OperacoesDB extends SQLiteOpenHelper{
         Log.d(TAG, "Criando a tabela fornecedor...");
         db.execSQL("create table if not exists fornecedor (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +
                 "uf text, telefone text, email text, latitude text, longitude text); ");
-        Log.d(TAG, "Tabela fornecedor criada com sucesso.");*/
+        Log.d(TAG, "Tabela fornecedor criada com sucesso.");
 
         Log.d(TAG, "Criando a tabela produto...");
         db.execSQL("create table if not exists produto (_id integer primary key autoincrement, nome text, codigo_barras text, estoque_atual Numeric(10,2), " +
-                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), foto BLOB, categoria text, id_categoria integer, id_fornecedor integer, FOREIGN KEY (id_categoria) REFERENCES categoria(_id), FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
+                "estoque_min Numeric(10,2), preco_custo Numeric(10,2), preco_venda Numeric(10,2), foto BLOB, categoria text, id_categoria integer, id_fornecedor integer, " +
+                "FOREIGN KEY (id_categoria) REFERENCES categoria(_id), " +
+                "FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(_id)); ");
         Log.d(TAG, "Tabela produto criada com sucesso.");
 
-        /*Log.d(TAG, "Criando a tabela categoria...");
+        Log.d(TAG, "Criando a tabela categoria...");
         db.execSQL("create table if not exists categoria (_id integer primary key autoincrement, categoria text); ");
         Log.d(TAG, "Tabela categoria criada com sucesso.");
 
         Log.d(TAG, "Criando a tabela venda...");
         db.execSQL("create table if not exists venda (_id integer primary key autoincrement, data Numeric, id_cliente integer, valor Numeric, desconto Numeric, total Numeric, " +
-                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id); ");
+                "FOREIGN KEY (id_cliente) REFERENCES cliente(_id)); ");
         Log.d(TAG, "Tabela venda criada com sucesso.");
 
         Log.d(TAG, "Criando a tabela itensVenda...");
         db.execSQL("create table if not exists itens_venda (_id integer primary key autoincrement, quantidade Numeric, id_venda integer, id_produto integer, " +
                 "FOREIGN KEY (id_venda) REFERENCES venda(_id), " +
-                "FOREIGN KEY (id_produto) REFERENCES produto(_id); ");
-        Log.d(TAG, "Tabela itens_venda criada com sucesso.");*/
+                "FOREIGN KEY (id_produto) REFERENCES produto(_id)); ");
+        Log.d(TAG, "Tabela itens_venda criada com sucesso.");
     }
 
 
@@ -476,6 +478,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
 
 //MÉTODOS DE VENDAS*****************************************************
 
+
     //insere uma nova venda, ou atualiza se existe
     public long saveVenda(Venda venda){
         long id = venda.id;
@@ -518,7 +521,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     }
 
     //Lê o cursor e cria a lista de vendas
-    private List<Venda> toListVendas(Cursor c) throws ParseException {
+    private List<Venda> toListVendas(Cursor c) {
         List<Venda> vendas = new ArrayList<Venda>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         if(c.moveToFirst()){
@@ -527,7 +530,11 @@ public class OperacoesDB extends SQLiteOpenHelper{
                 vendas.add(venda);
                 //recupera os atributos de venda
                 venda.id = c.getLong(c.getColumnIndex("_id"));
-                venda.data = dateFormat.parse(c.getString(c.getColumnIndex("data")));
+                try {
+                    venda.data = dateFormat.parse(c.getString(c.getColumnIndex("data")));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 venda.valor = Double.parseDouble(c.getString(c.getColumnIndex("valor")));
                 venda.desconto = Double.parseDouble(c.getString(c.getColumnIndex("desconto")));
                 venda.total = Double.parseDouble(c.getString(c.getColumnIndex("total")));
@@ -539,6 +546,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
         }
         return vendas;
     }
+
 
 //***FIM  **   MÉTODOS DE VENDAS*****************************************************
 

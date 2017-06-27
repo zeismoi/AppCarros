@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.Venda;
 
 /**
@@ -46,7 +45,7 @@ public class VendaAdapter extends RecyclerView.Adapter<VendaAdapter.VendasViewHo
     }
 
     @Override
-    public void onBindViewHolder(final VendaAdapter.VendasViewHolder holder, final int position){
+    public void onBindViewHolder(final VendasViewHolder holder, final int position){
         //Atualiza a view
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         Venda v = vendas.get(position);

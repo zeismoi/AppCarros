@@ -1,9 +1,6 @@
 package br.com.legasist.controlevendas.fragments;
 
 
-import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
@@ -13,26 +10,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 
 import org.parceler.Parcels;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.MapaClienteActivity;
-import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Venda;
-import br.com.legasist.controlevendas.fragments.dialog.DeletarClienteDialog;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarVendaDialog;
 import livroandroid.lib.utils.IntentUtils;
 
@@ -40,7 +29,6 @@ import livroandroid.lib.utils.IntentUtils;
  * A simple {@link Fragment} subclass.
  */
 public class VendaFragment extends BaseFragment {
-    //private Cliente cliente;
     private Venda venda;
 
     EditText edtData, edtCliente, edtValor, edtDesconto, edtTotal;
@@ -75,7 +63,7 @@ public class VendaFragment extends BaseFragment {
             edtTotal.setText(Double.toString(venda.total));
         }
 
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarVenda);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +73,9 @@ public class VendaFragment extends BaseFragment {
                     Venda v = new Venda();
                     try {
                         v.data = dateFormat.parse(String.valueOf(edtData.getText()));
-                        v.cliente = Long.parseLong(String.valueOf(edtCliente.getText()));
+                        if((String.valueOf(edtCliente.getText()) != null) && (!(String.valueOf(edtCliente.getText()).equals("")))) {
+                            v.cliente = Long.parseLong(String.valueOf(edtCliente.getText()));
+                        }
                         v.valor = Double.parseDouble(String.valueOf(edtValor.getText()));
                         v.desconto = Double.parseDouble(String.valueOf(edtDesconto.getText()));
                         v.total = Double.parseDouble(String.valueOf(edtTotal.getText()));
@@ -98,7 +88,9 @@ public class VendaFragment extends BaseFragment {
                 }else{
                     try{
                         venda.data = dateFormat.parse(String.valueOf(edtData.getText()));
-                        venda.cliente = Long.parseLong(String.valueOf(edtCliente.getText()));
+                        if(edtCliente.getText()!= null && !edtCliente.getText().equals("")) {
+                            venda.cliente = Long.parseLong(String.valueOf(edtCliente.getText()));
+                        }
                         venda.valor = Double.parseDouble(String.valueOf(edtValor.getText()));
                         venda.desconto = Double.parseDouble(String.valueOf(edtDesconto.getText()));
                         venda.total = Double.parseDouble(String.valueOf(edtTotal.getText()));
@@ -123,7 +115,7 @@ public class VendaFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle saveInstanceState) {
         super.onViewCreated(view, saveInstanceState);
-        //Atualiza a view do fragment com os dados do cliente
+        //Atualiza a view do fragment com os dados da venda
         setTextString(R.id.tDesc, String.valueOf(venda.cliente));
 
     }
@@ -161,7 +153,7 @@ public class VendaFragment extends BaseFragment {
             DeletarVendaDialog.show(getFragmentManager(), new DeletarVendaDialog.Callback() {
                 @Override
                 public void onClickYes() {
-                    toast("Venda [" + venda.cliente + "] deletada");
+                    toast("Venda [" + venda.data + " - " + venda.cliente + "] deletada");
                     //Deleta a venda
                     OperacoesDB db = new OperacoesDB(getActivity());
                     db.delete("venda", venda.id);
