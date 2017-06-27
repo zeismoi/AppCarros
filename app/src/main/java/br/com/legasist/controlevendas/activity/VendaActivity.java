@@ -6,7 +6,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import org.parceler.Parcels;
 
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.domain.Venda;
+import br.com.legasist.controlevendas.domain.Cliente;
+import br.com.legasist.controlevendas.fragments.ClienteFragment;
 import br.com.legasist.controlevendas.fragments.VendaFragment;
 
 public class VendaActivity extends BaseActivity {
@@ -20,7 +21,7 @@ public class VendaActivity extends BaseActivity {
 
         //título da tollBar e botão up navigation
         Venda v = Parcels.unwrap(getIntent().getParcelableExtra("venda"));
-        getSupportActionBar().setTitle((int) v.cliente);
+        getSupportActionBar().setTitle((CharSequence) v.data);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Imagem de header na actionBar
         //controlevendas
@@ -37,7 +38,7 @@ public class VendaActivity extends BaseActivity {
 
     public void setTitle(String s){
         //o título deve ser setado na CollapsingToolbarLayou
-        CollapsingToolbarLayout c = (CollapsingToolbarLayout) findViewById(R.id.collaping_tollbar);
+        CollapsingToolbarLayout c = (CollapsingToolbarLayout) findViewById(br.com.legasist.controlevendas.R.id.collaping_tollbar);
         c.setTitle(s);
     }
 }

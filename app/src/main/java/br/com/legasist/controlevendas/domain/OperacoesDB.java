@@ -509,7 +509,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     }
 
     //consulta a lista com todas as vendas
-    public List<Venda> findAllVendas() throws ParseException {
+    public List<Venda> findAllVendas() {
         SQLiteDatabase db = getWritableDatabase();
         try {
             //select * from venda
