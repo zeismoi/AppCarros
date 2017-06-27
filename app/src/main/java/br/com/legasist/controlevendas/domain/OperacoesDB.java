@@ -202,6 +202,19 @@ public class OperacoesDB extends SQLiteOpenHelper{
         }
     }
 
+    //Consulta os clientes pelo nome
+    public List<Cliente> findClienteByNome(String nome){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            //select * from fornecedor where id = ?
+            Cursor c = db.query("cliente", null, "nome like '%" + nome + "%'", null, null, null, "nome");
+            return toListClientes(c);
+        }finally {
+            db.close();
+        }
+
+    }
+
     //Lê o cursor e cria a lista de clientes
     private List<Cliente> toListClientes(Cursor c) {
         List<Cliente> clientes = new ArrayList<Cliente>();

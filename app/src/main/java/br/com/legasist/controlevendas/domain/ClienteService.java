@@ -50,6 +50,31 @@ public class ClienteService {
 
     }
 
+    public static List<Cliente> getClientesByNome(Context context, int tipo, boolean refresh, String nome) throws IOException {
+        //busca os clientes no banco de dados (somente se refresh = false)
+        //List<Cliente> clientes = !refresh ? getClientesFromBanco(context) : null;
+        //sempre buscar no banco por enquanto
+        List<Cliente> clientes = !false ? getClientesByNomeFromBanco(context, nome) : null;
+        if(clientes != null && clientes.size()>0){
+            //retorna os clientes encontrados do banco
+            return clientes;
+        }
+        //controlelevendas
+        //se não encontrar, busca no WebService
+        //clientes = getClientesFromWebService(context, tipo);
+        //return clientes;
+        return null;
+
+        /*String tipoString = getTipo(tipo);
+        String url = URL.replace("{tipo}", tipoString);
+        //Faz a requisição HTTP no servidor e retorna a String com o conteúdo
+        HttpHelper http = new HttpHelper();
+        String json = http.doGet(url);
+        List<Carro> carros = parserJSON(context, json);
+        salvarArquivoNaMemoriaInterna(context, url, json);*/
+
+    }
+
     private static List<Cliente> getClientesFromWebService(Context context, int tipo) throws IOException {
         String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
@@ -87,6 +112,18 @@ public class ClienteService {
         try {
             //String tipoString = getTipo(tipo);
             List<Cliente> clientes = db.findAllClientes();
+            Log.d(TAG, "Retornando " + clientes.size() + " clientes do banco");
+            return clientes;
+        }finally {
+            db.close();
+        }
+    }
+
+    private static List<Cliente> getClientesByNomeFromBanco(Context context, String nome) throws IOException {
+        OperacoesDB db = new OperacoesDB(context);
+        try {
+            //String tipoString = getTipo(tipo);
+            List<Cliente> clientes = db.findClienteByNome(nome);
             Log.d(TAG, "Retornando " + clientes.size() + " clientes do banco");
             return clientes;
         }finally {

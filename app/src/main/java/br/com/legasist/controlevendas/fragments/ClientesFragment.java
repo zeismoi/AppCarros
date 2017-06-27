@@ -15,6 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.squareup.otto.Subscribe;
 
@@ -38,6 +41,8 @@ public class ClientesFragment extends BaseFragment {
     private List<Cliente> clientes;
     private SwipeRefreshLayout swipeLayout;
     private ActionMode actionMode;
+
+    EditText edtPesqCliente;
     //private Intent shareIntent;
 
     //Método para instanciar esse //fragment pelo tipo
@@ -74,6 +79,8 @@ public class ClientesFragment extends BaseFragment {
         swipeLayout.setOnRefreshListener(OnRefreshListener());
         swipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
 
+        edtPesqCliente = (EditText) view.findViewById(R.id.textPesqCliente);
+
         //FAB
         /*view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
             @Override
@@ -92,6 +99,14 @@ public class ClientesFragment extends BaseFragment {
                 Intent intent = new Intent(getContext(), ClienteActivity.class);
                 intent.putExtra("cliente", Parcels.wrap(c));//converte o objeto para Parcelable
                 startActivity(intent);
+            }
+        });
+
+        ImageButton btnPesqCliente = (ImageButton) view.findViewById(R.id.btnPesqCliente);
+        btnPesqCliente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTask("clientes", new GetClientesByNomeTask(false, String.valueOf(edtPesqCliente.getText())), false? R.id.swipeToRefresh : R.id.progress);
             }
         });
 
@@ -288,6 +303,43 @@ public class ClientesFragment extends BaseFragment {
             //Thread.sleep(800);
             //busca os clientes em background
             return ClienteService.getClientes(getContext(), tipo, refresh);
+        }
+
+        @Override
+        public void updateView(List<Cliente> clientes) {
+            if (clientes != null){
+                //salva a lista de clientes no atributo da classe
+                ClientesFragment.this.clientes = clientes;
+                //Atualiza a view na UI Thread
+                recyclerView.setAdapter(new ClienteAdapter(getContext(), clientes, onClickCliente()));
+            }
+        }
+
+        @Override
+        public void onError(Exception exception) {
+            //qualquer exceção lançada no método execute vai cair aqui
+            alert("Ocorreu algum erro ao buscar os dados de clientes");
+        }
+
+        @Override
+        public void onCancelled(String s) {
+
+        }
+    }
+
+    //Task para buscar os clientes pelo nome
+    private class GetClientesByNomeTask implements TaskListener<List<Cliente>>{
+        private boolean refresh;
+        private String nome;
+        public GetClientesByNomeTask(boolean refresh, String nome){
+            this.refresh = refresh;
+            this.nome = nome;
+        }
+        @Override
+        public List<Cliente> execute() throws Exception {
+            //Thread.sleep(800);
+            //busca os clientes em background
+            return ClienteService.getClientesByNome(getContext(), tipo, refresh, nome);
         }
 
         @Override
