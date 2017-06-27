@@ -50,6 +50,7 @@ public class ClienteFragment extends BaseFragment {
 
     EditText edtNome, edtEndereco, edtCidade, edtCelular, edtEmail;
     ImageButton btnSalvar, btnLocalizar;
+    double lat, lng;
 
 
     public ClienteFragment() {
@@ -101,6 +102,8 @@ public class ClienteFragment extends BaseFragment {
                         c.uf = combo.getSelectedItem().toString(); //String.valueOf(edtUf.getText());
                         c.celular = String.valueOf(edtCelular.getText());
                         c.email = String.valueOf(edtEmail.getText());
+                        c.latitude = lat;
+                        c.longitude = lng;
                         db.saveCliente(c);
                     }finally {
                         db.close();
@@ -113,6 +116,8 @@ public class ClienteFragment extends BaseFragment {
                         cliente.uf = combo.getSelectedItem().toString(); //String.valueOf(edtUf.getText());
                         cliente.celular = String.valueOf(edtCelular.getText());
                         cliente.email = String.valueOf(edtEmail.getText());
+                        cliente.latitude = lat;
+                        cliente.longitude = lng;
                         db.saveCliente(cliente);
                     }finally {
                         db.close();
@@ -135,8 +140,8 @@ public class ClienteFragment extends BaseFragment {
                 List<Address> list = null;
                 try {
                     list = gc.getFromLocationName(endereco, 10);
-                    double lat = list.get(0).getLatitude();
-                    double lng = list.get(0).getLongitude();
+                    lat = list.get(0).getLatitude();
+                    lng = list.get(0).getLongitude();
 
                     cliente.latitude = lat;
                     cliente.longitude = lng;

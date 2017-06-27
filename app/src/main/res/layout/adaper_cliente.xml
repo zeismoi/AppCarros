@@ -15,6 +15,7 @@
     card_view:cardElevation="6dp"
     android:foreground="?attr/selectableItemBackground">
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

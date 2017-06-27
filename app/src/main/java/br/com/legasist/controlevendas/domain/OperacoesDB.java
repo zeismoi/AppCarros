@@ -539,7 +539,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
                 venda.desconto = Double.parseDouble(c.getString(c.getColumnIndex("desconto")));
                 venda.total = Double.parseDouble(c.getString(c.getColumnIndex("total")));
 
-                if(c.getString(c.getColumnIndex("id_cliente")) != null) {
+                if((c.getString(c.getColumnIndex("id_cliente")) != null) && (c.getLong(c.getColumnIndex("id_cliente")) != 0)) {
                     venda.cliente = Long.parseLong(c.getString(c.getColumnIndex("id_cliente")));
                 }
             }while (c.moveToNext());

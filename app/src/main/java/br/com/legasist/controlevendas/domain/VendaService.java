@@ -92,11 +92,7 @@ public class VendaService {
         try {
             //String tipoString = getTipo(tipo);
             List<Venda> vendas = null;
-            try {
-                vendas = db.findAllVendas();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            vendas = db.findAllVendas();
             Log.d(TAG, "Retornando " + vendas.size() + " vendas do banco");
             return vendas;
         }finally {

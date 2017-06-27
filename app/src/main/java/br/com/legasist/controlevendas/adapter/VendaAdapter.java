@@ -47,10 +47,12 @@ public class VendaAdapter extends RecyclerView.Adapter<VendaAdapter.VendasViewHo
     @Override
     public void onBindViewHolder(final VendasViewHolder holder, final int position){
         //Atualiza a view
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Venda v = vendas.get(position);
         holder.tDataVenda.setText(dateFormat.format(v.data));
-        holder.tCliente.setText((int) v.cliente);
+        if(v.cliente != 0) {
+            holder.tCliente.setText((int) v.cliente);
+        }
 
         //pinta o fundo de azul se a linha estiver selecionada
         int corFundo = context.getResources().getColor(v.selected ? R.color.primary : R.color.white);
@@ -58,7 +60,10 @@ public class VendaAdapter extends RecyclerView.Adapter<VendaAdapter.VendasViewHo
 
         //a cor do texto é branca ou azul, depende da cor do fundo
         int corFonte = context.getResources().getColor((v.selected ? R.color.white : R.color.primary));
-        holder.tCliente.setTextColor(corFonte);
+
+        if(v.cliente != 0) {
+            holder.tCliente.setTextColor(corFonte);
+        }
 
         //click normal
         if (vendaOnClickListener != null){

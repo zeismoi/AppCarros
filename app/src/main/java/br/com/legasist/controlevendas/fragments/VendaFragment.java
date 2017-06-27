@@ -49,6 +49,8 @@ public class VendaFragment extends BaseFragment {
         venda = Parcels.unwrap(getArguments().getParcelable("venda"));
         setHasOptionsMenu(true); // precisamos informar ao Android q este fragment tem menu
 
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
         edtData = (EditText) view.findViewById(R.id.textDataVenda);
         edtCliente = (EditText) view.findViewById(R.id.textClienteVenda);
         edtValor = (EditText) view.findViewById(R.id.textValorVenda);
@@ -56,14 +58,13 @@ public class VendaFragment extends BaseFragment {
         edtTotal = (EditText) view.findViewById(R.id.textTotalVenda);
 
         if(venda != null && venda.id != 0){
-            edtData.setText((CharSequence) venda.data);
+            edtData.setText(dateFormat.format(venda.data));
             edtCliente.setText(Long.toString(venda.cliente));
             edtValor.setText(Double.toString(venda.valor));
             edtDesconto.setText(Double.toString(venda.desconto));
             edtTotal.setText(Double.toString(venda.total));
         }
 
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarVenda);
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -5,6 +5,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
+
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.Venda;
@@ -19,10 +21,12 @@ public class VendaActivity extends BaseActivity {
         setContentView(R.layout.activity_venda);
         //Configura a toolBar como a actionBar
         setUpToolbar();
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
 
         //título da tollBar e botão up navigation
         Venda v = Parcels.unwrap(getIntent().getParcelableExtra("venda"));
-        getSupportActionBar().setTitle((CharSequence) v.data);
+        getSupportActionBar().setTitle(dateFormat.format(v.data));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Imagem de header na actionBar
         //controlevendas
