@@ -108,6 +108,7 @@ Versao %s<br><br>
     <string name="areceber">A Receber</string>
     <string name="fornecedores">Fornecedores</string>
     <string name="produtos">Produtos</string>
+    <string name="pesquisa">Pesquisa</string>
 
     <!--   Venda-->
     <string name="data">Data</string>

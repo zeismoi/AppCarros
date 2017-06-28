@@ -14,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.squareup.otto.Subscribe;
 
@@ -37,6 +39,9 @@ public class FornecedoresFragment extends BaseFragment {
     private List<Fornecedor> fornecedores;
     private SwipeRefreshLayout swipeLayout;
     private ActionMode actionMode;
+
+    EditText edtPesqFornec;
+
     //private Intent shareIntent;
 
     //Método para instanciar esse //fragment pelo tipo
@@ -73,6 +78,8 @@ public class FornecedoresFragment extends BaseFragment {
         swipeLayout.setOnRefreshListener(OnRefreshListener());
         swipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
 
+        edtPesqFornec = (EditText) view.findViewById(R.id.textPesqFornecedor);
+
         //FAB
         /*view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
             @Override
@@ -93,6 +100,15 @@ public class FornecedoresFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+
+        ImageButton btnPesqFornec = (ImageButton) view.findViewById(R.id.btnPesqFornecedor);
+        btnPesqFornec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTask("fornecedores", new GetFornecedoesByNomeTask(false, String.valueOf(edtPesqFornec.getText())), false? R.id.swipeToRefresh : R.id.progress);
+            }
+        });
+
 
         return view;
     }
@@ -289,6 +305,43 @@ public class FornecedoresFragment extends BaseFragment {
             //Thread.sleep(800);
             //busca os clientes em background
             return FornecedorService.getFornecedores(getContext(), tipo, refresh);
+        }
+
+        @Override
+        public void updateView(List<Fornecedor> fornecedores) {
+            if (fornecedores != null){
+                //salva a lista de fornecedores no atributo da classe
+                FornecedoresFragment.this.fornecedores = fornecedores;
+                //Atualiza a view na UI Thread
+                recyclerView.setAdapter(new FornecedorAdapter(getContext(), fornecedores, onClickFornecedor()));
+            }
+        }
+
+        @Override
+        public void onError(Exception exception) {
+            //qualquer exceção lançada no método execute vai cair aqui
+            alert("Ocorreu algum erro ao buscar os dados de fornecedores");
+        }
+
+        @Override
+        public void onCancelled(String s) {
+
+        }
+    }
+
+    //Task para buscar os fornecedores pelo nome
+    private class GetFornecedoesByNomeTask implements TaskListener<List<Fornecedor>>{
+        private boolean refresh;
+        private String nome;
+        public GetFornecedoesByNomeTask(boolean refresh, String nome){
+            this.refresh = refresh;
+            this.nome = nome;
+        }
+        @Override
+        public List<Fornecedor> execute() throws Exception {
+            //Thread.sleep(800);
+            //busca os clientes em background
+            return FornecedorService.getFornecedoresByNome(getContext(), tipo, refresh, nome);
         }
 
         @Override

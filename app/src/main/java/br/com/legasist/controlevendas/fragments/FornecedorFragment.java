@@ -38,6 +38,7 @@ public class FornecedorFragment extends BaseFragment {
 
     EditText edtNome, edtEndereco, edtCidade, edtTelefone, edtEmail;
     ImageButton btnSalvar, btnLocalizar;
+    double lat,lng;
 
 
     public FornecedorFragment() {
@@ -89,6 +90,8 @@ public class FornecedorFragment extends BaseFragment {
                         f.uf = combo.getSelectedItem().toString();//String.valueOf(edtUf.getText());
                         f.telefone = String.valueOf(edtTelefone.getText());
                         f.email = String.valueOf(edtEmail.getText());
+                        f.latitude = lat;
+                        f.longitude = lng;
                         db.saveFornecedor(f);
                     }finally {
                         db.close();
@@ -101,6 +104,8 @@ public class FornecedorFragment extends BaseFragment {
                         fornecedor.uf = combo.getSelectedItem().toString();  //String.valueOf(edtUf.getText());
                         fornecedor.telefone = String.valueOf(edtTelefone.getText());
                         fornecedor.email = String.valueOf(edtEmail.getText());
+                        fornecedor.latitude = lat;
+                        fornecedor.longitude = lng;
                         db.saveFornecedor(fornecedor);
                     }finally {
                         db.close();
@@ -123,8 +128,8 @@ public class FornecedorFragment extends BaseFragment {
                 List<Address> list = null;
                 try {
                     list = gc.getFromLocationName(endereco, 10);
-                    double lat = list.get(0).getLatitude();
-                    double lng = list.get(0).getLongitude();
+                    lat = list.get(0).getLatitude();
+                    lng = list.get(0).getLongitude();
 
                     fornecedor.latitude = lat;
                     fornecedor.longitude = lng;

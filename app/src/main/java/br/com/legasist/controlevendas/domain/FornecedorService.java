@@ -50,6 +50,31 @@ public class FornecedorService {
 
     }
 
+    public static List<Fornecedor> getFornecedoresByNome(Context context, int tipo, boolean refresh, String nome) throws IOException {
+        //busca os fornecedores no banco de dados (somente se refresh = false)
+        //List<Cliente> clientes = !refresh ? getFornecedoresFromBanco(context) : null;
+        // sempre buscar no banco por enquanto
+        List<Fornecedor> fornecedores = !false ? getFornecedoresByNomeFromBanco(context, nome) : null;
+        if(fornecedores != null && fornecedores.size()>0){
+            //retorna os fornecedores encontrados do banco
+            return fornecedores;
+        }
+        //controlevendas
+        //se não encontrar, busca no WebService
+        //fornecedores = getFornecedoresFromWebService(context, tipo);
+        //return fornecedores;
+        return null;
+
+        /*String tipoString = getTipo(tipo);
+        String url = URL.replace("{tipo}", tipoString);
+        //Faz a requisição HTTP no servidor e retorna a String com o conteúdo
+        HttpHelper http = new HttpHelper();
+        String json = http.doGet(url);
+        List<Carro> carros = parserJSON(context, json);
+        salvarArquivoNaMemoriaInterna(context, url, json);*/
+
+    }
+
     private static List<Fornecedor> getFornecedoresFromWebService(Context context, int tipo) throws IOException {
         /*String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
@@ -87,6 +112,18 @@ public class FornecedorService {
         try {
             //String tipoString = getTipo(tipo);
             List<Fornecedor> fornecedores = db.findAllFornecedores();
+            Log.d(TAG, "Retornando " + fornecedores.size() + " fornecedores do banco");
+            return fornecedores;
+        }finally {
+            db.close();
+        }
+    }
+
+    private static List<Fornecedor> getFornecedoresByNomeFromBanco(Context context, String nome) throws IOException {
+        OperacoesDB db = new OperacoesDB(context);
+        try {
+            //String tipoString = getTipo(tipo);
+            List<Fornecedor> fornecedores = db.findFornecedorByNome(nome);
             Log.d(TAG, "Retornando " + fornecedores.size() + " fornecedores do banco");
             return fornecedores;
         }finally {

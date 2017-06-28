@@ -12,7 +12,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:text="@string/cliente"
+            android:text="@string/pesquisa"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -59,6 +59,12 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+
+
+    <include layout="@layout/include_progress" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabcli"
         android:layout_width="wrap_content"
@@ -69,9 +75,6 @@
         android:src="@android:drawable/ic_input_add"
         android:tint="#fff000"/>
 
-    <include layout="@layout/include_progress" />
-
-    </android.support.v7.widget.LinearLayoutCompat>
 
 
 </FrameLayout>

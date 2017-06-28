@@ -212,7 +212,6 @@ public class OperacoesDB extends SQLiteOpenHelper{
         }finally {
             db.close();
         }
-
     }
 
     //Lê o cursor e cria a lista de clientes
@@ -294,6 +293,18 @@ public class OperacoesDB extends SQLiteOpenHelper{
         try {
             //select * from produto
             Cursor c = db.query("fornecedor", null, null, null, null, null, "nome", null);
+            return toListFornecedores(c);
+        }finally {
+            db.close();
+        }
+    }
+
+    //Consulta os fornecedores pelo nome
+    public List<Fornecedor> findFornecedorByNome(String nome){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            //select * from fornecedor where id = ?
+            Cursor c = db.query("fornecedor", null, "nome like '%" + nome + "%'", null, null, null, "nome");
             return toListFornecedores(c);
         }finally {
             db.close();
