@@ -10,6 +10,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -17,12 +19,15 @@ import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
+import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Venda;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarVendaDialog;
+import br.com.legasist.controlevendas.fragments.dialog.PesqClienteDialog;
 import livroandroid.lib.utils.IntentUtils;
 
 /**
@@ -32,7 +37,7 @@ public class VendaFragment extends BaseFragment {
     private Venda venda;
 
     EditText edtData, edtCliente, edtValor, edtDesconto, edtTotal;
-    ImageButton btnSalvar, btnBuscaCli, btnAdicionaProd;
+    ImageButton btnSalvar, btnPesqCliente, btnAdicionaProd;
 
 
     public VendaFragment() {
@@ -56,6 +61,19 @@ public class VendaFragment extends BaseFragment {
         edtValor = (EditText) view.findViewById(R.id.textValorVenda);
         edtDesconto = (EditText) view.findViewById(R.id.textDescontoVenda);
         edtTotal = (EditText) view.findViewById(R.id.textTotalVenda);
+
+        OperacoesDB db = new OperacoesDB(getContext());
+        List<Cliente> listaCli = db.findAllClientes();
+        final ArrayAdapter<String> adaptador;
+        adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line);
+        for (Cliente cli:listaCli) {
+            adaptador.add(cli.nome);
+            //spinnerMap.put(cat.categoria, String.valueOf(cat.id));
+        }
+        AutoCompleteTextView estados = (AutoCompleteTextView) view.findViewById(R.id.auto_conmplete_clientes);
+        // ArrayAdapter para preencher com os estados
+
+        estados.setAdapter(adaptador);
 
         if(venda != null && venda.id != 0){
             edtData.setText(dateFormat.format(venda.data));
@@ -106,6 +124,28 @@ public class VendaFragment extends BaseFragment {
                 getActivity().finish();
                 //Envia o evento para o Bus
                 ControleVendasApplication.getInstance().getBus().post("refresh");
+            }
+        });
+
+        btnPesqCliente = (ImageButton) view.findViewById(R.id.btnBuscaCliente);
+        btnPesqCliente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PesqClienteDialog.show(getFragmentManager(), new PesqClienteDialog.Callback() {
+                    @Override
+                    public void onClienteUpdate(Cliente cliente) {
+                        toast("Cliente [" + cliente.nome + "] selecionado");
+                        //Salva a catgoria depois de fechar o Dialog
+                       // OperacoesDB db = new OperacoesDB(getContext());
+                       // db.saveCategoria(categoria);
+                        //controlevendas
+                        //Atualiza o título com o novo nome
+                        //CategoriaActivity a = (CarroActivity) getActivity();
+                        //a.setTitle(carro.nome);
+                        //Envia o evento para o Bus
+                        ControleVendasApplication.getInstance().getBus().post("refresh");
+                    }
+                });
             }
         });
 

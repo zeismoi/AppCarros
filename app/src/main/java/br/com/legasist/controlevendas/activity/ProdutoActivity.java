@@ -34,7 +34,13 @@ public class ProdutoActivity extends BaseActivity {
 
         //título da tollBar e botão up navigation
         Produto p = Parcels.unwrap(getIntent().getParcelableExtra("produto"));
-        getSupportActionBar().setTitle(p.nome);
+
+        if(p.nome != null) {
+            getSupportActionBar().setTitle(p.nome);
+        }else{
+            getSupportActionBar().setTitle("Novo produto");
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Imagem de header na actionBar
         //controlevendas

@@ -24,7 +24,13 @@ public class ClienteActivity extends BaseActivity {
 
         //título da tollBar e botão up navigation
         Cliente c = Parcels.unwrap(getIntent().getParcelableExtra("cliente"));
-        getSupportActionBar().setTitle(c.nome);
+
+        if(c.nome != null) {
+            getSupportActionBar().setTitle(c.nome);
+        }else{
+            getSupportActionBar().setTitle("Novo cliente");
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Imagem de header na actionBar
         //controlevendas

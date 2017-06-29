@@ -41,7 +41,7 @@
         <item
             android:id="@+id/nav_item_site_livro"
             android:icon="@drawable/ic_drawer_site_livro"
-            android:title="@string/site_do_livro" />
+            android:title="@string/site_do_sistema" />
         <!-- Tela de configurações -->
         <item
             android:id="@+id/nav_item_settings"

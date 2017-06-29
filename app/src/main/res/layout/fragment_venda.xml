@@ -75,6 +75,14 @@
 
                 </android.support.v7.widget.LinearLayoutCompat>
 
+                <AutoCompleteTextView
+                    android:id="@+id/auto_conmplete_clientes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionHint="Digite o nome de um cliente"
+                    android:completionThreshold="1" />
+
+
                 <!-- Valor -->
                 <TextView
                     android:layout_width="wrap_content"

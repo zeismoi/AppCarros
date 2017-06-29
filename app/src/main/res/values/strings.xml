@@ -53,7 +53,7 @@ Versao %s<br><br>
     <!-- S -->
     <string name="share">Share</string>
     <string name="sobre">Sobre</string>
-    <string name="site_do_livro">Site do Livro</string>
+    <string name="site_do_sistema">Site do Sistema</string>
 
     <!-- V -->
     <string name="vazio" />

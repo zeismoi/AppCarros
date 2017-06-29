@@ -26,7 +26,13 @@ public class VendaActivity extends BaseActivity {
 
         //título da tollBar e botão up navigation
         Venda v = Parcels.unwrap(getIntent().getParcelableExtra("venda"));
-        getSupportActionBar().setTitle(dateFormat.format(v.data));
+
+        if(v.data != null) {
+            getSupportActionBar().setTitle(dateFormat.format(v.data));
+        }else{
+            getSupportActionBar().setTitle("Nova venda");
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Imagem de header na actionBar
         //controlevendas

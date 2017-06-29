@@ -21,7 +21,13 @@ public class FornecedorActivity extends BaseActivity {
 
         //título da tollBar e botão up navigation
         Fornecedor f = Parcels.unwrap(getIntent().getParcelableExtra("fornecedor"));
-        getSupportActionBar().setTitle(f.nome);
+
+        if(f.nome != null) {
+            getSupportActionBar().setTitle(f.nome);
+        }else{
+            getSupportActionBar().setTitle("Novo fornecedor");
+        }
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Imagem de header na actionBar
         //controlevendas
