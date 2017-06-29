@@ -2,6 +2,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/pesquisa"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/textPesqProduto"
+            android:layout_width="302dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"/>
+
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/btnPesqProduto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_action_search"
+            android:layout_gravity="right"
+            />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
@@ -23,6 +59,10 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <include layout="@layout/include_progress" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabprod"
         android:layout_width="wrap_content"
@@ -32,8 +72,5 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:src="@android:drawable/ic_input_add"
         android:tint="#fff000"/>
-
-    <include layout="@layout/include_progress" />
-
 
 </FrameLayout>

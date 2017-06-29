@@ -21,7 +21,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
     protected static final String TAG = "sql";
     //Nome do banco
     public static final String NOME_BANCO = "controle_vendas";
-    public static final int VERSAO_BANCO = 38;
+    public static final int VERSAO_BANCO = 39;
 
     public OperacoesDB(Context context) {
         //context, nome do banco, factory, versão
@@ -390,6 +390,18 @@ public class OperacoesDB extends SQLiteOpenHelper{
         try {
             //select * from produto
             Cursor c = db.query("produto", null, null, null, null, null, "nome", null);
+            return toListProdutos(c);
+        }finally {
+            db.close();
+        }
+    }
+
+    //Consulta os produtos pelo nome
+    public List<Produto> findProdutoByNome(String nome){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            //select * from produto where nome like ?
+            Cursor c = db.query("produto", null, "nome like '%" + nome + "%'", null, null, null, "nome");
             return toListProdutos(c);
         }finally {
             db.close();

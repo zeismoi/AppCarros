@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.squareup.otto.Subscribe;
 
@@ -38,6 +40,8 @@ public class ProdutosFragment extends BaseFragment {
     private List<Produto> produtos;
     private SwipeRefreshLayout swipeLayout;
     private ActionMode actionMode;
+
+    EditText edtPesqProduto;
     //private Intent shareIntent;
 
     //Método para instanciar esse //fragment
@@ -74,6 +78,8 @@ public class ProdutosFragment extends BaseFragment {
         swipeLayout.setOnRefreshListener(OnRefreshListener());
         swipeLayout.setColorSchemeResources(R.color.refresh_progress_1, R.color.refresh_progress_2, R.color.refresh_progress_3);
 
+        edtPesqProduto = (EditText) view.findViewById(R.id.textPesqProduto);
+
         //FAB
         /*view.findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
             @Override
@@ -94,6 +100,15 @@ public class ProdutosFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+
+        ImageButton btnPesqProduto = (ImageButton) view.findViewById(R.id.btnPesqProduto);
+        btnPesqProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startTask("produtos", new GetProdutosByNomeTask(false, String.valueOf(edtPesqProduto.getText())), false? R.id.swipeToRefresh : R.id.progress);
+            }
+        });
+
 
         return view;
     }
@@ -288,6 +303,44 @@ public class ProdutosFragment extends BaseFragment {
             //Thread.sleep(800);
             //busca os carros em background
             return ProdutoService.getProdutos(getContext(), tipo, refresh);
+        }
+
+        @Override
+        public void updateView(List<Produto> produtos) {
+            if (produtos != null){
+                //salva a lista de produtos no atributo da classe
+                ProdutosFragment.this.produtos = produtos;
+                //Atualiza a view na UI Thread
+                recyclerView.setAdapter(new ProdutoAdapter(getContext(), produtos, onClickProduto()));
+            }
+        }
+
+        @Override
+        public void onError(Exception exception) {
+            //qualquer exceção lançada no método execute vai cair aqui
+            alert("Ocorreu algum erro ao buscar os dados de produtos");
+        }
+
+        @Override
+        public void onCancelled(String s) {
+
+        }
+    }
+
+
+    //Task para buscar os produtos por nome
+    private class GetProdutosByNomeTask implements TaskListener<List<Produto>>{
+        private boolean refresh;
+        private String nome;
+        public GetProdutosByNomeTask(boolean refresh, String nome){
+            this.refresh = refresh;
+            this.nome = nome;
+        }
+        @Override
+        public List<Produto> execute() throws Exception {
+            //Thread.sleep(800);
+            //busca os carros em background
+            return ProdutoService.getProdutosByNome(getContext(), tipo, refresh, nome);
         }
 
         @Override

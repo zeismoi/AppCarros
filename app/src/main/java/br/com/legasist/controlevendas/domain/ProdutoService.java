@@ -50,6 +50,31 @@ public class ProdutoService {
 
     }
 
+    public static List<Produto> getProdutosByNome(Context context, int tipo, boolean refresh, String nome) throws IOException {
+        //busca os produtos no banco de dados (somente se refresh = false)
+        //List<Produto> produtos = !refresh ? getProdutosFromBanco(context) : null;
+        //sempre buscar no banco por enquanto
+        List<Produto> produtos = !false ? getProdutosByNomeFromBanco(context, nome) : null;
+        if(produtos != null && produtos.size()>0){
+            //retorna os produtos encontrados do banco
+            return produtos;
+        }
+        //controlevendas
+        //se não encontrar, busca no WebService
+        //produtos = getProdutosFromWebService(context, tipo);
+        //return produtos;
+        return null;
+
+        /*String tipoString = getTipo(tipo);
+        String url = URL.replace("{tipo}", tipoString);
+        //Faz a requisição HTTP no servidor e retorna a String com o conteúdo
+        HttpHelper http = new HttpHelper();
+        String json = http.doGet(url);
+        List<Carro> carros = parserJSON(context, json);
+        salvarArquivoNaMemoriaInterna(context, url, json);*/
+
+    }
+
     private static List<Produto> getProdutosFromWebService(Context context, int tipo) throws IOException {
         String tipoString = getTipo(tipo);
         String url = URL.replace("{tipo}", tipoString);
@@ -83,6 +108,18 @@ public class ProdutoService {
     }
 
     private static List<Produto> getProdutosFromBanco(Context context) throws IOException {
+        OperacoesDB db = new OperacoesDB(context);
+        try {
+            //String tipoString = getTipo(tipo);
+            List<Produto> produtos = db.findAllProdutos();
+            Log.d(TAG, "Retornando " + produtos.size() + " produtos do banco");
+            return produtos;
+        }finally {
+            db.close();
+        }
+    }
+
+    private static List<Produto> getProdutosByNomeFromBanco(Context context, String nome) throws IOException {
         OperacoesDB db = new OperacoesDB(context);
         try {
             //String tipoString = getTipo(tipo);
