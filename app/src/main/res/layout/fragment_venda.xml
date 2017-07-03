@@ -52,6 +52,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
+                <!--
                 <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -73,13 +74,13 @@
                         android:layout_gravity="right"
                         />
 
-                </android.support.v7.widget.LinearLayoutCompat>
+                </android.support.v7.widget.LinearLayoutCompat>-->
 
-                <AutoCompleteTextView
-                    android:id="@+id/auto_conmplete_clientes"
+                <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/auto_complete_clientes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:completionHint="Digite o nome de um cliente"
+                    android:completionHint="@string/digite_o_cliente"
                     android:completionThreshold="1" />
 
 

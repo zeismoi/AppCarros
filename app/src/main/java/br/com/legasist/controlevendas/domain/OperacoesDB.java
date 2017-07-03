@@ -202,6 +202,19 @@ public class OperacoesDB extends SQLiteOpenHelper{
         }
     }
 
+    //Consulta O CLIENTE pelo id
+    public Cliente findClienteById(long id){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            //select * from cliente where id = ?
+            Cursor c = db.query("cliente", null, "_id = '" + id + "'", null, null, null, null);
+            return toListClientes(c).get(0);
+        }finally {
+            db.close();
+        }
+
+    }
+
     //Consulta os clientes pelo nome
     public List<Cliente> findClienteByNome(String nome){
         SQLiteDatabase db = getWritableDatabase();
@@ -347,7 +360,7 @@ public class OperacoesDB extends SQLiteOpenHelper{
         return fornecedores;
     }
 
-//**FIM ***** MÉTODOS DE CLIENTE*******************************************
+//**FIM ***** MÉTODOS DE FORNECEDORES*******************************************
 
 
 //MÉTODOS DE PRODUTOS*****************************************************

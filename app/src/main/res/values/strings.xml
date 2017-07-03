@@ -76,8 +76,10 @@ Versao %s<br><br>
     <string name="selecione_o_estado">Selecione o estado</string>
     <string name="selecione_a_categoria">Selecione a categoria</string>
     <string name="selecione_o_fornecedor">Selecione o fornecedor</string>
+    <string name="digite_o_cliente">Digite o cliente</string>
     <string name="nao_ha_categoria">Não há categoria cadastrada</string>
     <string name="nao_ha_fornecedor">Não há fornecedor cadastrado</string>
+    <string name="nao_ha_cliente">Não há cliente cadastrado</string>
 
     <string name="fechar_janela">Fechar</string>
     <string name="categorias">Categorias</string>

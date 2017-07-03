@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -14,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.com.legasist.controlevendas.R;
+import br.com.legasist.controlevendas.domain.Cliente;
+import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Venda;
 
 /**
@@ -48,10 +51,12 @@ public class VendaAdapter extends RecyclerView.Adapter<VendaAdapter.VendasViewHo
     public void onBindViewHolder(final VendasViewHolder holder, final int position){
         //Atualiza a view
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        OperacoesDB db = new OperacoesDB(this.context);
         Venda v = vendas.get(position);
         holder.tDataVenda.setText(dateFormat.format(v.data));
         if(v.cliente != 0) {
-            holder.tCliente.setText((int) v.cliente);
+            Cliente cli = db.findClienteById((v.cliente));
+            holder.tCliente.setText(cli.nome);
         }
 
         //pinta o fundo de azul se a linha estiver selecionada
@@ -104,7 +109,7 @@ public class VendaAdapter extends RecyclerView.Adapter<VendaAdapter.VendasViewHo
             super(view);
             //Cria as views para salvar no viewHolder
             tDataVenda = (TextView) view.findViewById(R.id.textDataVenda);
-            tCliente = (TextView) view.findViewById(R.id.textClienteVenda);
+            tCliente = (TextView) view.findViewById(R.id.textCliVenda);
 
             cardView = (CardView) view.findViewById(R.id.card_view);
         }

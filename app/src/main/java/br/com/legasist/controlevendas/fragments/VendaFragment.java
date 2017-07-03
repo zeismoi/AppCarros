@@ -19,10 +19,12 @@ import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
+import br.com.legasist.controlevendas.domain.Categoria;
 import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Venda;
@@ -56,8 +58,10 @@ public class VendaFragment extends BaseFragment {
 
         final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+        final AutoCompleteTextView clientes = (AutoCompleteTextView) view.findViewById(R.id.auto_complete_clientes);
+
         edtData = (EditText) view.findViewById(R.id.textDataVenda);
-        edtCliente = (EditText) view.findViewById(R.id.textClienteVenda);
+        edtCliente = (EditText) view.findViewById(R.id.auto_complete_clientes);
         edtValor = (EditText) view.findViewById(R.id.textValorVenda);
         edtDesconto = (EditText) view.findViewById(R.id.textDescontoVenda);
         edtTotal = (EditText) view.findViewById(R.id.textTotalVenda);
@@ -65,15 +69,26 @@ public class VendaFragment extends BaseFragment {
         OperacoesDB db = new OperacoesDB(getContext());
         List<Cliente> listaCli = db.findAllClientes();
         final ArrayAdapter<String> adaptador;
-        adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line);
+        String[] autoComplArray = new String[listaCli.size()];
+        final HashMap<String,String> autoComplMap = new HashMap<String, String>();
+        adaptador = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1);
+        // ArrayAdapter para preencher com os clientes
+        clientes.setAdapter(adaptador);
+
         for (Cliente cli:listaCli) {
             adaptador.add(cli.nome);
-            //spinnerMap.put(cat.categoria, String.valueOf(cat.id));
+            autoComplMap.put(cli.nome, String.valueOf(cli.id));
         }
-        AutoCompleteTextView estados = (AutoCompleteTextView) view.findViewById(R.id.auto_conmplete_clientes);
-        // ArrayAdapter para preencher com os estados
+        if(listaCli.size() == 0){
+            adaptador.add(getResources().getString(R.string.nao_ha_cliente));
+            autoComplMap.put(getResources().getString(R.string.nao_ha_cliente), String.valueOf("-1"));
+            clientes.setThreshold(adaptador.getPosition(getResources().getString(R.string.nao_ha_cliente)));
+        }else {
+            adaptador.add(getResources().getString(R.string.digite_o_cliente));
+            autoComplMap.put(getResources().getString(R.string.digite_o_cliente), String.valueOf("-1"));
+            clientes.setThreshold(adaptador.getPosition(getResources().getString(R.string.digite_o_cliente)));
+        }
 
-        estados.setAdapter(adaptador);
 
         if(venda != null && venda.id != 0){
             edtData.setText(dateFormat.format(venda.data));
@@ -81,6 +96,10 @@ public class VendaFragment extends BaseFragment {
             edtValor.setText(Double.toString(venda.valor));
             edtDesconto.setText(Double.toString(venda.desconto));
             edtTotal.setText(Double.toString(venda.total));
+            if(venda.cliente != 0) {
+                Cliente cli = db.findClienteById((venda.cliente));
+                clientes.setText(cli.nome);
+            }
         }
 
         btnSalvar = (ImageButton) view.findViewById(R.id.btnSalvarVenda);
@@ -92,12 +111,19 @@ public class VendaFragment extends BaseFragment {
                     Venda v = new Venda();
                     try {
                         v.data = dateFormat.parse(String.valueOf(edtData.getText()));
-                        if((String.valueOf(edtCliente.getText()) != null) && (!(String.valueOf(edtCliente.getText()).equals("")))) {
+                        /*if((String.valueOf(edtCliente.getText()) != null) && (!(String.valueOf(edtCliente.getText()).equals("")))) {
                             v.cliente = Long.parseLong(String.valueOf(edtCliente.getText()));
-                        }
+                        }*/
                         v.valor = Double.parseDouble(String.valueOf(edtValor.getText()));
                         v.desconto = Double.parseDouble(String.valueOf(edtDesconto.getText()));
                         v.total = Double.parseDouble(String.valueOf(edtTotal.getText()));
+
+                        //SE NÃO EXISTIR NENHUM ITEM SELECIONADO NA COMBO, NÃO GRAVA, POIS O ID ESTAVA VINDO COMO -1
+                        if(clientes.getText() != null && autoComplMap.get(String.valueOf(clientes.getText())) != String.valueOf(-1)) {
+                            long id = Long.parseLong(autoComplMap.get(String.valueOf(clientes.getText())));
+                            v.cliente = id;
+                        }
+
                         db.saveVenda(v);
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -107,12 +133,19 @@ public class VendaFragment extends BaseFragment {
                 }else{
                     try{
                         venda.data = dateFormat.parse(String.valueOf(edtData.getText()));
-                        if(edtCliente.getText()!= null && !edtCliente.getText().equals("")) {
+                        /*if(edtCliente.getText()!= null && !edtCliente.getText().equals("")) {
                             venda.cliente = Long.parseLong(String.valueOf(edtCliente.getText()));
-                        }
+                        }*/
                         venda.valor = Double.parseDouble(String.valueOf(edtValor.getText()));
                         venda.desconto = Double.parseDouble(String.valueOf(edtDesconto.getText()));
                         venda.total = Double.parseDouble(String.valueOf(edtTotal.getText()));
+
+                        //SE NÃO EXISTIR NENHUM ITEM SELECIONADO NA COMBO, NÃO GRAVA, POIS O ID ESTAVA VINDO COMO -1
+                        if(clientes.getText() != null && autoComplMap.get(String.valueOf(clientes.getText())) != String.valueOf(-1)) {
+                            long id = Long.parseLong(autoComplMap.get(String.valueOf(clientes.getText())));
+                            venda.cliente = id;
+                        }
+
                         db.saveVenda(venda);
                     } catch (ParseException e) {
                         e.printStackTrace();
@@ -127,7 +160,7 @@ public class VendaFragment extends BaseFragment {
             }
         });
 
-        btnPesqCliente = (ImageButton) view.findViewById(R.id.btnBuscaCliente);
+        /*btnPesqCliente = (ImageButton) view.findViewById(R.id.btnBuscaCliente);
         btnPesqCliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,7 +180,7 @@ public class VendaFragment extends BaseFragment {
                     }
                 });
             }
-        });
+        });*/
 
 
         return view;
