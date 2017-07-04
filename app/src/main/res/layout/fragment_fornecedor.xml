@@ -35,7 +35,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/nomecli"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <EditText
                     android:id="@+id/textNomeFornec"
                     android:layout_width="match_parent"
@@ -49,7 +50,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/endereco"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <EditText
                     android:id="@+id/textEnderecoFornec"
                     android:layout_width="match_parent"
@@ -63,7 +65,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/cidade"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <EditText
                     android:id="@+id/textCidadeFornec"
                     android:layout_width="match_parent"
@@ -77,7 +80,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/uf"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
 
                 <Spinner
                     android:id="@+id/comboEstados"
@@ -105,7 +109,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/telefone"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <EditText
                     android:id="@+id/textTelefoneFornec"
                     android:layout_width="match_parent"
@@ -119,7 +124,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/email"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <EditText
                     android:id="@+id/textEmailFornec"
                     android:layout_width="match_parent"

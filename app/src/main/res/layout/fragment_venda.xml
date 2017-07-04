@@ -35,7 +35,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/data"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <EditText
                     android:id="@+id/textDataVenda"
                     android:layout_width="match_parent"
@@ -50,7 +51,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/cliente"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
 
                 <!--
                 <android.support.v7.widget.LinearLayoutCompat
@@ -84,6 +86,12 @@
                     android:completionThreshold="1" />
 
 
+                <android.support.v7.widget.GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    app:columnCount="3">
+
                 <!-- Valor -->
                 <TextView
                     android:layout_width="wrap_content"
@@ -92,12 +100,24 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/valor"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    app:layout_column="0"
+                    app:layout_row="0"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1"
+                    app:layout_gravity="center"/>
                 <EditText
                     android:id="@+id/textValorVenda"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal"
+                    android:layout_weight="2"
+                    app:layout_column="0"
+                    app:layout_row="1"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1"
+                    android:textAlignment="center"/>
 
                 <!-- Desconto -->
                 <TextView
@@ -107,12 +127,24 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/desconto"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    app:layout_column="1"
+                    app:layout_row="0"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1"
+                    app:layout_gravity="center"/>
                 <EditText
                     android:id="@+id/textDescontoVenda"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal"
+                    android:layout_weight="2"
+                    app:layout_column="1"
+                    app:layout_row="1"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1"
+                    android:textAlignment="center"/>
 
                 <!-- Total -->
                 <TextView
@@ -122,12 +154,26 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/total"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"
+                    app:layout_column="2"
+                    app:layout_row="0"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1"
+                    app:layout_gravity="center"/>
                 <EditText
                     android:id="@+id/textTotalVenda"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:inputType="numberDecimal"
+                    android:layout_weight="2"
+                    app:layout_column="2"
+                    app:layout_row="1"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1"
+                    android:textAlignment="center"/>
+
+                </android.support.v7.widget.GridLayout>
 
 
                 <android.support.v7.widget.AppCompatImageButton

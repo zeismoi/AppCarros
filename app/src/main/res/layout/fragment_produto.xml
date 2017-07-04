@@ -35,7 +35,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/nome_prod"
                     android:textSize="@dimen/size_texo_formulario"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <EditText
                     android:id="@+id/textNomeProd"
                     android:layout_width="match_parent"
@@ -49,7 +50,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/codigo_barras"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
 
                 <android.support.v7.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
@@ -60,8 +62,7 @@
                         android:id="@+id/textCodBarras"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="6"
-                        android:enabled="false"/>
+                        android:layout_weight="6"/>
 
                     <android.support.v7.widget.AppCompatImageButton
                         android:id="@+id/btnCodBarrasProd"
@@ -74,65 +75,124 @@
 
                 </android.support.v7.widget.LinearLayoutCompat>
 
-                <!-- Estoque atual -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="@dimen/top_margin_text_form"
-                    android:text="@string/estoque_atual"
-                    android:textSize="@dimen/size_texo_formulario"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/textEstAtual"
+                <android.support.v7.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:padding="16dp"
+                    app:columnCount="2">
 
-                <!-- Estoque mínimo -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="@dimen/top_margin_text_form"
-                    android:text="@string/estoque_min"
-                    android:textSize="@dimen/size_texo_formulario"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/textEstMinimo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                        <!-- Estoque atual -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="@dimen/top_margin_text_form"
+                            android:text="@string/estoque_atual"
+                            android:textSize="@dimen/size_texo_formulario"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            app:layout_column="0"
+                            app:layout_row="0"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="center"/>
+                        <EditText
+                            android:id="@+id/textEstAtual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            app:layout_column="0"
+                            app:layout_row="1"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            android:textAlignment="center"/>
 
-                <!-- Preço Custo -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="@dimen/top_margin_text_form"
-                    android:text="@string/preco_custo"
-                    android:textSize="@dimen/size_texo_formulario"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/textPrecoCusto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                        <!-- Estoque mínimo -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="@dimen/top_margin_text_form"
+                            android:text="@string/estoque_min"
+                            android:textSize="@dimen/size_texo_formulario"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            app:layout_column="1"
+                            app:layout_row="0"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="center"/>
+                        <EditText
+                            android:id="@+id/textEstMinimo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            app:layout_column="1"
+                            app:layout_row="1"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            android:textAlignment="center"/>
+                </android.support.v7.widget.GridLayout>
 
-                <!-- Preço Venda -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="@dimen/top_margin_text_form"
-                    android:text="@string/preco_venda"
-                    android:textSize="@dimen/size_texo_formulario"
-                    android:textStyle="bold" />
-                <EditText
-                    android:id="@+id/textPrecoVenda"
+                <android.support.v7.widget.GridLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"/>
+                    android:padding="16dp"
+                    app:columnCount="2">
+
+                        <!-- Preço Custo -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="@dimen/top_margin_text_form"
+                            android:text="@string/preco_custo"
+                            android:textSize="@dimen/size_texo_formulario"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            app:layout_column="0"
+                            app:layout_row="0"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="center"/>
+                        <EditText
+                            android:id="@+id/textPrecoCusto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            app:layout_column="0"
+                            app:layout_row="1"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            android:textAlignment="center"/>
+
+                        <!-- Preço Venda -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="@dimen/top_margin_text_form"
+                            android:text="@string/preco_venda"
+                            android:textSize="@dimen/size_texo_formulario"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            app:layout_column="1"
+                            app:layout_row="0"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            app:layout_gravity="center"/>
+                        <EditText
+                            android:id="@+id/textPrecoVenda"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            app:layout_column="1"
+                            app:layout_row="1"
+                            app:layout_columnWeight="1"
+                            app:layout_rowWeight="1"
+                            android:textAlignment="center"/>
+
+                </android.support.v7.widget.GridLayout>
 
 
                 <!-- Categoria -->
@@ -143,7 +203,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/categoria"
                     android:textSize="@dimen/size_texo_formulario"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <Spinner
                     android:id="@+id/comboCategorias"
                     android:layout_width="match_parent"
@@ -160,7 +221,8 @@
                     android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/fornecedor"
                     android:textSize="@dimen/size_texo_formulario"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textColor="@color/primary"/>
                 <Spinner
                     android:id="@+id/comboFornecedores"
                     android:layout_width="match_parent"
