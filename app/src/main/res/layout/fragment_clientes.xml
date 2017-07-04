@@ -57,15 +57,15 @@
 
     </android.support.v7.widget.LinearLayoutCompat>
 
-    <android.support.design.widget.FloatingActionButton
+   <!-- <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabcli"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top|right"
+        android:layout_gravity="bottom|right"
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
         android:src="@android:drawable/ic_input_add"
-        android:tint="#fff000"/>
+        android:tint="#fff000"/>-->
 
 
 

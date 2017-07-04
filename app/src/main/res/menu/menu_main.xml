@@ -1,6 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_novo_cliente"
+        android:title="@string/action_novo_cliente"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_novo_produto"
+        android:title="@string/action_novo_produto"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_novo_fornecedor"
+        android:title="@string/action_novo_fornecedor"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_nova_venda"
+        android:title="@string/action_nova_venda"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_about"
         android:title="@string/action_about"
         app:showAsAction="never" />

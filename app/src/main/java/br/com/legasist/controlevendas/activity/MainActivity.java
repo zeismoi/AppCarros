@@ -1,6 +1,7 @@
 package br.com.legasist.controlevendas.activity;
 
 import android.app.backup.BackupManager;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -9,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.parceler.Parcels;
+
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.adapter.TabsAdapter;
+import br.com.legasist.controlevendas.domain.Cliente;
+import br.com.legasist.controlevendas.domain.Fornecedor;
+import br.com.legasist.controlevendas.domain.Produto;
+import br.com.legasist.controlevendas.domain.Venda;
 import br.com.legasist.controlevendas.fragments.dialog.AboutDialog;
 import livroandroid.lib.utils.Prefs;
 
@@ -31,7 +38,10 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                snack(v, "Exemplo de FAB button");
+                Venda vend = new Venda();
+                Intent intent = new Intent(getContext(), VendaActivity.class);
+                intent.putExtra("venda", Parcels.wrap(vend));//converte o objeto para Parcelable
+                startActivity(intent);
             }
         });
 
@@ -89,6 +99,30 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == br.com.legasist.controlevendas.R.id.action_about){
             AboutDialog.showAbout(getSupportFragmentManager());
+            return true;
+        }else if (id == R.id.action_novo_cliente){
+            Cliente c = new Cliente();
+            Intent intent = new Intent(getContext(), ClienteActivity.class);
+            intent.putExtra("cliente", Parcels.wrap(c));//converte o objeto para Parcelable
+            startActivity(intent);
+            return true;
+        }else if (id == R.id.action_novo_produto) {
+            Produto p = new Produto();
+            Intent intent = new Intent(getContext(), ProdutoActivity.class);
+            intent.putExtra("produto", Parcels.wrap(p));//converte o objeto para Parcelable
+            startActivity(intent);
+            return true;
+        }else if (id == R.id.action_novo_fornecedor) {
+            Fornecedor f = new Fornecedor();
+            Intent intent = new Intent(getContext(), FornecedorActivity.class);
+            intent.putExtra("fornecedor", Parcels.wrap(f));//converte o objeto para Parcelable
+            startActivity(intent);
+            return true;
+        }else if (id == R.id.action_nova_venda) {
+            Venda v = new Venda();
+            Intent intent = new Intent(getContext(), VendaActivity.class);
+            intent.putExtra("venda", Parcels.wrap(v));//converte o objeto para Parcelable
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

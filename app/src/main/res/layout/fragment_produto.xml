@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/nome_prod"
                     android:textSize="@dimen/size_texo_formulario"
                     android:textStyle="bold" />
@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/codigo_barras"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/estoque_atual"
                     android:textSize="@dimen/size_texo_formulario"
                     android:textStyle="bold" />
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/estoque_min"
                     android:textSize="@dimen/size_texo_formulario"
                     android:textStyle="bold" />
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/preco_custo"
                     android:textSize="@dimen/size_texo_formulario"
                     android:textStyle="bold" />
@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/preco_venda"
                     android:textSize="@dimen/size_texo_formulario"
                     android:textStyle="bold" />
@@ -140,7 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/categoria"
                     android:textSize="@dimen/size_texo_formulario"
                     android:textStyle="bold" />
@@ -157,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/fornecedor"
                     android:textSize="@dimen/size_texo_formulario"
                     android:textStyle="bold" />

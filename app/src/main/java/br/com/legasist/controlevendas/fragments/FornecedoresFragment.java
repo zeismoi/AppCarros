@@ -89,7 +89,7 @@ public class FornecedoresFragment extends BaseFragment {
         });*/
 
         //FAB
-        view.findViewById(R.id.fabfornec).setOnClickListener(new View.OnClickListener(){
+        /*view.findViewById(R.id.fabfornec).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //snack(v, "Exemplo de FAB button - Fornecedoes");
@@ -99,7 +99,7 @@ public class FornecedoresFragment extends BaseFragment {
                 intent.putExtra("fornecedor", Parcels.wrap(f));//converte o objeto para Parcelable
                 startActivity(intent);
             }
-        });
+        });*/
 
         ImageButton btnPesqFornec = (ImageButton) view.findViewById(R.id.btnPesqFornecedor);
         btnPesqFornec.setOnClickListener(new View.OnClickListener() {

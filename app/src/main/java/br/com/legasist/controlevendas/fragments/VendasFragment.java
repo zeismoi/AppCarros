@@ -83,7 +83,7 @@ public class VendasFragment extends BaseFragment {
         });*/
 
         //FAB
-        view.findViewById(R.id.fabvendas).setOnClickListener(new View.OnClickListener(){
+        /*view.findViewById(R.id.fabvendas).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //abre a tela para cadastro de uma nova venda
@@ -92,7 +92,7 @@ public class VendasFragment extends BaseFragment {
                 intent.putExtra("venda", Parcels.wrap(vend));//converte o objeto para Parcelable
                 startActivity(intent);
             }
-        });
+        });*/
 
         return view;
     }

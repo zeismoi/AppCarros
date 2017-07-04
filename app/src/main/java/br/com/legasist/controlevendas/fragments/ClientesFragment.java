@@ -90,7 +90,7 @@ public class ClientesFragment extends BaseFragment {
         });*/
 
         //FAB
-        view.findViewById(R.id.fabcli).setOnClickListener(new View.OnClickListener(){
+        /*view.findViewById(R.id.fabcli).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //snack(v, "Exemplo de FAB button - Clientes");
@@ -100,7 +100,7 @@ public class ClientesFragment extends BaseFragment {
                 intent.putExtra("cliente", Parcels.wrap(c));//converte o objeto para Parcelable
                 startActivity(intent);
             }
-        });
+        });*/
 
         ImageButton btnPesqCliente = (ImageButton) view.findViewById(R.id.btnPesqCliente);
         btnPesqCliente.setOnClickListener(new View.OnClickListener() {

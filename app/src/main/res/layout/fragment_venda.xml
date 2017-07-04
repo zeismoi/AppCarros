@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/data"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/cliente"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -89,7 +89,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/valor"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -104,7 +104,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/desconto"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/top_margin_text_form"
                     android:text="@string/total"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -137,10 +137,6 @@
                     android:src="@android:drawable/ic_input_add"
                     android:layout_gravity="center"
                     />
-
-
-
-
 
                 <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/btnSalvarVenda"

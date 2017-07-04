@@ -89,7 +89,7 @@ public class ProdutosFragment extends BaseFragment {
         });*/
 
         //FAB
-        view.findViewById(R.id.fabprod).setOnClickListener(new View.OnClickListener(){
+        /*view.findViewById(R.id.fabprod).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 //snack(v, "Exemplo de FAB button - Produtos");
@@ -99,7 +99,7 @@ public class ProdutosFragment extends BaseFragment {
                 intent.putExtra("produto", Parcels.wrap(p));//converte o objeto para Parcelable
                 startActivity(intent);
             }
-        });
+        });*/
 
         ImageButton btnPesqProduto = (ImageButton) view.findViewById(R.id.btnPesqProduto);
         btnPesqProduto.setOnClickListener(new View.OnClickListener() {
