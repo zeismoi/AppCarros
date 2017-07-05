@@ -107,7 +107,7 @@ public class VendasFragment extends BaseFragment {
     @Subscribe
     public void onBusAtualizarListaVendas(String refresh){
         //Recebeu o evento, atualiza a lista
-        taskVendas(false);
+       // taskVendas(false);
     }
 
     private SwipeRefreshLayout.OnRefreshListener OnRefreshListener() {

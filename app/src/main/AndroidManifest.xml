@@ -165,6 +165,14 @@
                 android:value=".activity.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".activity.PesqProdutosActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
+
         <meta-data
             android:name="Prod_Fornec_MODEL"
             android:value="br.com.legasist.controlevendas.domain.Produto, br.com.legasist.controlevendas.domain.Fornecedor" />

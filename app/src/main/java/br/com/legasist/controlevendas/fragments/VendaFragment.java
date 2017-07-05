@@ -1,6 +1,7 @@
 package br.com.legasist.controlevendas.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -24,12 +26,15 @@ import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
+import br.com.legasist.controlevendas.activity.PesqProdutosActivity;
 import br.com.legasist.controlevendas.domain.Categoria;
 import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
+import br.com.legasist.controlevendas.domain.Produto;
 import br.com.legasist.controlevendas.domain.Venda;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarVendaDialog;
 import br.com.legasist.controlevendas.fragments.dialog.PesqClienteDialog;
+import br.com.legasist.controlevendas.fragments.dialog.PesqProdutoDialog;
 import livroandroid.lib.utils.IntentUtils;
 
 /**
@@ -39,7 +44,8 @@ public class VendaFragment extends BaseFragment {
     private Venda venda;
 
     EditText edtData, edtCliente, edtValor, edtDesconto, edtTotal;
-    ImageButton btnSalvar, btnPesqCliente, btnAdicionaProd;
+    ImageButton btnSalvar, btnAdicionaProd;
+    Button btnEscolherProduto;
 
 
     public VendaFragment() {
@@ -157,6 +163,22 @@ public class VendaFragment extends BaseFragment {
                 getActivity().finish();
                 //Envia o evento para o Bus
                 ControleVendasApplication.getInstance().getBus().post("refresh");
+            }
+        });
+
+        btnEscolherProduto = (Button) view.findViewById(R.id.btnEscolherProduto);
+        btnEscolherProduto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*Intent intent = new Intent(getContext(), PesqProdutosActivity.class);
+                startActivityForResult(intent,4);*/
+                PesqProdutoDialog.show(getFragmentManager(), new PesqProdutoDialog.Callback() {
+                    @Override
+                    public void onProdutoUpdate(Produto produto) {
+
+                        ControleVendasApplication.getInstance().getBus().post("refresh");
+                    }
+                });
             }
         });
 
