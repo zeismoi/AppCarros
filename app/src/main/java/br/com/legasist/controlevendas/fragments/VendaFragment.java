@@ -1,7 +1,6 @@
 package br.com.legasist.controlevendas.fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.PopupMenu;
@@ -26,14 +25,11 @@ import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
-import br.com.legasist.controlevendas.activity.PesqProdutosActivity;
-import br.com.legasist.controlevendas.domain.Categoria;
 import br.com.legasist.controlevendas.domain.Cliente;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Produto;
 import br.com.legasist.controlevendas.domain.Venda;
 import br.com.legasist.controlevendas.fragments.dialog.DeletarVendaDialog;
-import br.com.legasist.controlevendas.fragments.dialog.PesqClienteDialog;
 import br.com.legasist.controlevendas.fragments.dialog.PesqProdutoDialog;
 import livroandroid.lib.utils.IntentUtils;
 
@@ -206,6 +202,11 @@ public class VendaFragment extends BaseFragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
     }
 
     @Override

@@ -32,6 +32,7 @@ public class PesqProdutosFragment extends BaseFragment {
     protected RecyclerView recyclerView;
     private List<Produto> produtos;
     private SwipeRefreshLayout swipeLayout;
+    private Produto p;
 
     EditText edtPesqProduto;
     //private Intent shareIntent;
@@ -129,13 +130,17 @@ public class PesqProdutosFragment extends BaseFragment {
         return new ProdutoAdapter.ProdutoOnClickListener(){
             @Override
             public void onClickProduto(View view, int idx){
-                /*Produto p = produtos.get(idx);
+                p = produtos.get(idx);
                 Bundle args = new Bundle();
                 //passa o objeto produto por parâmetro
                 args.putParcelable("produto", Parcels.wrap(p));
 
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("produto", Parcels.wrap(p));*/
+                getActivity().getSupportFragmentManager().popBackStack();
+                //getActivity().finish();
+                //getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
+                //Intent returnIntent = new Intent();
+                //returnIntent.putExtra("produto", Parcels.wrap(p));*/
 
 
             }
@@ -147,6 +152,10 @@ public class PesqProdutosFragment extends BaseFragment {
         };
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
 
     //Retorna a lista de produtos selecionados
     private List<Produto> getSelectedProdutos() {

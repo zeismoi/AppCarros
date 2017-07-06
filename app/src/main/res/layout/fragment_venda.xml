@@ -215,6 +215,17 @@
                 android:id="@+id/btnEscolherProduto"
                 android:text="Escolher produto"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prodEscolhido"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="@dimen/top_margin_text_form"
+                android:text="@string/cliente"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary"/>
+
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/btnAdicionarProdCli"
                 android:layout_width="match_parent"

@@ -71,12 +71,12 @@ public class OperacoesDB extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         //Caso mude a versão do banco de dados, podemos executar um SQL aqui
-        db.execSQL("drop table if exists cliente ; ");
+        /*db.execSQL("drop table if exists cliente ; ");
         db.execSQL("drop table if exists fornecedor ; ");
         db.execSQL("drop table  if exists produto ; ");
         db.execSQL("drop table  if exists categoria ; ");
         db.execSQL("drop table  if exists itens_venda ; ");
-        db.execSQL("drop table  if exists venda ; ");
+        db.execSQL("drop table  if exists venda ; ");*/
 
         Log.d(TAG, "Criando a tabela cliente...");
         db.execSQL("create table if not exists cliente (_id integer primary key autoincrement, nome text, endereco text, cidade text, " +

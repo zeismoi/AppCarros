@@ -64,7 +64,7 @@ public class ProdutoActivity extends BaseActivity {
             Bitmap imagemBitmap = (Bitmap) extras.get("data");
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imagemBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            imagemBitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
             imagemBytes = stream.toByteArray();
 
 

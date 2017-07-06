@@ -1,5 +1,6 @@
 package br.com.legasist.controlevendas.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 
@@ -45,6 +46,12 @@ public class VendaActivity extends BaseActivity {
             //adiciona o fragment ao Layoult
             getSupportFragmentManager().beginTransaction().add(R.id.vendaFragment,frag).commit();
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void setTitle(String s){
