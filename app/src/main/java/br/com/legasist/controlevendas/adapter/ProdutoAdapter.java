@@ -13,7 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.ByteArrayInputStream;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.legasist.controlevendas.R;
 import br.com.legasist.controlevendas.domain.Produto;
@@ -51,8 +54,14 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.Produtos
         //Atualiza a view
         Produto p = produtos.get(position);
         holder.tNome.setText(p.nome);
-        holder.tEstAtual.setText(Double.toString(p.estoqueAtual));
-        holder.tPrecoVenda.setText(Double.toString(p.precoVenda));
+       // holder.tEstAtual.setText(Double.toString(p.estoqueAtual));
+        //holder.tPrecoVenda.setText(Double.toString(p.precoVenda));
+
+        NumberFormat value = NumberFormat.getInstance(new Locale("pt", "BR"));
+        NumberFormat currency = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+
+        holder.tEstAtual.setText(value.format(p.estoqueAtual));
+        holder.tPrecoVenda.setText(currency.format(p.precoVenda));
 
         if(p.foto != null) {
             byte[] foto = p.foto;

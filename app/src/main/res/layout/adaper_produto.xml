@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp"
-            app:columnCount="2"
+            app:columnCount="3"
             app:rowCount="3">
 
         <TextView
@@ -41,12 +41,34 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/estoqueAtual"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/size_detalhes_lista"
+            android:text="@string/estoque_atual"
+            app:layout_column="0"
+            app:layout_row="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/textEstoqueAtual"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="12dp"
             android:textSize="@dimen/size_detalhes_lista"
-            app:layout_column="0"
+            app:layout_column="1"
             app:layout_row="1"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/precoVenda"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:textSize="@dimen/size_detalhes_lista"
+            android:text="@string/preco_venda"
+            app:layout_column="0"
+            app:layout_row="2"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -55,13 +77,13 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="12dp"
             android:textSize="@dimen/size_detalhes_lista"
-            app:layout_column="0"
+            app:layout_column="1"
             app:layout_row="2"/>
 
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_column="1"
+            app:layout_column="2"
             app:layout_row="0"
             app:layout_rowSpan="3">
             <!-- Foto do Produto -->
