@@ -104,6 +104,7 @@ Versao %s<br><br>
     <string name="codigo_barras">Código de barras/Referência</string>
     <string name="fornecedor">Fornecedor</string>
     <string name="nome_prod">Nome</string>
+    <string name="quant">Quant.</string>
 
 
     <string name="vendas">Vendas</string>

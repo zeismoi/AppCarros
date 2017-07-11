@@ -219,7 +219,8 @@
                 app:cardPreventCornerOverlap="false"
                 app:cardUseCompatPadding="false"
                 card_view:cardCornerRadius="2dp"
-                card_view:cardElevation="6dp">
+                card_view:cardElevation="6dp"
+                app:cardBackgroundColor="@color/control_highlight">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -234,27 +235,57 @@
                         android:id="@+id/btnEscolherProduto"
                         android:text="Escolher produto"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtProdEscolhido"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="@dimen/top_margin_text_form"
-                        android:text="@string/cliente"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/primary"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="16dp"
+                    android:paddingTop="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtProdEscolhido"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="@dimen/top_margin_text_form"
+                            android:text="@string/cliente"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            android:layout_weight="3"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/txtPrecoProdEscolhido"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="@dimen/top_margin_text_form"
-                        android:text="@string/cliente"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/primary"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtPrecoProdEscolhido"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="@dimen/top_margin_text_form"
+                            android:text="@string/cliente"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            android:layout_weight="2"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txtQuantProd"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="@dimen/top_margin_text_form"
+                            android:text="@string/quant"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary"
+                            android:layout_weight="1" />
+
+                        <EditText
+                            android:id="@+id/edtQuantProduto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:layout_weight="1"
+                            android:layout_gravity="fill_horizontal"/>
+
+                    </LinearLayout>
 
                     <android.support.v7.widget.AppCompatImageButton
                         android:id="@+id/btnAdicionarProdCli"

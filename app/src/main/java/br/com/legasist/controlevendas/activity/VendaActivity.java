@@ -35,6 +35,7 @@ import br.com.legasist.controlevendas.fragments.dialog.PesqProdutoDialog;
 public class VendaActivity extends BaseActivity {
 
     private Venda venda;
+    private Produto prodSelec;
 
     EditText edtData, edtCliente, edtValor, edtDesconto, edtTotal;
     ImageButton btnSalvar, btnAdicionaProd;
@@ -219,9 +220,9 @@ public class VendaActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bundle extras = data.getExtras();
-        Produto p = Parcels.unwrap(extras.getParcelable("produto"));
-        txtProdEscolhido.setText(p.nome);
-        txtPrecoProdEscolhido.setText(currency.format(p.precoVenda));
+        prodSelec = Parcels.unwrap(extras.getParcelable("produto"));
+        txtProdEscolhido.setText(prodSelec.nome);
+        txtPrecoProdEscolhido.setText(currency.format(prodSelec.precoVenda));
     }
 
     public void setTitle(String s){
