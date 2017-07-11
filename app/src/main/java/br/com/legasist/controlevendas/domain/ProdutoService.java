@@ -123,7 +123,7 @@ public class ProdutoService {
         OperacoesDB db = new OperacoesDB(context);
         try {
             //String tipoString = getTipo(tipo);
-            List<Produto> produtos = db.findAllProdutos();
+            List<Produto> produtos = db.findProdutoByNome(nome);
             Log.d(TAG, "Retornando " + produtos.size() + " produtos do banco");
             return produtos;
         }finally {

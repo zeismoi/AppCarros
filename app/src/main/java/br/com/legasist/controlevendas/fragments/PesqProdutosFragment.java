@@ -22,10 +22,13 @@ import java.util.List;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
+import br.com.legasist.controlevendas.activity.VendaActivity;
 import br.com.legasist.controlevendas.adapter.ProdutoAdapter;
 import br.com.legasist.controlevendas.domain.Produto;
 import br.com.legasist.controlevendas.domain.ProdutoService;
 import livroandroid.lib.utils.AndroidUtils;
+
+import static android.app.Activity.RESULT_OK;
 
 public class PesqProdutosFragment extends BaseFragment {
     private int tipo;
@@ -134,15 +137,10 @@ public class PesqProdutosFragment extends BaseFragment {
                 Bundle args = new Bundle();
                 //passa o objeto produto por parâmetro
                 args.putParcelable("produto", Parcels.wrap(p));
-
-                getActivity().getSupportFragmentManager().popBackStack();
-                //getActivity().finish();
-                //getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
-                //Intent returnIntent = new Intent();
-                //returnIntent.putExtra("produto", Parcels.wrap(p));*/
-
-
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("produto", Parcels.wrap(p) );
+                getActivity().setResult(RESULT_OK, returnIntent);
+                getActivity().finish();
             }
 
             @Override
