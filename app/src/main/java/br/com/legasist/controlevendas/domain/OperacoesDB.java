@@ -409,6 +409,19 @@ public class OperacoesDB extends SQLiteOpenHelper{
         }
     }
 
+    //Consulta O Produto pelo id
+    public Produto findProdutoById(long id){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            //select * from produto where id = ?
+            Cursor c = db.query("produto", null, "_id = '" + id + "'", null, null, null, null);
+            return toListProdutos(c).get(0);
+        }finally {
+            db.close();
+        }
+
+    }
+
     //Consulta os produtos pelo nome
     public List<Produto> findProdutoByNome(String nome){
         SQLiteDatabase db = getWritableDatabase();

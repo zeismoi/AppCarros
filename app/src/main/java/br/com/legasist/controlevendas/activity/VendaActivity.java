@@ -5,6 +5,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -18,13 +21,17 @@ import org.parceler.Parcels;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import br.com.legasist.controlevendas.ControleVendasApplication;
 import br.com.legasist.controlevendas.R;
+import br.com.legasist.controlevendas.adapter.ItemVendaAdapter;
+import br.com.legasist.controlevendas.adapter.VendaAdapter;
 import br.com.legasist.controlevendas.domain.Cliente;
+import br.com.legasist.controlevendas.domain.ItensVenda;
 import br.com.legasist.controlevendas.domain.OperacoesDB;
 import br.com.legasist.controlevendas.domain.Produto;
 import br.com.legasist.controlevendas.domain.Venda;
@@ -32,12 +39,17 @@ import br.com.legasist.controlevendas.fragments.ClienteFragment;
 import br.com.legasist.controlevendas.fragments.VendaFragment;
 import br.com.legasist.controlevendas.fragments.dialog.PesqProdutoDialog;
 
+import static br.com.legasist.controlevendas.R.string.vendas;
+
 public class VendaActivity extends BaseActivity {
 
     private Venda venda;
     private Produto prodSelec;
 
-    EditText edtData, edtCliente, edtValor, edtDesconto, edtTotal;
+    private List<ItensVenda> listaItens = new ArrayList<>();
+    protected RecyclerView recyclerView;
+
+    EditText edtData, edtCliente, edtValor, edtDesconto, edtTotal, edtQuantItem;
     ImageButton btnSalvar, btnAdicionaProd;
     Button btnEscolherProduto;
     TextView txtProdEscolhido, txtPrecoProdEscolhido;
@@ -79,6 +91,11 @@ public class VendaActivity extends BaseActivity {
         edtValor = (EditText) findViewById(R.id.textValorVenda);
         edtDesconto = (EditText) findViewById(R.id.textDescontoVenda);
         edtTotal = (EditText) findViewById(R.id.textTotalVenda);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewItens);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setHasFixedSize(true);
 
         OperacoesDB db = new OperacoesDB(getContext());
         List<Cliente> listaCli = db.findAllClientes();
@@ -199,6 +216,19 @@ public class VendaActivity extends BaseActivity {
         });
 
 
+        edtQuantItem = (EditText) findViewById(R.id.edtQuantProduto);
+        btnAdicionaProd = (ImageButton) findViewById(R.id.btnAdicionarProdCli);
+        btnAdicionaProd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ItensVenda item = new ItensVenda();
+                item.produto = prodSelec.id;
+                item.quantidade = Double.parseDouble(String.valueOf(edtQuantItem.getText()));
+                listaItens.add(item);
+
+                recyclerView.setAdapter(new ItemVendaAdapter(getContext(), listaItens, onClickItensVenda()));
+            }
+        });
 
 
 
@@ -223,6 +253,43 @@ public class VendaActivity extends BaseActivity {
         prodSelec = Parcels.unwrap(extras.getParcelable("produto"));
         txtProdEscolhido.setText(prodSelec.nome);
         txtPrecoProdEscolhido.setText(currency.format(prodSelec.precoVenda));
+    }
+
+
+    private ItemVendaAdapter.ItensVendaOnClickListener onClickItensVenda(){
+        return new ItemVendaAdapter.ItensVendaOnClickListener(){
+            @Override
+            public void onClickItensVenda(View view, int idx){
+                /*Venda v = vendas.get(idx);
+                if (actionMode == null){
+                    Intent intent = new Intent(getContext(), VendaActivity.class);
+                    intent.putExtra("venda", Parcels.wrap(v));//converte o objeto para Parcelable
+                    startActivity(intent);
+                }else{//Se a CAB está ativada
+                    //seleciona a venda
+                    v.selected = !v.selected;
+                    //Atualiza o título com a quantidade de vendas selecionados
+                    updateActionModeTilte();
+                    //redesenha a lista
+                    recyclerView.getAdapter().notifyDataSetChanged();
+                }*/
+            }
+
+            @Override
+            public void onLongClickItensVenda(View view, int idx){} /*{
+                if (actionMode != null) {
+                    return;
+                }
+                //liga a action bar de contexto CAB
+                actionMode = getAppCompatActivity().startSupportActionMode(getActionModeCallBack());
+                Venda v = vendas.get(idx);
+                v.selected = true; //seleciona a venda
+                //solicita ao Android para desenhar a lista novamente
+                recyclerView.getAdapter().notifyDataSetChanged();
+                //atualiza o título para mostrar a quantidade de vendas selecionados
+                updateActionModeTilte();
+            }*/
+        };
     }
 
     public void setTitle(String s){
