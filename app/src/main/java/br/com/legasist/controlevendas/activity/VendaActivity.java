@@ -207,7 +207,21 @@ public class VendaActivity extends BaseActivity {
                             venda.cliente = id;
                         }
 
-                        db.saveVenda(venda);
+                        idVendaInserida = db.saveVenda(venda);
+
+                        for (ItensVenda i : listaItens){
+                            ItensVenda item = new ItensVenda();
+                            item.produto = i.produto;
+                            item.quantidade = i.quantidade;
+                            item.venda = idVendaInserida;
+                            db.saveItemVenda(item);
+
+                            //Dá baixa no estoque referente ao produto vendido
+                            Produto prod = db.findProdutoById(i.produto);
+                            prod.estoqueAtual = prod.estoqueAtual - i.quantidade;
+                            db.saveProduto(prod);
+                        }
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     } finally {
@@ -261,6 +275,8 @@ public class VendaActivity extends BaseActivity {
                 listaItens.add(item);
 
                 edtValor.setText(Double.toString(Double.parseDouble(String.valueOf(edtValor.getText())) + total));
+
+                edtTotal.setText(Double.toString((Double.parseDouble(String.valueOf(edtValor.getText()))) - (Double.parseDouble(String.valueOf(edtDesconto.getText())))));
 
                 //for (ItensVenda i : listaItens){
                  //   Produto prod = db.findProdutoById(i.produto);
