@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LegaSist-Vendas</string>
+    <string name="app_name">LegaSist - Lucro Certo</string>
 
 
     <!-- A -->
@@ -112,6 +112,7 @@ Versao %s<br><br>
     <string name="fornecedores">Fornecedores</string>
     <string name="produtos">Produtos</string>
     <string name="pesquisa">Pesquisa</string>
+    <string name="nomeapp">Lucro Certo</string>
 
     <string name="action_novo_cliente">Novo Cliente</string>
     <string name="action_novo_produto">Novo Produto</string>

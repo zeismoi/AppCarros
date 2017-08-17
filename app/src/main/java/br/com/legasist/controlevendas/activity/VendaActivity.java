@@ -65,10 +65,10 @@ public class VendaActivity extends BaseActivity {
 
 
         //título da tollBar e botão up navigation
-        Venda v = Parcels.unwrap(getIntent().getParcelableExtra("venda"));
+        venda = Parcels.unwrap(getIntent().getParcelableExtra("venda"));
 
-        if(v.data != null) {
-            getSupportActionBar().setTitle(dateFormat.format(v.data));
+        if(venda.data != null) {
+            getSupportActionBar().setTitle(dateFormat.format(venda.data));
         }else{
             getSupportActionBar().setTitle("Nova venda");
         }
@@ -92,12 +92,21 @@ public class VendaActivity extends BaseActivity {
         edtDesconto = (EditText) findViewById(R.id.textDescontoVenda);
         edtTotal = (EditText) findViewById(R.id.textTotalVenda);
 
+        edtDesconto.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    edtTotal.setText(Double.toString((Double.parseDouble(String.valueOf(edtValor.getText()))) - (Double.parseDouble(String.valueOf(edtDesconto.getText())))));
+                }
+            }
+        });
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewItens);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setHasFixedSize(true);
 
-        OperacoesDB db = new OperacoesDB(getContext());
+        final OperacoesDB db = new OperacoesDB(getContext());
         List<Cliente> listaCli = db.findAllClientes();
         final ArrayAdapter<String> adaptador;
         String[] autoComplArray = new String[listaCli.size()];
@@ -131,6 +140,12 @@ public class VendaActivity extends BaseActivity {
                 Cliente cli = db.findClienteById((venda.cliente));
                 clientes.setText(cli.nome);
             }
+            listaItens = db.findItensVendaByVenda(venda.id);
+            recyclerView.setAdapter(new ItemVendaAdapter(getContext(), listaItens, onClickItensVenda()));
+        }else{
+            edtValor.setText("0");
+            edtDesconto.setText("0");
+            edtTotal.setText("0");
         }
 
         btnSalvar = (ImageButton) findViewById(R.id.btnSalvarVenda);
@@ -138,6 +153,7 @@ public class VendaActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 OperacoesDB db = new OperacoesDB(getContext());
+                long idVendaInserida;
                 if(venda == null || venda.id == 0) {
                     Venda v = new Venda();
                     try {
@@ -155,7 +171,21 @@ public class VendaActivity extends BaseActivity {
                             v.cliente = id;
                         }
 
-                        db.saveVenda(v);
+                        idVendaInserida = db.saveVenda(v);
+
+                        for (ItensVenda i : listaItens){
+                            ItensVenda item = new ItensVenda();
+                            item.produto = i.produto;
+                            item.quantidade = i.quantidade;
+                            item.venda = idVendaInserida;
+                            db.saveItemVenda(item);
+
+                            //Dá baixa no estoque referente ao produto vendido
+                            Produto prod = db.findProdutoById(i.produto);
+                            prod.estoqueAtual = prod.estoqueAtual - i.quantidade;
+                            db.saveProduto(prod);
+                        }
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }finally {
@@ -222,9 +252,20 @@ public class VendaActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ItensVenda item = new ItensVenda();
+                Double total = 0.0;
                 item.produto = prodSelec.id;
                 item.quantidade = Double.parseDouble(String.valueOf(edtQuantItem.getText()));
+
+                Produto prod = db.findProdutoById(item.produto);
+                total = prod.precoVenda * item.quantidade;
                 listaItens.add(item);
+
+                edtValor.setText(Double.toString(Double.parseDouble(String.valueOf(edtValor.getText())) + total));
+
+                //for (ItensVenda i : listaItens){
+                 //   Produto prod = db.findProdutoById(i.produto);
+                  //  edtValor.setText(Double.toString(Double.parseDouble(String.valueOf(edtValor.getText())) + prod.precoVenda));
+                //}
 
                 recyclerView.setAdapter(new ItemVendaAdapter(getContext(), listaItens, onClickItensVenda()));
             }

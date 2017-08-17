@@ -612,4 +612,86 @@ public class OperacoesDB extends SQLiteOpenHelper{
 
 //***FIM  **   MÉTODOS DE VENDAS*****************************************************
 
+
+
+//MÉTODOS DE ITENSVENDA*****************************************************
+
+
+    //insere um novo itemvenda, ou atualiza se existe
+    public long saveItemVenda(ItensVenda item){
+        long id = item.id;
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            ContentValues values = new ContentValues();
+            values.put("id_produto", item.produto);
+            values.put("quantidade", item.quantidade);
+            values.put("id_venda", item.venda);
+            if(id != 0){
+                String _id = String.valueOf(item.id);
+                String[] whereArgs = new String[]{_id};
+                //update itensvenda set values = ...where _id=?
+                int count = db.update("itens_venda", values, "_id=?", whereArgs);
+                return count;
+            }else{
+                //insert into itensvenda values(...)
+                id = db.insert("itens_venda", "", values);
+                return id;
+            }
+        }finally {
+            db.close();
+        }
+    }
+
+    //consulta a lista com todos os itensvenda
+    public List<ItensVenda> findAllItensVenda() {
+        SQLiteDatabase db = getWritableDatabase();
+        try {
+            //select * from venda
+            Cursor c = db.query("itens_venda", null, null, null, null, null, null, null);
+            return toListItensVenda(c);
+        }finally {
+            db.close();
+        }
+    }
+
+    //Consulta os itensvenda pela venda
+    public List<ItensVenda> findItensVendaByVenda(long idvenda){
+        SQLiteDatabase db = getWritableDatabase();
+        try{
+            //select * from itensVenda where id_venda = ?
+            Cursor c = db.query("itens_venda", null, "id_venda = '" + idvenda + "'", null, null, null, null);
+            return toListItensVenda(c);
+        }finally {
+            db.close();
+        }
+    }
+
+    //Lê o cursor e cria a lista de itensvenda
+    private List<ItensVenda> toListItensVenda(Cursor c) {
+        List<ItensVenda> itensvenda = new ArrayList<ItensVenda>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        if(c.moveToFirst()){
+            do{
+                ItensVenda iv = new ItensVenda();
+                itensvenda.add(iv);
+                //recupera os atributos de itemvenda
+                iv.id = c.getLong(c.getColumnIndex("_id"));
+                iv.quantidade = Double.parseDouble(c.getString(c.getColumnIndex("quantidade")));
+
+                if((c.getString(c.getColumnIndex("id_produto")) != null) && (c.getLong(c.getColumnIndex("id_produto")) != 0)) {
+                    iv.produto = Long.parseLong(c.getString(c.getColumnIndex("id_produto")));
+                }
+
+                if((c.getString(c.getColumnIndex("id_venda")) != null) && (c.getLong(c.getColumnIndex("id_venda")) != 0)) {
+                    iv.venda = Long.parseLong(c.getString(c.getColumnIndex("id_venda")));
+                }
+
+            }while (c.moveToNext());
+        }
+        return itensvenda;
+    }
+
+
+//***FIM  **   MÉTODOS DE ITENSVENDA*****************************************************
+
 }

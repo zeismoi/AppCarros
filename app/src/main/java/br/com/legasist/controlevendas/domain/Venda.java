@@ -12,7 +12,7 @@ public class Venda {
     public double valor;
     public double desconto;
     public double total;  //valor - desconto
-    public boolean selected; //Flag para indicar que o produto está selecionado
+    public boolean selected; //Flag para indicar que a venda está selecionada
 
     @Override
     public String toString() {
